@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -12,11 +13,11 @@
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-
 
 /**
  * Application Controller
@@ -26,9 +27,7 @@ use Cake\Event\Event;
  *
  * @link https://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller
-{
-    
+class AppController extends Controller {
 
     /**
      * Initialization hook method.
@@ -39,8 +38,7 @@ class AppController extends Controller
      *
      * @return void
      */
-    public function initialize()
-    {
+    public function initialize() {
         parent::initialize();
 
         $this->loadComponent('RequestHandler', [
@@ -52,7 +50,7 @@ class AppController extends Controller
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
         $this->loadComponent('Security');
-        
+
         $this->loadComponent('Auth', [
             'authenticate' => [
                 'Form' => [
@@ -66,7 +64,6 @@ class AppController extends Controller
             'loginAction' => [
                 'controller' => 'Users',
                 'action' => 'login',
-                
             ],
             'loginRedirect' => [
                 'controller' => 'Users',
@@ -83,18 +80,21 @@ class AppController extends Controller
 
         $this->set('auth', $this->Auth);
     }
-    
-    
-    
-    public function beforeSave(Event $event)
-    {
+
+    public function beforeSave(Event $event) {
         
-           
     }
-    
+
     public function beforeFilter(Event $event) {
-        
+
         // Allow users to register and logout.
-        $this->Auth->allow(['add'],['login']);
+        $this->Auth->allow(['add', 'login']);
     }
+
+    public function isAuthorized($user) {
+        if ($this->Auth->user('role_id') == 1) {
+            return true;
+        }
+    }
+
 }

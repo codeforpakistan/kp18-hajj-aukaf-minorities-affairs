@@ -48,12 +48,16 @@
 // save data in applicantcontacts
         echo $this->Form->control('Applicantcontacts.mob_number');
         echo $this->Form->control('Applicantcontacts.tel_number');
+
         //save data in applicantincomes
         echo $this->Form->control('Applicantincomes.monthly_income');
+
         // save data in applicantprofessions
         echo $this->Form->control('Applicantprofessions.profession');
+
         //save attachments in Applicant's attachment table
         echo $this->Form->control('ApplicantAttachments.attachments[]', ['secure' => false, 'type' => 'file', 'multiple' => true]);
+
 // save households in applicant_household_details table
         echo $this->Form->control('ApplicantHouseholdDetails.dependent_family_members');
         ?>

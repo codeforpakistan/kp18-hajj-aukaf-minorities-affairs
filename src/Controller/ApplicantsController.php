@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Controller;
+
 use App\Controller\AppController;
+
 /**
  * Applicants Controller
  *
@@ -9,18 +12,26 @@ use App\Controller\AppController;
  * @method \App\Model\Entity\Applicant[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ApplicantsController extends AppController {
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|void
      */
+    public function beforeFilter(\Cake\Event\Event $event) {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['add']);
+    }
+
     public function index() {
         $this->paginate = [
             'contain' => ['Religions']
         ];
         $applicants = $this->paginate($this->Applicants);
+
         $this->set(compact('applicants'));
     }
+
     /**
      * View method
      *
@@ -32,8 +43,10 @@ class ApplicantsController extends AppController {
         $applicant = $this->Applicants->get($id, [
             'contain' => ['Religions', 'ApplicantAttachments', 'ApplicantHouseholdDetails', 'Applicantaddresses', 'Applicantcontacts', 'Applicantincomes', 'Applicantprofessions', 'Applies', 'ProvidedFunds']
         ]);
+
         $this->set('applicant', $applicant);
     }
+
     /**
      * Add method
      *
@@ -46,7 +59,7 @@ class ApplicantsController extends AppController {
         foreach ($image_details as $single_img):
             $img_ext = pathinfo($single_img['name'], PATHINFO_EXTENSION);
             if (!in_array($img_ext, $extentions)) {
-                $error = 'invalid image type';
+                $error = 'only image can be uploaded';
                 $continue = 0;
                 return $error;
             }
@@ -61,9 +74,12 @@ class ApplicantsController extends AppController {
         }
 //        exit();
     }
+
     public function add() {
         $applicant = $this->Applicants->newEntity();
         if ($this->request->is('post')) {
+
+//            debug($this->request->data);exit();
             if ($this->request->data['ApplicantAttachments']['attachments'][0]['name'] <> '') {
                 $valid_image = $this->image_validation($this->request->data['ApplicantAttachments']['attachments']);
                 if ($valid_image == 1) {
@@ -78,16 +94,22 @@ class ApplicantsController extends AppController {
                                 $save_attachment = array();
                                 foreach ($save_records['attachments'] as $subkey => $u_img):
 //                                    debug($key);
-                                    $new_name = date('ymdhis') . '-' . $u_img['name'];
+                                    $get_ext = pathinfo($u_img['name'], PATHINFO_EXTENSION);
+
+                                    $new_name = $subkey . '-' . date('ymdhis') . '.' . $get_ext;
                                     $path = WWW_ROOT . 'img' . DS . 'applicants' . DS . $new_name;
+
                                     move_uploaded_file($u_img['tmp_name'], $path);
+
                                     $save_attachment[$subkey]['applicant_id'] = $applicant_id;
                                     $save_attachment[$subkey]['attachments'] = $new_name;
                                 endforeach;
                                 $attachments_details = $this->$key->newEntities($save_attachment);
                                 $result = $this->$key->saveMany($attachments_details);
-                                debug($save_attachment);
-                                exit();
+                                if ($result) {
+                                    $this->Flash->success(__('The applicant has been saved.'));
+//                                    return $this->redirect(['action' => 'index']);
+                                }
                             } else {
                                 $this->loadModel($key);
                                 $child_table = $this->$key->newEntity();
@@ -98,21 +120,26 @@ class ApplicantsController extends AppController {
                         }
                     endforeach;
                 } else {
-                    echo $valid_image;
+//                    echo $valid_image;
+                    $this->Flash->error(__($valid_image));
                 }
             }
-            exit();
-            if ($this->Applicants->save($applicant)) {
-                $this->Flash->success(__('The applicant has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The applicant could not be saved. Please, try again.'));
+
+
+//            exit();
+//            if ($this->Applicants->save($applicant)) {
+//                $this->Flash->success(__('The applicant has been saved.'));
+//
+//                return $this->redirect(['action' => 'index']);
+//            }
+//            $this->Flash->error(__('The applicant could not be saved. Please, try again.'));
         }
         $religions = $this->Applicants->Religions->find('list');
 //        debug($religions->toArray());
 //        exit();
         $this->set(compact('applicant', 'religions'));
     }
+
     /**
      * Edit method
      *
@@ -128,6 +155,7 @@ class ApplicantsController extends AppController {
             $applicant = $this->Applicants->patchEntity($applicant, $this->request->getData());
             if ($this->Applicants->save($applicant)) {
                 $this->Flash->success(__('The applicant has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The applicant could not be saved. Please, try again.'));
@@ -135,6 +163,7 @@ class ApplicantsController extends AppController {
         $religions = $this->Applicants->Religions->find('list', ['limit' => 200]);
         $this->set(compact('applicant', 'religions'));
     }
+
     /**
      * Delete method
      *
@@ -150,6 +179,8 @@ class ApplicantsController extends AppController {
         } else {
             $this->Flash->error(__('The applicant could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
+
 }
