@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+Please visit the link bellow to reset your password:<br/>
+<a href="http://<?= $_SERVER['HTTP_HOST'] . $this->request->webroot . 'Users/reset/' . base64_encode(base64_encode($content->id)); ?>">Click Here</a>
+
+=======
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -18,3 +23,4 @@ $content = explode("\n", $content);
 foreach ($content as $line) :
     echo '<p> ' . $line . "</p>\n";
 endforeach;
+>>>>>>> parent of 5c021008... code cleaned

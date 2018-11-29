@@ -18,3 +18,226 @@ Stack Trace:
 #15 {main}
 
 
+<<<<<<< HEAD
+2018-07-16 10:40:17 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 6 Error on delete of 'C:\xampp\tmp\#sql12e4_e1_6.MAI' (Errcode: 13 "Permission denied") in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', ' fund_categorie...', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe(' fund_categorie...', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe(' fund_categorie...')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(415): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(231): Bake\Shell\Task\ModelTask->findHasMany(Object(Cake\ORM\Table), Array)
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'cities', 'Cities')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Cities')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('Cities')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('Cities', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('cities')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-19 05:07:06 Warning: Warning (2): fopen(C:\xampp\htdocs\cake3.6\src\Model\Entity\FundCategory.php): failed to open stream: Resource temporarily unavailable in [C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Filesystem\File.php, line 137]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 159
+fopen - [internal], line ??
+Cake\Filesystem\File::open() - CORE\src\Filesystem\File.php, line 137
+Cake\Filesystem\File::write() - CORE\src\Filesystem\File.php, line 230
+Cake\Console\Shell::createFile() - CORE\src\Console\Shell.php, line 935
+Bake\Shell\Task\ModelTask::bakeEntity() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 911
+Bake\Shell\Task\ModelTask::bake() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 115
+Bake\Shell\Task\ModelTask::main() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 100
+Bake\Shell\BakeShell::Bake\Shell\{closure}() - ROOT\vendor\cakephp\bake\src\Shell\BakeShell.php, line 272
+Cake\Collection\Collection::each() - CORE\src\Collection\CollectionTrait.php, line 51
+Bake\Shell\BakeShell::all() - ROOT\vendor\cakephp\bake\src\Shell\BakeShell.php, line 273
+Cake\Console\Shell::runCommand() - CORE\src\Console\Shell.php, line 518
+Cake\Console\CommandRunner::runShell() - CORE\src\Console\CommandRunner.php, line 342
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 164
+[main] - ROOT\bin\cake.php, line 12
+
+
+
+2018-07-19 08:58:24 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 6 Error on delete of 'C:\xampp\tmp\#sqlb04_75_1.MAD' (Errcode: 13 "Permission denied") in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'sub_categories', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('sub_categories', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('sub_categories')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(673): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(220): Cake\ORM\Table->getPrimaryKey()
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'sub_categories', 'SubCategories')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('SubCategories')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('SubCategories')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('SubCategories', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('sub_categories')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-19 08:58:27 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 6 Error on delete of 'C:\xampp\tmp\#sqlb04_76_1.MAD' (Errcode: 13 "Permission denied") in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'sub_categories', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('sub_categories', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('sub_categories')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(673): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(220): Cake\ORM\Table->getPrimaryKey()
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'sub_categories', 'SubCategories')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('SubCategories')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('SubCategories')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('SubCategories', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('sub_categories')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-20 04:56:40 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 1036 Table 'C:\xampp\tmp\#sql11a0_80_1.MAI' is read only in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'sub_categories', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('sub_categories', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('sub_categories')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(673): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(220): Cake\ORM\Table->getPrimaryKey()
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'sub_categories', 'SubCategories')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('SubCategories')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('SubCategories')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('SubCategories', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('sub_categories')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-20 04:56:43 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 6 Error on delete of 'C:\xampp\tmp\#sql11a0_81_1.MAD' (Errcode: 13 "Permission denied") in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'sub_categories', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('sub_categories', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('sub_categories')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(673): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(220): Cake\ORM\Table->getPrimaryKey()
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'sub_categories', 'SubCategories')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('SubCategories')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('SubCategories')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('SubCategories', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('sub_categories')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-20 10:06:47 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 6 Error on delete of 'C:\xampp\tmp\#sql11a0_1eb_1.MAI' (Errcode: 13 "Permission denied") in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'funds', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('funds', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('funds')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(324): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(221): Bake\Shell\Task\ModelTask->findBelongsTo(Object(App\Model\Table\FundsTable), Array)
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(App\Model\Table\FundsTable))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(App\Model\Table\FundsTable), 'funds', 'Funds')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Funds')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('Funds')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('Funds', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('funds')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-24 09:36:38 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'minority_db.institute_type' doesn't exist in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'institute_type', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('institute_type', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('institute_type')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(673): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(220): Cake\ORM\Table->getPrimaryKey()
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'institute_type', 'InstituteType')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('InstituteType')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('InstituteType')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('InstituteType', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('institute_type')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-24 09:36:41 Error: [Cake\Database\Exception] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'minority_db.institute_type' doesn't exist in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'institute_type', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('institute_type', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('institute_type')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(673): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(220): Cake\ORM\Table->getPrimaryKey()
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'institute_type', 'InstituteType')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('InstituteType')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('InstituteType')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('InstituteType', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('institute_type')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-24 09:58:56 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 6 Error on delete of 'C:\xampp\tmp\#sql1bfc_17f_6.MAI' (Errcode: 13 "Permission denied") in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'applicant', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('applicant', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('applicant')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(415): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(231): Bake\Shell\Task\ModelTask->findHasMany(Object(Cake\ORM\Table), Array)
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'qualification_l...', 'QualificationLe...')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('QualificationLe...')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('QualificationLe...')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('QualificationLe...', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('qualification_l...')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+2018-07-27 06:00:15 Error: [Cake\Database\Exception] SQLSTATE[HY000]: General error: 1036 Table 'C:\xampp\tmp\#sql1634_6a_1a.MAI' is read only in C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php on line 131
+Stack Trace:
+#0 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\Collection.php(97): Cake\Database\Schema\Collection->_reflect('Column', 'applicantclasse...', Array, Object(Cake\Database\Schema\TableSchema))
+#1 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Database\Schema\CachedCollection.php(63): Cake\Database\Schema\Collection->describe('applicantclasse...', Array)
+#2 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\ORM\Table.php(548): Cake\Database\Schema\CachedCollection->describe('applicantclasse...')
+#3 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(415): Cake\ORM\Table->getSchema()
+#4 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(231): Bake\Shell\Task\ModelTask->findHasMany(Object(Cake\ORM\Table), Array)
+#5 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(130): Bake\Shell\Task\ModelTask->getAssociations(Object(Cake\ORM\Table))
+#6 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(113): Bake\Shell\Task\ModelTask->getTableContext(Object(Cake\ORM\Table), 'qualifications', 'Qualifications')
+#7 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Qualifications')
+#8 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(272): Bake\Shell\Task\ModelTask->main('Qualifications')
+#9 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Collection\CollectionTrait.php(51): Bake\Shell\BakeShell->Bake\Shell\{closure}('Qualifications', 0)
+#10 C:\xampp\htdocs\cake3.6\vendor\cakephp\bake\src\Shell\BakeShell.php(273): Cake\Collection\Collection->each(Object(Closure))
+#11 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\Shell.php(518): Bake\Shell\BakeShell->all('qualifications')
+#12 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(342): Cake\Console\Shell->runCommand(Array, true)
+#13 C:\xampp\htdocs\cake3.6\vendor\cakephp\cakephp\src\Console\CommandRunner.php(164): Cake\Console\CommandRunner->runShell(Object(Bake\Shell\BakeShell), Array)
+#14 C:\xampp\htdocs\cake3.6\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#15 {main}
+
+
+=======
+>>>>>>> parent of 5c021008... code cleaned

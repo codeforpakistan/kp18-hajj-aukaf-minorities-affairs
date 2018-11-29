@@ -23,7 +23,7 @@
     <fieldset>
         <legend><?= __('Edit Religion') ?></legend>
         <?php
-            echo $this->Form->control('rligion_name');
+            echo $this->Form->control('religion_name');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

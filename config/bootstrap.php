@@ -212,6 +212,10 @@ Type::build('timestamp')
  * Only try to load DebugKit in development mode
  * Debug Kit should not be installed on a production system
  */
+<<<<<<< HEAD
+Plugin::load('Dakota/CakeExcel', ['bootstrap' => true, 'routes' => true]);
+=======
+>>>>>>> parent of 5c021008... code cleaned
 if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }

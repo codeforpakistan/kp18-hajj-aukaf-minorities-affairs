@@ -1,3 +1,33 @@
+<<<<<<< HEAD
+<option value="">Select District</option>
+<option value="">Abbottabad</option>
+<option value="">Bannu</option>
+<option value="">Charsada</option>
+<option value="">Chitral</option>
+<option value="">D I Khan</option>
+<option value="">Diamer</option>-
+<option value="">Dir</option>
+<option value="">Haripur</option>
+<option value="">Hazara</option>-
+<option value="">Kachi</option>-
+<option value="">Karak</option>
+<option value="">Kohat</option>
+<option value="">Hangu</option>
+<option value="">Kohistan</option>-
+<option value="">Lakki Marwat</option>
+<option value="">Malakand</option>
+<option value="">Mansehra</option>
+<option value="">Batagram</option>-
+<option value="">Mardan</option>
+<option value="">Nowshehra</option>
+<option value="">Peshawar</option>
+<option value="">RISALPUR</option>-
+<option value="">Swabi</option>
+<option value="">Swat</option>-
+<option value="">Shangla</option>-
+<option value="">Buner</option>-
+<option value="">Tank</option>
+=======
 <?php
 /**
  * @var \App\View\AppView $this
@@ -8,24 +38,6 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Applicant'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Religions'), ['controller' => 'Religions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Religion'), ['controller' => 'Religions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applicant Attachments'), ['controller' => 'ApplicantAttachments', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Applicant Attachment'), ['controller' => 'ApplicantAttachments', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applicant Household Details'), ['controller' => 'ApplicantHouseholdDetails', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Applicant Household Detail'), ['controller' => 'ApplicantHouseholdDetails', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applicantaddresses'), ['controller' => 'Applicantaddresses', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Applicantaddress'), ['controller' => 'Applicantaddresses', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applicantcontacts'), ['controller' => 'Applicantcontacts', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Applicantcontact'), ['controller' => 'Applicantcontacts', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applicantincomes'), ['controller' => 'Applicantincomes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Applicantincome'), ['controller' => 'Applicantincomes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applicantprofessions'), ['controller' => 'Applicantprofessions', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Applicantprofession'), ['controller' => 'Applicantprofessions', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Applies'), ['controller' => 'Applies', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Apply'), ['controller' => 'Applies', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Provided Funds'), ['controller' => 'ProvidedFunds', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Provided Fund'), ['controller' => 'ProvidedFunds', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="applicants index large-9 medium-8 columns content">
@@ -35,12 +47,15 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('father_or_husband_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('religion_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('fname') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('cnic') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('groom_or_bride_name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('date of birth') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('current address') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('permanent address') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('zipcode') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('telephone number') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('mobile number') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -49,12 +64,15 @@
             <tr>
                 <td><?= $this->Number->format($applicant->id) ?></td>
                 <td><?= h($applicant->name) ?></td>
-                <td><?= h($applicant->father_or_husband_name) ?></td>
-                <td><?= $applicant->has('religion') ? $this->Html->link($applicant->religion->id, ['controller' => 'Religions', 'action' => 'view', $applicant->religion->id]) : '' ?></td>
+                <td><?= h($applicant->fname) ?></td>
                 <td><?= h($applicant->cnic) ?></td>
-                <td><?= h($applicant->groom_or_bride_name) ?></td>
-                <td><?= h($applicant->created) ?></td>
-                <td><?= h($applicant->modified) ?></td>
+                <td><?= h($applicant->date of birth) ?></td>
+                <td><?= h($applicant->current address) ?></td>
+                <td><?= h($applicant->permanent address) ?></td>
+                <td><?= h($applicant->zipcode) ?></td>
+                <td><?= h($applicant->email) ?></td>
+                <td><?= h($applicant->telephone number) ?></td>
+                <td><?= h($applicant->mobile number) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $applicant->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $applicant->id]) ?>
@@ -75,3 +93,4 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
+>>>>>>> parent of 5c021008... code cleaned

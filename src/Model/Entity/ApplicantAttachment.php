@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -13,8 +14,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Applicant $applicant
  */
-class ApplicantAttachment extends Entity
-{
+class ApplicantAttachment extends Entity {
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -27,8 +27,10 @@ class ApplicantAttachment extends Entity
      */
     protected $_accessible = [
         'applicant_id' => true,
+        'sub_category_id' => true,
         'attachments' => true,
         'updated' => true,
         'applicant' => true
     ];
+
 }

@@ -8,22 +8,18 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
- * @property string $father_or_husband_name
- * @property int $religion_id
+ * @property string $fname
  * @property string $cnic
- * @property string $groom_or_bride_name
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property int $religon_id
+ * @property \Cake\I18n\FrozenDate $date_of_birth
+ * @property string $current_address
+ * @property string $permanent_address
+ * @property string $zipcode
+ * @property string $email
+ * @property string $telephone_number
+ * @property string $mobile_number
  *
- * @property \App\Model\Entity\Religion $religion
- * @property \App\Model\Entity\ApplicantAttachment[] $applicant_attachments
- * @property \App\Model\Entity\ApplicantHouseholdDetail[] $applicant_household_details
- * @property \App\Model\Entity\Applicantaddress[] $applicantaddresses
- * @property \App\Model\Entity\Applicantcontact[] $applicantcontacts
- * @property \App\Model\Entity\Applicantincome[] $applicantincomes
- * @property \App\Model\Entity\Applicantprofession[] $applicantprofessions
- * @property \App\Model\Entity\Apply[] $applies
- * @property \App\Model\Entity\ProvidedFund[] $provided_funds
+ * @property \App\Model\Entity\Religon $religon
  */
 class Applicant extends Entity
 {
@@ -38,21 +34,22 @@ class Applicant extends Entity
      * @var array
      */
     protected $_accessible = [
+<<<<<<< HEAD
+        '*' => true,
+        'id' => false
+=======
         'name' => true,
-        'father_or_husband_name' => true,
-        'religion_id' => true,
+        'fname' => true,
         'cnic' => true,
-        'groom_or_bride_name' => true,
-        'created' => true,
-        'modified' => true,
-        'religion' => true,
-        'applicant_attachments' => true,
-        'applicant_household_details' => true,
-        'applicantaddresses' => true,
-        'applicantcontacts' => true,
-        'applicantincomes' => true,
-        'applicantprofessions' => true,
-        'applies' => true,
-        'provided_funds' => true
+        'religon_id' => true,
+        'date_of_birth' => true,
+        'current_address' => true,
+        'permanent_address' => true,
+        'zipcode' => true,
+        'email' => true,
+        'telephone_number' => true,
+        'mobile_number' => true,
+        'religon' => true
+>>>>>>> parent of 5c021008... code cleaned
     ];
 }

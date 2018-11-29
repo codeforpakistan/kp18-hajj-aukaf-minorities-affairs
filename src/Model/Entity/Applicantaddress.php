@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -17,8 +18,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Applicant $applicant
  */
-class Applicantaddress extends Entity
-{
+class Applicantaddress extends Entity {
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -33,10 +33,11 @@ class Applicantaddress extends Entity
         'applicant_id' => true,
         'current_address' => true,
         'permenent_address' => true,
-        'city' => true,
+        'city_id' => true,
         'postal_address' => true,
         'zip_code' => true,
         'updated' => true,
         'applicant' => true
     ];
+
 }

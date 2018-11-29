@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD
+
+=======
+>>>>>>> parent of 5c021008... code cleaned
 /**
  * Routes configuration
  *
@@ -17,7 +21,10 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+<<<<<<< HEAD
+=======
 
+>>>>>>> parent of 5c021008... code cleaned
 use Cake\Core\Plugin;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
@@ -44,6 +51,10 @@ use Cake\Routing\Route\DashedRoute;
  * constructor in your `src/Application.php` file to change this behavior.
  *
  */
+<<<<<<< HEAD
+Router::extensions('xlsx');
+=======
+>>>>>>> parent of 5c021008... code cleaned
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
@@ -52,18 +63,35 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
+<<<<<<< HEAD
     $routes->connect('/', ['controller' => 'Applicants', 'action' => 'add']);
+    $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+    $routes->connect('/profile', ['controller' => 'Institutes', 'action' => 'add']);
+
+
+=======
+    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+>>>>>>> parent of 5c021008... code cleaned
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+<<<<<<< HEAD
+
+
+    Router::prefix('admin', function($routes) {
+        $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
+        $routes->fallbacks('InflectedRoute');
+    });
+=======
     
    
 Router::prefix('admin', function($routes) {
     $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
     $routes->fallbacks('InflectedRoute');
 });
+>>>>>>> parent of 5c021008... code cleaned
 
     /**
      * Connect catchall routes for all controllers.

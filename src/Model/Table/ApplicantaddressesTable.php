@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -20,8 +21,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Applicantaddress[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Applicantaddress findOrCreate($search, callable $callback = null, $options = [])
  */
-class ApplicantaddressesTable extends Table
-{
+class ApplicantaddressesTable extends Table {
 
     /**
      * Initialize method
@@ -29,8 +29,7 @@ class ApplicantaddressesTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('applicantaddresses');
@@ -41,6 +40,11 @@ class ApplicantaddressesTable extends Table
             'foreignKey' => 'applicant_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('Cities', [
+            'foreignKey' => 'city_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -49,39 +53,37 @@ class ApplicantaddressesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+                ->integer('id')
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('current_address')
-            ->maxLength('current_address', 255)
-            ->requirePresence('current_address', 'create')
-            ->notEmpty('current_address');
+                ->scalar('current_address')
+                ->maxLength('current_address', 255)
+                ->requirePresence('current_address', 'create')
+                ->notEmpty('current_address');
+
+//        $validator
+//                ->scalar('permenent_address')
+//                ->maxLength('permenent_address', 255)
+//                ->requirePresence('permenent_address', 'create')
+//                ->notEmpty('permenent_address');
+        $validator
+                ->scalar('city_id')
+                ->maxLength('city_id', 30)
+                ->requirePresence('city_id', 'create')
+                ->notEmpty('city_id');
 
         $validator
-            ->scalar('permenent_address')
-            ->maxLength('permenent_address', 255)
-            ->requirePresence('permenent_address', 'create')
-            ->notEmpty('permenent_address');
+                ->scalar('postal_address')
+                ->maxLength('postal_address', 255)
+                ->allowEmpty('postal_address');
 
         $validator
-            ->scalar('city')
-            ->maxLength('city', 30)
-            ->requirePresence('city', 'create')
-            ->notEmpty('city');
-
-        $validator
-            ->scalar('postal_address')
-            ->maxLength('postal_address', 255)
-            ->allowEmpty('postal_address');
-
-        $validator
-            ->scalar('zip_code')
-            ->maxLength('zip_code', 11)
-            ->allowEmpty('zip_code');
+                ->scalar('zip_code')
+                ->maxLength('zip_code', 11)
+                ->allowEmpty('zip_code');
 
         return $validator;
     }
@@ -93,10 +95,10 @@ class ApplicantaddressesTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['applicant_id'], 'Applicants'));
 
         return $rules;
     }
+
 }
