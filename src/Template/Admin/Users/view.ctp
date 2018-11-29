@@ -44,7 +44,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="row"><?= __('Username') ?></th>
-                                    <td><?= h($user->username) ?></td>
+                                    <td><?= h($user->name) ?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><?= __('Phone') ?></th>
@@ -61,7 +61,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="row"><?= __('Photo') ?></th>
-                                    <td><?= h($user->photo) ?></td>
+                                    <td><a href=""><img  src="<?php echo $this->request->webroot.'img/applicants/' ;?><?= h($user->photo) ?>" width="50" height="50"/></a></td>
                                 </tr>
                                 <tr>
                                     <th scope="row"><?= __('Id') ?></th>

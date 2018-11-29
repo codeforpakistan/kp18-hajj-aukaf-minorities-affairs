@@ -1,24 +1,25 @@
 $(function () {
+   
     //Basic Map
-    var basicMap = new GMaps({
-        el: '#gmap_basic_example',
-        lat: -12.043333,
-        lng: -77.028333
-    });
+//    var basicMap = new GMaps({
+//        el: '#gmap_basic_example',
+//        lat: -12.043333,
+//        lng: -77.028333
+//    });
 
     //Markers
     var markers = new GMaps({
         div: '#gmap_markers',
-        lat: -12.043333,
-        lng: -77.028333
+        lat: -30.3753,
+        lng: -69.3451
     });
     markers.addMarker({
-        lat: -12.043333,
-        lng: -77.03,
+        lat: -30.3753,
+        lng: -69.3451,
         title: 'Lima',
         details: {
             database_id: 42,
-            author: 'HPNeo'
+            author: ''
         },
         click: function (e) {
             if (console.log)

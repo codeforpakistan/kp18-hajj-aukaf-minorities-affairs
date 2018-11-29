@@ -38,21 +38,7 @@ class Applicant extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'father_or_husband_name' => true,
-        'religion_id' => true,
-        'cnic' => true,
-        'groom_or_bride_name' => true,
-        'created' => true,
-        'modified' => true,
-        'religion' => true,
-        'applicant_attachments' => true,
-        'applicant_household_details' => true,
-        'applicantaddresses' => true,
-        'applicantcontacts' => true,
-        'applicantincomes' => true,
-        'applicantprofessions' => true,
-        'applies' => true,
-        'provided_funds' => true
+        '*' => true,
+        'id' => false
     ];
 }

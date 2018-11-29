@@ -34,7 +34,7 @@ class ReligionsTable extends Table
         parent::initialize($config);
 
         $this->setTable('religions');
-        $this->setDisplayField('rligion_name');
+        $this->setDisplayField('religion_name');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Applicants', [
@@ -55,10 +55,10 @@ class ReligionsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('rligion_name')
-            ->maxLength('rligion_name', 30)
-            ->requirePresence('rligion_name', 'create')
-            ->notEmpty('rligion_name');
+            ->scalar('religion_name')
+            ->maxLength('religion_name', 30)
+            ->requirePresence('religion_name', 'create')
+            ->notEmpty('religion_name');
 
         return $validator;
     }

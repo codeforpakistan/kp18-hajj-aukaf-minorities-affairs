@@ -26,9 +26,7 @@ class Applicantprofession extends Entity
      * @var array
      */
     protected $_accessible = [
-        'applicant_id' => true,
-        'profession' => true,
-        'updated' => true,
-        'applicant' => true
+        '*'=>true,
+        'id'=>false
     ];
 }

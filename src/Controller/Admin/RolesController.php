@@ -22,8 +22,8 @@ class RolesController extends AppController
      
     public function index()
     {   $this->viewBuilder()->layout('admin');
-        $roles = $this->paginate($this->Roles);
-
+        $roles = $this->Roles->find('all')->toArray();
+        
         $this->set(compact('roles'));
     }
 
@@ -53,6 +53,7 @@ class RolesController extends AppController
         $role = $this->Roles->newEntity();
         if ($this->request->is('post')) {
             $role = $this->Roles->patchEntity($role, $this->request->getData());
+            
             if ($this->Roles->save($role)) {
                 $this->Flash->success(__('The role has been saved.'));
 
@@ -71,7 +72,8 @@ class RolesController extends AppController
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
     public function edit($id = null)
-    {
+    {   
+        $this->viewBuilder()->layout('admin');
         $role = $this->Roles->get($id, [
             'contain' => []
         ]);

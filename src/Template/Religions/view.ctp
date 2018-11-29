@@ -20,7 +20,7 @@
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Rligion Name') ?></th>
-            <td><?= h($religion->rligion_name) ?></td>
+            <td><?= h($religion->religion_name) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

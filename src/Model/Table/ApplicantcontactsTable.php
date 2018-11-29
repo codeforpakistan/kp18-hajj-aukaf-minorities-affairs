@@ -41,6 +41,7 @@ class ApplicantcontactsTable extends Table
             'foreignKey' => 'applicant_id',
             'joinType' => 'INNER'
         ]);
+        
     }
 
     /**
@@ -78,6 +79,7 @@ class ApplicantcontactsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['applicant_id'], 'Applicants'));
+       
 
         return $rules;
     }

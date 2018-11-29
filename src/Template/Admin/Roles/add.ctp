@@ -4,12 +4,7 @@
  * @var \App\Model\Entity\Role $role
  */
 ?>
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
+
 <section class="content">
         <div class="container-fluid">
             <div class="block-header">
@@ -40,7 +35,7 @@
                             
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <?php echo $this->Form->text('rname',['class'=>'form-control']);?>
+                                        <?php echo $this->Form->text('name',['class'=>'form-control']);?>
                                        <label class="form-label">Name</label>
                                     </div>
                                 </div>

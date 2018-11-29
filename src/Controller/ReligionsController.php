@@ -18,10 +18,7 @@ class ReligionsController extends AppController {
      *
      * @return \Cake\Http\Response|void
      */
-    public function beforeFilter(\Cake\Event\Event $event) {
-        parent::beforeFilter($event);
-        $this->Auth->allow(array('add', 'index'));
-    }
+    
 
     public function index() {
         $religions = $this->paginate($this->Religions);

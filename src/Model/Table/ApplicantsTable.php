@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -30,8 +31,7 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class ApplicantsTable extends Table
-{
+class ApplicantsTable extends Table {
 
     /**
      * Initialize method
@@ -39,8 +39,7 @@ class ApplicantsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('applicants');
@@ -53,29 +52,51 @@ class ApplicantsTable extends Table
             'foreignKey' => 'religion_id',
             'joinType' => 'INNER'
         ]);
+       
+        $this->belongsTo('Instituteclasses', [
+            'foreignKey' => 'instituteclass_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Maritalstatus', [
+            'foreignKey' => 'maritalstatus_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('ApplicantAttachments', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
         $this->hasMany('ApplicantHouseholdDetails', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
         $this->hasMany('Applicantaddresses', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
         $this->hasMany('Applicantcontacts', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
+        ]);
+        $this->hasMany('InstituteFunddetails', [
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
         $this->hasMany('Applicantincomes', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
         $this->hasMany('Applicantprofessions', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
         $this->hasMany('Applies', [
-            'foreignKey' => 'applicant_id'
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
-        $this->hasMany('ProvidedFunds', [
-            'foreignKey' => 'applicant_id'
+//        $this->hasMany('ProvidedFunds', [
+//            'foreignKey' => 'applicant_id', 'dependent' => true
+//        ]);
+        $this->hasMany('Qualifications', [
+            'foreignKey' => 'applicant_id', 'dependent' => true
+        ]);
+        $this->hasMany('ApplicantFunddetails', [
+            'foreignKey' => 'applicant_id', 'dependent' => true
         ]);
     }
 
@@ -85,34 +106,37 @@ class ApplicantsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+                ->integer('id')
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('name')
-            ->maxLength('name', 40)
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+                ->scalar('name')
+                ->maxLength('name', 40)
+                ->requirePresence('name', 'create')
+                ->notEmpty('name');
 
         $validator
-            ->scalar('father_or_husband_name')
-            ->maxLength('father_or_husband_name', 40)
-            ->requirePresence('father_or_husband_name', 'create')
-            ->notEmpty('father_or_husband_name');
+                ->scalar('father_name')
+                ->maxLength('father_name', 40)
+                ->requirePresence('father_name', 'create')
+                ->notEmpty('father_name');
+        $validator
+                ->scalar('husband_name')
+                ->maxLength('husband_name', 40)
+                ->allowEmpty('groom_or_bride_name');
 
         $validator
-            ->scalar('cnic')
-            ->maxLength('cnic', 15)
-            ->requirePresence('cnic', 'create')
-            ->notEmpty('cnic');
+                ->scalar('cnic')
+                ->maxLength('cnic', 15)
+                ->requirePresence('cnic', 'create')
+                ->notEmpty('cnic');
 
         $validator
-            ->scalar('groom_or_bride_name')
-            ->maxLength('groom_or_bride_name', 40)
-            ->allowEmpty('groom_or_bride_name');
+                ->scalar('groom_or_bride_name')
+                ->maxLength('groom_or_bride_name', 40)
+                ->allowEmpty('groom_or_bride_name');
 
         return $validator;
     }
@@ -124,10 +148,9 @@ class ApplicantsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['religion_id'], 'Religions'));
-
         return $rules;
     }
+
 }

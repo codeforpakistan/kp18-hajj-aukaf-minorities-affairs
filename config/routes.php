@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration
  *
@@ -17,7 +18,6 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-
 use Cake\Core\Plugin;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
@@ -44,6 +44,7 @@ use Cake\Routing\Route\DashedRoute;
  * constructor in your `src/Application.php` file to change this behavior.
  *
  */
+Router::extensions('xlsx');
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
@@ -53,17 +54,21 @@ Router::scope('/', function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
     $routes->connect('/', ['controller' => 'Applicants', 'action' => 'add']);
+    $routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+    $routes->connect('/profile', ['controller' => 'Institutes', 'action' => 'add']);
+
+
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-    
-   
-Router::prefix('admin', function($routes) {
-    $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
-    $routes->fallbacks('InflectedRoute');
-});
+
+
+    Router::prefix('admin', function($routes) {
+        $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
+        $routes->fallbacks('InflectedRoute');
+    });
 
     /**
      * Connect catchall routes for all controllers.

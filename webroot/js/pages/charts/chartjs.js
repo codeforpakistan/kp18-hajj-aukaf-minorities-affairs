@@ -1,7 +1,7 @@
 $(function () {
-    new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
     new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-    new Chart(document.getElementById("radar_chart").getContext("2d"), getChartJs('radar'));
+    
+     new Chart(document.getElementById("radar_chart").getContext("2d"), getChartJs('radar'));
     new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
 });
 
@@ -41,16 +41,28 @@ function getChartJs(type) {
         config = {
             type: 'bar',
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","Number","December"],
                 datasets: [{
-                    label: "My First dataset",
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    label: "Education",
+                    data: [65, 59, 80, 81, 56, 55, 40,30,48,40,20,10,45],
                     backgroundColor: 'rgba(0, 188, 212, 0.8)'
                 }, {
-                        label: "My Second dataset",
-                        data: [28, 48, 40, 19, 86, 27, 90],
+                        label: "Marriage",
+                        data: [28, 48, 40, 19, 86, 27, 90,70,60,80,60,42],
                         backgroundColor: 'rgba(233, 30, 99, 0.8)'
-                    }]
+                    },
+                    {
+                        label: "ADP",
+                        data: [28, 48, 40, 19, 86, 27, 90,70,60,80,60,42],
+                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                    },
+                    {
+                        label: "Health",
+                        data: [28, 48, 40, 19, 86, 27, 90,70,60,80,60,42],
+                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                    }
+                    
+                ]
             },
             options: {
                 responsive: true,

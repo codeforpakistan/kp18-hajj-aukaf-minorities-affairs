@@ -14,6 +14,8 @@
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
 
+namespace Cewi\Excel\Controller;
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
@@ -43,19 +45,26 @@ class AppController extends Controller {
 
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
+            'viewClassMap' => [
+                'xlsx' => 'Dakota/CakeExcel.Excel',
+            ],
         ]);
         $this->loadComponent('Flash');
+
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
+         * 
          */
+
+
         $this->loadComponent('Security');
 
         $this->loadComponent('Auth', [
             'authenticate' => [
                 'Form' => [
                     'fields' => [
-                        'username' => 'username',
+                        'username' => 'email',
                         'password' => 'password'
                     ],
                     'userModel' => 'Users'
@@ -66,8 +75,8 @@ class AppController extends Controller {
                 'action' => 'login',
             ],
             'loginRedirect' => [
-                'controller' => 'Users',
-                'action' => 'index',
+                'controller' => 'Applicants',
+                'action' => 'dashboard',
                 'admin' => true,
             ],
             'logoutRedirect' => [
@@ -88,13 +97,39 @@ class AppController extends Controller {
     public function beforeFilter(Event $event) {
 
         // Allow users to register and logout.
-        $this->Auth->allow(['add', 'login']);
+        $this->Auth->allow(['login']);
+        $this->set('user_name', '');
+        if ($this->Auth->user('id')) {
+            $this->loadModel('Users');
+            $user = $this->Users->Applicants->find('all', ['fields' => ['Applicants.name'], 'conditions' => ['Applicants.user_id' => $this->Auth->user('id')]])->first();
+            if ($user != null) {
+                $this->set('user_name', $user->toArray());
+            }
+            $this->set('auth', $this->Auth);
+        }
+        $this->loadModel('Funds');
+        $funds = $this->Funds->find('list')
+                ->where(['active' => 1, 'sub_category_id' => 3]);
+        
+        $funds_list = $this->Funds->find('list', ['keyField' => 'fund_for_year', 'valueField' => 'fund_for_year', 'order' => 'fund_for_year DESC'])
+                ->where(['Funds.sub_category_id' => 3]);
+        $this->set('showlink',$funds_list->toArray());
+
+        $institute_funds = $this->Funds->find('list', ['keyField' => 'id', 'valueField' => 'fund_name'])
+                ->where(['sub_category_id' => 3, 'active' => '1', 'last_date >=' => date('Y-m-d')]);
+        $this->set('institute_funds', $institute_funds);
+        $this->set('edu_funds', $funds);
     }
 
     public function isAuthorized($user) {
         if ($this->Auth->user('role_id') == 1) {
             return true;
         }
+    }
+
+    public function buildRules(RulesChecker $rules) {
+        $rules->add($rules->isUnique(['email']));
+        return $rules;
     }
 
 }

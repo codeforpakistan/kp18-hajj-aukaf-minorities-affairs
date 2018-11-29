@@ -12,6 +12,7 @@
                     Users
                 </h2>
             </div>
+            
             <!-- Basic Validation -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -29,38 +30,39 @@
                                 </li>
                             </ul>
                         </div>
+                        
                         <div class="body">
-                            <?= $this->Form->create($user,['id'=>'form_validation']) ?>
+                            <?= $this->Form->create($user,['id'=>'form_validation','type' => 'file']) ?>
                                 
                                <div class="form-group form-float">
                                    
                                     <div class="form-line">
-                                        <?php echo $this->Form->control('role_id', ['options' ,'class'=>'form-control show-tick','label'=>false]);?>
+                                        <?php echo $this->Form->control('role_id', ['empty' => 'Select Role','options' ,'class'=>'form-control show-tick','label'=>false]);?>
                                        
                                     </div>
                                 </div>
                             
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <?php echo $this->Form->text('username',['class'=>'form-control']);?>
-                                       <label class="form-label">User Name</label>
+                                       <?php echo $this->Form->text('name',['class'=>'form-control','required']);?>
+                                       <label class="form-label">Name</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                       <?php echo $this->Form->text('phone',['class'=>'form-control']);?>
+                                       <?php echo $this->Form->text('phone',['class'=>'form-control','required']);?>
                                         <label class="form-label">Phone No</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                       <?php echo $this->Form->text('address',['class'=>'form-control']);?>
+                                       <?php echo $this->Form->text('address',['class'=>'form-control','required']);?>
                                         <label class="form-label">Address</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                    <div class="form-line">
-                                       <?php echo $this->Form->password('password',['class'=>'form-control','label'=>false]);?>
+                                       <?php echo $this->Form->password('password',['class'=>'form-control','label'=>false,'required']);?>
                                         <label class="form-label">Password</label>
                                     </div>
                                   
@@ -71,12 +73,15 @@
                                         <label class="form-label">Email</label>
                                     </div>
                                 </div>
-                                <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <?php echo $this->Form->control('photo',['class'=>'form-control','label'=>false]);?>
-                                        <label class="form-label">Photo</label>
+                               
+                               <div class="form-group form-float">
+                                    <div class="form">
+                                        <label class="form-label">Profile Photo</label>
+                                      <?php echo $this->Form->control('photo', ['class'=>'form-control','secure' => false, 'type' => 'file', 'multiple' => false,'label'=>false]);?>
+                                        
                                     </div>
                                 </div>
+                                
                             
                                 
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
