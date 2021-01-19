@@ -15,6 +15,8 @@ class CreateApplicantHouseholdDetailsTable extends Migration
     {
         Schema::create('applicant_household_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->integer('dependent_family_members');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
