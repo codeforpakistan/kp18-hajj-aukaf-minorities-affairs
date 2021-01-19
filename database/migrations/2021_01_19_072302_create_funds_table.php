@@ -15,6 +15,16 @@ class CreateFundsTable extends Migration
     {
         Schema::create('funds', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('fund_category_id');
+            $table->foreignId('sub_category_id');
+            $table->string('total_amount');
+            $table->date('receiving_date');
+            $table->string('amount_remaining');
+            $table->date('last_date');
+            $table->year('fund_for_year');
+            $table->double('institute_students', 8, 3);
+            $table->boolean('active');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
