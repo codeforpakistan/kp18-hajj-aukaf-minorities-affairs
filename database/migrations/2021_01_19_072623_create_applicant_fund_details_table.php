@@ -15,6 +15,20 @@ class CreateApplicantFundDetailsTable extends Migration
     {
         Schema::create('applicant_fund_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->foreignId('fund_id');
+            $table->foreignId('fund_category_id');
+            $table->foreignId('sub_category_id');
+            $table->string('amount_recived');
+            $table->date('payment_date');
+            $table->string('check_number');
+            $table->date('appling_date');
+            $table->boolean('selected');
+            $table->boolean('distributed');
+            $table->boolean('selected');
+            $table->foreignId('created_by');
+            $table->foreignId('updated_by');
+            $table->foreignId('deleted_by');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
