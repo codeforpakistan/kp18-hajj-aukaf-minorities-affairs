@@ -15,6 +15,8 @@ class CreateQualificationLevelsTable extends Migration
     {
         Schema::create('qualification_levels', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('institute_type_id');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
