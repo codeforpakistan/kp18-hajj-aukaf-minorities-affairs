@@ -15,6 +15,17 @@ class CreateInstituteClassesTable extends Migration
     {
         Schema::create('institute_classes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('fund_id');
+            $table->foreignId('school_class_id');
+            $table->foreignId('institute_id');
+            $table->string('class_no');
+            $table->string('total_students');
+            $table->string('minority_students');
+            $table->string('needy_students');
+            $table->string('textbook_cost');
+            $table->string('boys_uniform');
+            $table->string('girls_uniform');
+            $table->date('date');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
