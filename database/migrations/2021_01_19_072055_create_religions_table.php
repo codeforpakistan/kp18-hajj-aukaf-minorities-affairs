@@ -15,6 +15,8 @@ class CreateReligionsTable extends Migration
     {
         Schema::create('religions', function (Blueprint $table) {
             $table->id();
+            $table->string('religion_name');
+            $table->string('color');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
