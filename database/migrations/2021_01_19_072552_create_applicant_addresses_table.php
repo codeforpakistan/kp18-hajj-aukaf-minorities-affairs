@@ -15,6 +15,12 @@ class CreateApplicantAddressesTable extends Migration
     {
         Schema::create('applicant_addresses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->text('current_address');
+            $table->text('permenent_address');
+            $table->foreignId('city_id');
+            $table->text('postal_address');
+            $table->string('zip_code');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
