@@ -15,6 +15,8 @@ class CreateIsApplicablesTable extends Migration
     {
         Schema::create('is_applicables', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('sub_category_id');
+            $table->foreignId('marital_status_id');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
