@@ -15,6 +15,7 @@ class CreateDegreeAwardingsTable extends Migration
     {
         Schema::create('degree_awardings', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
