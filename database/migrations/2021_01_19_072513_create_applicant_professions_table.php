@@ -15,6 +15,8 @@ class CreateApplicantProfessionsTable extends Migration
     {
         Schema::create('applicant_professions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->string('profession');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
