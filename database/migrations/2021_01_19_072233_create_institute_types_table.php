@@ -15,6 +15,7 @@ class CreateInstituteTypesTable extends Migration
     {
         Schema::create('institute_types', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
