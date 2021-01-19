@@ -30,9 +30,9 @@ class CreateQualificationsTable extends Migration
             $table->integer('obtained_marks');
             $table->double('percentage', 3, 2);
             $table->date('passing_date');
-            $table->boolean('completed');            
+            $table->boolean('completed');
             $table->foreignId('created_by');
-            $table->foreignId('modified_by');
+            $table->foreignId('updated_by');
             $table->foreignId('deleted_by');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
