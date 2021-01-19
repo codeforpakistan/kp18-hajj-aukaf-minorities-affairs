@@ -15,6 +15,8 @@ class CreateApplicantIncomesTable extends Migration
     {
         Schema::create('applicant_incomes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->string('monthly_income');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
