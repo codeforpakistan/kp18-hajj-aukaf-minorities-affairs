@@ -15,6 +15,12 @@ class CreateInstituteFundDetailsTable extends Migration
     {
         Schema::create('institute_fund_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->foreignId('fund_id');
+            $table->string('amount_recived');
+            $table->date('payment_date');
+            $table->date('appling_date');
+            $table->boolean('selected');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
