@@ -15,6 +15,10 @@ class CreateAppliesTable extends Migration
     {
         Schema::create('applies', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('applicant_id');
+            $table->foreignId('fund_category_id');
+            $table->foreignId('sub_category_id');
+            $table->date('date');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
