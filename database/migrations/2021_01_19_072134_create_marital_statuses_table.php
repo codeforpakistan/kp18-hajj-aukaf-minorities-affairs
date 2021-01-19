@@ -15,6 +15,7 @@ class CreateMaritalStatusesTable extends Migration
     {
         Schema::create('marital_statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('status');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });
