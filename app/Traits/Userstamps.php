@@ -5,7 +5,7 @@ namespace Traits;
 trait Userstamps
 {
     public static function boot()
-     {
+    {
         parent::boot();
         static::creating(function($model)
         {
@@ -26,5 +26,29 @@ trait Userstamps
             $model->deleted_by = $user->id;
             $model->updated_by = $user->id;
         });
+    }
+
+    /**
+     * Get the related model that is assigned to this model.
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
+    /**
+     * Get the related model that is assigned to this model.
+     */
+    public function updatedBy()
+    {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+    }
+
+    /**
+     * Get the related model that is assigned to this model.
+     */
+    public function deletedBy()
+    {
+        return $this->belongsTo('App\Models\User', 'deleted_by', 'id');
     }
 }
