@@ -17,7 +17,7 @@ class CreateSubCategoriesTable extends Migration
             $table->id();
             $table->foreignId('fund_category_id');
             $table->string('type');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('status');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();

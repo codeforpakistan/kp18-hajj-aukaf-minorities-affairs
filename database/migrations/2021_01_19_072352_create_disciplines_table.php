@@ -16,7 +16,7 @@ class CreateDisciplinesTable extends Migration
         Schema::create('disciplines', function (Blueprint $table) {
             $table->id();
             $table->foreignId('qualification_level_id');
-            $table->foreignId('institute_id');
+            $table->foreignId('institute_id')->nullable();
             $table->string('discipline');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();

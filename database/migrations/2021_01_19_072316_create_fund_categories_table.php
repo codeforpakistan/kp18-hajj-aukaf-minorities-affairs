@@ -16,7 +16,7 @@ class CreateFundCategoriesTable extends Migration
         Schema::create('fund_categories', function (Blueprint $table) {
             $table->id();
             $table->string('type_of_fund');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });

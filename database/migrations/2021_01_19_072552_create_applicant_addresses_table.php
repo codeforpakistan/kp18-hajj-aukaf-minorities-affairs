@@ -17,10 +17,10 @@ class CreateApplicantAddressesTable extends Migration
             $table->id();
             $table->foreignId('applicant_id');
             $table->text('current_address');
-            $table->text('permenent_address');
+            $table->text('permenent_address')->nullable();
             $table->foreignId('city_id');
-            $table->text('postal_address');
-            $table->string('zip_code');
+            $table->text('postal_address')->nullable();
+            $table->string('zip_code')->nullable();
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });

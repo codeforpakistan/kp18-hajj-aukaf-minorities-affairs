@@ -16,8 +16,8 @@ class CreateApplicantContactsTable extends Migration
         Schema::create('applicant_contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('applicant_id');
-            $table->string('mob_number');
-            $table->string('tel_number');
+            $table->string('mob_number')->nullable();
+            $table->string('tel_number')->nullable();
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
         });

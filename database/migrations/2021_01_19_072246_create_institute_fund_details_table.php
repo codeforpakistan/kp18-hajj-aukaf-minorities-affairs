@@ -17,8 +17,8 @@ class CreateInstituteFundDetailsTable extends Migration
             $table->id();
             $table->foreignId('applicant_id');
             $table->foreignId('fund_id');
-            $table->string('amount_recived');
-            $table->date('payment_date');
+            $table->string('amount_recived')->nullable();
+            $table->date('payment_date')->nullable();
             $table->date('appling_date');
             $table->boolean('selected');
             $table->softDeletes('deleted_at', 0);

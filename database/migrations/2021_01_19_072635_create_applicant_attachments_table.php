@@ -16,7 +16,7 @@ class CreateApplicantAttachmentsTable extends Migration
         Schema::create('applicant_attachments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('applicant_id');
-            $table->foreignId('sub_category_id');
+            $table->foreignId('sub_category_id')->nullable();
             $table->text('attachment');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();

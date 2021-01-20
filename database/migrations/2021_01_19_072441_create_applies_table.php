@@ -17,7 +17,7 @@ class CreateAppliesTable extends Migration
             $table->id();
             $table->foreignId('applicant_id');
             $table->foreignId('fund_category_id');
-            $table->foreignId('sub_category_id');
+            $table->foreignId('sub_category_id')->nullable();
             $table->date('date');
             $table->softDeletes('deleted_at', 0);
             $table->timestamps();
