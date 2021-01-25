@@ -16,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'Guest\HomeController@index')->name('guest.home.index');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth', 'role:admin'])
+->namespace('Admin')
+->prefix('admin')
+->group( function () {
+	Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+});
