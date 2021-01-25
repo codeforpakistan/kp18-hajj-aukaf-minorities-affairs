@@ -15,7 +15,7 @@ class CreateFundsTable extends Migration
     {
         Schema::create('funds', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('fund_name');
             $table->foreignId('fund_category_id');
             $table->foreignId('sub_category_id')->nullable();
             $table->string('total_amount');
