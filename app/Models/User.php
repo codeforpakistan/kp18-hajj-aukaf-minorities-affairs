@@ -52,14 +52,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the role that is assigned to the user.
-     */
-    public function role()
-    {
-        return $this->belongsTo('App\Models\Role', 'role_id', 'id');
-    }
-
-    /**
      * Get the applicants for the user.
      */
     public function applicants()
