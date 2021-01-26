@@ -35,7 +35,7 @@
                         </div>
                         <div class="widget-content">
                             <div class="lang"  id="google_translate_element" style="margin-bottom: 15px;padding: 0 5px;min-height: 15px;">
-                                @if (\Auth::user('role_id') == 1 || \Auth::user('role_id') == 2)
+                                @if ( \Auth::check() && ( \Auth::user()->hasRole('Admin') || \Auth::user()->hasRole('Operator') ) )
                                     <a onclick="window.history.go(-1);return false;" style ="font-size: 14px;color: green;text-decoration: underline; cursor: pointer;">Go back</a>
                                 @endif
                             </div>
@@ -80,7 +80,7 @@
                                             {{-- <?php echo $this->Form->control('fund_id', ['id' => 'fund_id', 'label' => false, 'class' => 'form-control', 'empty' => 'Select Grant', 'required']); ?> --}}
                                             <span id="grant_error" class="help-block">Please select Grant.</span>
                                             <br/>
-                                            @if( ! $last_date->isEmpty() || \Auth::user('role_id'))
+                                            @if( ! $last_date->isEmpty() || ( \Auth::check() && \Auth::user()->hasRole('School') ) )
                                                 {!! Form::submit('Click to Apply', ['class' => 'btn btn-success pull-right', 'style' => 'margin-left:5px;']); !!}
                                                 {{-- @php
                                                     echo $this->Form->button(__('Click to Apply'), ['class' => 'btn btn-success pull-right', 'style' => 'margin-left:5px;']);
