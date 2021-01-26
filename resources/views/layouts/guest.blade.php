@@ -140,7 +140,10 @@
                         <img style="height: 100%;" src="{{ asset('img/logo.png') }}" alt="logo" />
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-8 col-xs-8"  style="color:white;">
-                        <h2 class="header_text">Auqaf, Hajj, Religious & Minority Affairs</h2>
+                        <h2 class="header_text">{{ env("APP_NAME") }}</h2>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 pull-right"  style="color:white;">
+                        <h2 class="header_text"><a href="{{ route('login') }}" class="btn btn-success btn-lg">Login</a></h2>
                     </div>
                     <!-- /logo -->
                     <!-- Top Right Menu -->
