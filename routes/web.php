@@ -17,9 +17,10 @@ Route::get('/', 'Guest\HomeController@index')->name('guest.home.index');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware(['auth', 'role:admin'])
+Route::middleware(['auth', 'role:Admin'])
 ->namespace('Admin')
 ->prefix('admin')
+->name('admin.')
 ->group( function () {
 	Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 });
