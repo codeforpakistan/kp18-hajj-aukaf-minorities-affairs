@@ -23,4 +23,6 @@ Route::middleware(['auth', 'role:Admin'])
 ->name('admin.')
 ->group( function () {
 	Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+	Route::get('services', 'DashboardController@services')->name('dashboard.services');
+	Route::get('funds-analysis', 'DashboardController@fundsAnalysis')->name('dashboard.funds-analysis');
 });
