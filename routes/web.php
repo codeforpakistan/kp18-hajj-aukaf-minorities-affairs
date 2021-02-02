@@ -25,4 +25,8 @@ Route::middleware(['auth', 'role:Admin'])
 	Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 	Route::get('services', 'DashboardController@services')->name('dashboard.services');
 	Route::get('funds-analysis', 'DashboardController@fundsAnalysis')->name('dashboard.funds-analysis');
+	Route::get('district', 'DashboardController@district')->name('dashboard.district');
+	Route::get('religion', 'DashboardController@religion')->name('dashboard.religion');
+	Route::get('funds-list', 'DashboardController@fundsList')->name('dashboard.funds-list');
+	Route::get('dashboard-map', 'DashboardController@dashboardMap')->name('dashboard.dashboard-map');
 });

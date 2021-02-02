@@ -128,4 +128,77 @@ class DashboardController extends Controller
             ->get();
         return response()->json($ceety->toArray());
     }
+
+    public function district(Request $request, $id = null, $id1 = null) {
+        $dist = $request->value;
+        $dist1 = $request->value1;
+        
+        $ceety = DB::table('applicants as app')
+            ->join('applicant_fund_details as det',  'app.id',                '=', 'det.applicant_id')
+            ->join('funds as ap',                    'ap.id',                 '=', 'det.fund_id')
+            ->join('religions as re',                're.id',                 '=', 'app.religion_id')
+            ->join('applicant_addresses as address', 'address.applicant_id',  '=', 'app.id')
+            ->join('cities',                         'cities.id',             '=', 'address.city_id')
+            ->select(DB::raw('COUNT(religion_id), COUNT(det.applicant_id) As ap, fund_name, religion_id, religion_name'))
+            ->where('fund_name', $dist1)
+            ->where('city_id', $dist)
+            ->where('active', 1)
+            ->groupBy('fund_name')
+            ->get();
+
+        $ceety2 = DB::table('applicants as app')
+            ->join('applicant_fund_details as det', 'app.id', '=','det.applicant_id')
+            ->join('funds as ap', 'ap.id', '=', 'det.fund_id')
+            ->join('religions as re', 're.id', '=', 'app.religion_id')
+            ->join('applicant_addresses as address', 'address.applicant_id',  '=', 'app.id')
+            ->select(DB::raw('religion_name, count(religion_id) as re ,color as co'))
+            ->where('active', 1)
+            ->where('address.city_id', $dist)
+            ->where('fund_name', $dist1)
+            ->groupBy('religion_id')
+            ->get();
+
+        $records = [
+            'district_wise' => $ceety->toArray(),
+            'religion_wise' => $ceety2->toArray()
+        ];
+        return response()->json($records);
+    }
+
+    public function fundsList(Request $request, $id = null) {
+        if ( $request->has('fund_id') ) {
+            $institutes = DB::table('institutes as i')
+                ->join('institute_classes', 'institute_classes.institute_id', '=', 'i.id')
+                ->join('applicants as a', 'a.institute_class_id',  '=', 'institute_classes.id')
+                ->join('institute_fund_details as ifd', 'ifd.applicant_id', '=','a.id')
+                ->select(DB::raw('DISTINCT i.id, i.name as institute_name'))
+                ->where('ifd.fund_id', $request->fund_id)
+                ->get();
+            return response()->json($institutes);
+        }
+        if ( $request->has('fundofinstitute') ) {
+            $funds = Fund::with(['fundCategory', 'subCategory' => function ($query){
+                $query->where('sub_categories.id', 3);
+            }])->where('fund_for_year', $request->fundofinstitute)->get();
+            return response()->json($funds);
+        }
+        if ( $request->has('value') ) {
+            $funds = Fund::with(['fundCategory', 'subCategory'])->where('fund_for_year', $request->value)->get();
+            return response()->json($funds);
+        }
+    }
+
+    public function dashboardMap(Request $request, $id = null) {
+        $ceety = DB::table('applicants as app')
+            ->join('applicant_fund_details as det',  'app.id',                '=', 'det.applicant_id')
+            ->join('funds as ap',                    'ap.id',                 '=', 'det.fund_id')
+            ->join('religions as re',                're.id',                 '=', 'app.religion_id')
+            ->join('applicant_addresses as address', 'address.applicant_id',  '=', 'app.id')
+            ->join('cities',                         'cities.id',             '=', 'address.city_id')
+            ->select(DB::raw('latitude, longitude'))
+            ->where('fund_name', $request->value)
+            ->where('active', 1)
+            ->get();
+        return response()->json($ceety);
+    }
 }

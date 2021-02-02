@@ -18,66 +18,6 @@
     @php
     $i = 1;
     @endphp
-    <script>
-        $(document).ready(function() {
-            $('#dist{{ $i }}').change(function() {
-                var value = $(this).val();
-                var d = $(this).val();
-                var value1 = $('#fund_name{{ $i }}').val();
-                var relig_append ={{ $i }};
-                if (value != "")
-                {
-                    $.ajax({
-                        type: 'GET',
-                        url: 'district',
-                        data:'value=' + value + '&value1=' + value1,
-                        contentType: 'json',
-                        success: function(data) {
-                            var data = JSON.parse(data);
-                            if ($.isEmptyObject(data))
-                            {
-                                var total_empty = $('#total{{ $i }}').empty();
-                                var total1_empty = $('#total1{{ $i }}').empty();
-                                var religion_empty = $('#relig{{ $i }}').empty();
-                                var app = "<h2  style='margin-left:35%;' >0</h2>";
-                                var app1 = "0";
-                                $('#total{{ $i }}').append(app);
-                                $('#total1{{ $i }}').append(app1);
-                                distct(app1, d, value1, total_empty, religion_empty, relig_append);
-                            }
-                            else
-                            {
-                                $('#total{{ $i }}').empty();
-                                $('#total1{{ $i }}').empty();
-                                $.each(data, function(key, value){
-                                    if (value.ap) {
-                                        var app = "<h2  style='margin-left:35%;' id='h2' >" + value.ap + "</h2>";
-                                        var app1 = value.ap;
-                                        distct(app1, d, value1, total_empty, total1_empty, relig_append);
-                                        $('#total{{ $i }}').append(app);
-                                        $('#total1{{ $i }}').append(app1);
-                                    } else {
-                                        app = "<h2  style='margin-left:35%;' >0</h2>";
-                                        app1 = "0";
-                                        $('#total{{ $i }}').append(app);
-                                        $('#total1{{ $i }}').append(app1);
-                                    }
-                                });
-                            }
-                        }, error: function(error) {
-                            // alert(JSON.stringify(error));
-                        }
-                    });
-                }
-                else
-                {
-                    $('#sub_categ').empty();
-                    $('#sub_categ').append("<option value=''>--Select--</option>");
-                    //alert(value);
-                }
-            });
-        });
-    </script>
     <section class="content">
         <div class="container-fluid">
             <!-- Google Maps -->
@@ -92,13 +32,13 @@
                         <div class="card">
                             <div class="row" style="padding: 10px;">
                                 <div class="col-sm-12 col-xs-12 col-lg-3 col-md-2" style="padding: 5px 20px;float:right;">
-                                    {!! Form::select('Applicantaddresses[city_id]', $city, null, ['id' => 'dist' . $i, 'label' => false, 'class' => 'form-control show-tick', 'required']) !!}
+                                    {!! Form::select('Applicantaddresses[city_id]', $city, null, ['placeholder' => 'Select District', 'id' => 'dist' . $i, 'label' => false, 'class' => 'form-control show-tick dist-selection', 'required']) !!}
                                 </div>
                                 <div class="col-sm-12 col-xs-12 col-lg-9 col-md-2">
-                                    <h4 style="margin-left:50px;"><input  type="hidden" id="fund_name{{ $i }}" value="{{ $fund->fund_name }}">{{ $fund->fund_name }}</h4>
+                                    <h4 style="margin-left:50px;"><input type="hidden" id="fund_name{{ $i }}" class="fund_name_selected" value="{{ $fund->fund_name }}">{{ $fund->fund_name }}</h4>
                                 </div>
                             </div>
-                            <input type="hidden" id="total_ap{{ $i }}" value="{{ $fund->ap }}"/> 
+                            <input type="hidden" id="total_ap{{ $i }}" class="total_ap_selected" value="{{ $fund->ap }}"/> 
                             @php
                                 $regs = DB::table('applicants as app')
                                     ->join('applicant_fund_details as det', 'app.id', '=','det.applicant_id')
@@ -117,7 +57,7 @@
                                         <div class="col-lg-12">
                                             <img style="margin-left:30%;" src="{{ asset('img/users.png') }}"/>
                                         </div>   
-                                        <div class="col-lg-12" id="total{{ $i }}">
+                                        <div class="col-lg-12 total_selected" id="total{{ $i }}">
                                             <h2  style="margin-left:35%; "> 
                                                 @if ($fund->ap)
                                                     {{ $fund->ap }}
@@ -127,7 +67,7 @@
                                             </h2>
                                         </div>
                                         <div class="col-lg-12" >
-                                            <p id='' style="margin-left:10%; "><span id="total1{{ $i }}">
+                                            <p id='' style="margin-left:10%; "><span class="total1_selected" id="total1{{ $i }}">
                                                 @if ($fund->ap)
                                                     {{ $fund->ap }}
                                                 @else
@@ -140,7 +80,7 @@
                                     <div class="col-lg-3 col-sm-12 col-xs-12 "><h4>Statistics</h4></div>
                                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" style="">
                                         @if (isset($regs))
-                                            <div id="relig{{ $i }}">  
+                                            <div id="relig{{ $i }}" class="religion_selected">  
                                                 @foreach ($regs as $reg)
                                                     <div class="col-lg-3 col-sm-12 col-xs-12" style="margin-bottom: 7px !important;">{{ $reg->religion_name }}</div>
                                                     <div class="progress col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding:0;margin-bottom: 15px;">
@@ -204,10 +144,10 @@
                     <div class="card">
                         <div class="header">
                             <div class="col-lg-2 col-sm-6 col-xs-12" style="margin-bottom:10px;float:right;">
-                                {!! Form::select('fundslist', [], null, ['label' => false, 'class' => 'form-control show-tick', 'required']) !!}
+                                {!! Form::select('fundslist', [], null, ['placeholder' => 'Select Fund', 'id' => 'fundlist', 'label' => false, 'class' => 'form-control show-tick', 'required']) !!}
                             </div>
                             <div class="col-sm-2 col-sm-6 col-xs-12" style="margin-bottom:10px;float:right;">
-                                {!! Form::select('fundsyear', $fundslist, null, ['label' => false, 'class' => 'form-control show-tick', 'required']) !!}
+                                {!! Form::select('fundsyear', $fundslist, null, ['placeholder' => 'Select Year', 'id' => 'fundyear', 'label' => false, 'class' => 'form-control show-tick', 'required']) !!}
                             </div>
                             <h2>Minorities Locations</h2>
                         </div>
@@ -220,6 +160,78 @@
         </div>
     </section>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2sTxnS9sy-B_UvMRt3Cpqjf-shChqee4&libraries=places&callback=initMap" async defer></script>
+    <script>
+        $(document).ready(function() {
+            $('.dist-selection').change(function() {
+                var tag = $(this);
+                var value = $(this).val(); // City Id
+                var value1 = $(this).parent().parent().find('.fund_name_selected').val(); // Fund name
+                var relig_append = $(this).attr('id').match(/\d+/)[0];
+                if (value != "")
+                {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('admin.dashboard.district') }}',
+                        data:'value=' + value + '&value1=' + value1,
+                        contentType: 'json',
+                        success: function(data) {
+                            if ($.isEmptyObject(data.district_wise))
+                            {
+                                var total_empty = tag.parent().parent().parent().find('.total_selected').empty();
+                                var total1_empty = tag.parent().parent().parent().find('.total1_selected').empty();
+                                var religion_empty = tag.parent().parent().parent().find('.religion_selected').empty();
+                                var app = "<h2  style='margin-left:35%;' >0</h2>";
+                                var app1 = "0";
+                                tag.parent().parent().parent().find('.total_selected').append(app);
+                                tag.parent().parent().parent().find('.total1_selected').append(app1);
+                                distct(relig_append, null, null);
+                            }
+                            else
+                            {
+                                tag.parent().parent().parent().find('.total_selected').empty();
+                                tag.parent().parent().parent().find('.total1_selected').empty();
+                                $.each(data.district_wise, function(key, value){
+                                    if (value.ap) {
+                                        var app = "<h2  style='margin-left:35%;' id='h2' >" + value.ap + "</h2>";
+                                        var app1 = value.ap;
+                                        tag.parent().parent().parent().find('.total_selected').append(app);
+                                        tag.parent().parent().parent().find('.total1_selected').append(app1);
+                                        distct(relig_append, data.religion_wise, value);
+                                    } else {
+                                        app = "<h2  style='margin-left:35%;' >0</h2>";
+                                        app1 = "0";
+                                        tag.parent().parent().parent().find('.total_selected').append(app);
+                                        tag.parent().parent().parent().find('.total1_selected').append(app1);
+                                        distct(relig_append, null, null);
+                                    }
+                                });
+                            }
+                        }, error: function(error) {
+                            // alert(JSON.stringify(error));
+                        }
+                    });
+                }
+                else
+                {
+                    $('#sub_categ').empty();
+                    $('#sub_categ').append("<option value=''>--Select--</option>");
+                    //alert(value);
+                }
+            });
+            function distct(id, religion_wise, district_wise) {
+                var html = '';
+                if (religion_wise.length > 0) {
+                    $.each(religion_wise, function(key, value){
+                        html += '<div class="col-lg-3 col-sm-12 col-xs-12" style="margin-bottom: 7px !important;">' + value.religion_name + '</div>' +
+                        '<div class="progress col-lg-9 col-md-9 col-sm-12 col-xs-12" style="padding:0;margin-bottom: 15px;">' +
+                            '<div class="progress-bar ' + value.co + '" title="' + Math.round((value.re * 100) / district_wise.ap) + '% total=' + value.re + '" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: ' + Math.round((value.re * 100) / district_wise.ap) + '%">' + Math.round((value.re * 100) / district_wise.ap) + '% total=' + value.re + '</div>' +
+                        '</div>'
+                    });
+                }
+                $("#relig" + id).html(html);
+            }
+        });
+    </script>
     <script>
         // This example adds a marker to indicate the position of Bondi Beach in Sydney, Australia.
         function initMap(data = null) {
@@ -261,16 +273,45 @@
     </script>
     <script>
         $(document).ready(function() {
+            $('#fundlist').change(function() {
+                var value = $(this).val();
+                if (value != "") {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('admin.dashboard.dashboard-map') }}',
+                        data: 'value=' + value,
+                        contentType: 'json',
+                        success: function(data) {
+                            if ($.isEmptyObject(data)) {
+                                if (data) {
+                                    data = "";
+                                    initMap(data);
+                                }
+                            } else {
+                                initMap(data);
+                            }
+                        }, error: function(error) {
+                            // alert(JSON.stringify(error));
+                        }
+                    });
+                } else {
+                    $('#sub_categ').empty();
+                    $('#sub_categ').append("<option value=''>--Select--</option>");
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
             $('#fundyear').change(function() {
                 var value = $(this).val();
                 if (value != "") {
                     $.ajax({
                         type: 'GET',
-                        url: 'fundlist',
+                        url: '{{ route('admin.dashboard.funds-list') }}',
                         data: 'value=' + value,
                         contentType: 'json',
                         success: function(data) {
-                            var data = JSON.parse(data);
                             if ($.isEmptyObject(data)) {
                                 $('#fundlist').empty();
                             } else {
@@ -308,7 +349,6 @@
                 contentType: 'json',
                 success: function(data)
                 {
-                    var data = JSON.parse(data);
                     if ($.isEmptyObject(data)) {
                         // 
                     } else {

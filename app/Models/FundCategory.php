@@ -12,7 +12,7 @@ class FundCategory extends Model
     /**
      * @var string $table the name of the table
      */
-    protected $table = '	fund_categories';
+    protected $table = 'fund_categories';
 
     /**
      * @var string $primaryKey the primary key of the table
