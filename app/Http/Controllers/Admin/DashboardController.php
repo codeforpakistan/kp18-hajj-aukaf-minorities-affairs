@@ -87,6 +87,11 @@ class DashboardController extends Controller
         ]);
     }
 
+    /**
+     * Returns a json response listing of the resource.
+     *
+     * @return \Illuminate\Http\Response\Json
+     */
     public function services(Request $request) {
         if ( $request->has('deselect') ) {
             $applicantFundDetail = ApplicantFundDetail::find($request->id);
@@ -117,6 +122,11 @@ class DashboardController extends Controller
         return response()->json(0);
     }
 
+    /**
+     * Returns a json response listing of the resource.
+     *
+     * @return \Illuminate\Http\Response\Json
+     */
     public function fundsAnalysis($id = null) {
         $ceety = DB::table('applicants as app')
             ->join('applicant_fund_details as det',  'app.id',                '=', 'det.applicant_id')
@@ -129,6 +139,11 @@ class DashboardController extends Controller
         return response()->json($ceety->toArray());
     }
 
+    /**
+     * Returns a json response listing of the resource.
+     *
+     * @return \Illuminate\Http\Response\Json
+     */
     public function district(Request $request, $id = null, $id1 = null) {
         $dist = $request->value;
         $dist1 = $request->value1;
@@ -165,6 +180,11 @@ class DashboardController extends Controller
         return response()->json($records);
     }
 
+    /**
+     * Returns a json response listing of the resource.
+     *
+     * @return \Illuminate\Http\Response\Json
+     */
     public function fundsList(Request $request, $id = null) {
         if ( $request->has('fund_id') ) {
             $institutes = DB::table('institutes as i')
@@ -188,6 +208,11 @@ class DashboardController extends Controller
         }
     }
 
+    /**
+     * Returns a json response listing of the resource.
+     *
+     * @return \Illuminate\Http\Response\Json
+     */
     public function dashboardMap(Request $request, $id = null) {
         $ceety = DB::table('applicants as app')
             ->join('applicant_fund_details as det',  'app.id',                '=', 'det.applicant_id')
