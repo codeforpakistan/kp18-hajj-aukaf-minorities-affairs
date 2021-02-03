@@ -1,0 +1,259 @@
+[{
+    "name": "Fund Categories",
+    "controller": "fund-categories",
+    "subNav": [{
+        "name": "List Fund Categories",
+        "action": "index"
+      },
+      {
+        "name": "New Fund Category",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Fund Sub Categories",
+    "controller": "sub-categories",
+    "subNav": [{
+        "name": "List Fund Sub Categories",
+        "action": "index"
+      },
+      {
+        "name": "New Fund Sub Category",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Funds",
+    "controller": "funds",
+    "subNav": [{
+        "name": "List Funds",
+        "action": "index"
+      },
+      {
+        "name": "New Fund",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Reports",
+    "controller": "reports",
+    "subNav": [{
+        "name": "General Report",
+        "action": "general-report"
+      },
+      {
+        "name": "Institutes Report",
+        "action": "institutes-report"
+      },
+      {
+        "name": "Institutes Classes Report",
+        "action": "institutes-classes-report"
+      },
+      {
+        "name": "Institutes Students Report",
+        "action": "institutes-students-report"
+      },
+      {
+        "name": "Region/Religion Rport",
+        "action": "region-religion-report"
+      },
+      {
+        "name": "Date wise summary",
+        "action": "date-wise-summary"
+      }
+    ]
+  },
+  {
+    "name": "Applicants",
+    "controller": "applicants",
+    "subNav": [{
+        "name": "List Applicants",
+        "action": "index"
+      },
+      {
+        "name": "New Applicant",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Applied Institutes",
+    "controller": "applied-institutes",
+    "subNav": [{
+      "name": "Funds",
+      "action": "list-of-funds"
+    }]
+  },
+  {
+    "name": "Selection phase",
+    "controller": "selection-phase",
+    "subNav": [{
+        "name": "Selection",
+        "action": "selection",
+        "subNav": [{
+            "name": "Poverty based",
+            "action": "poverty-based"
+          },
+          {
+            "name": "Balloting system",
+            "action": "balloting-system"
+          }
+        ]
+      },
+      {
+        "name": "De-select",
+        "action": "de-select"
+      },
+      {
+        "name": "Distribution",
+        "action": "distribution"
+      }
+    ]
+  },
+  {
+    "name": "Districts",
+    "controller": "districts",
+    "subNav": [{
+        "name": "List Districts",
+        "action": "index"
+      },
+      {
+        "name": "New District",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Religions",
+    "controller": "religions",
+    "subNav": [{
+        "name": "List Religions",
+        "action": "index"
+      },
+      {
+        "name": "New Religion",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Institute Types",
+    "controller": "institute-types",
+    "subNav": [{
+        "name": "List Institute Types",
+        "action": "index"
+      },
+      {
+        "name": "New Institute Type",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "School Classes",
+    "controller": "school-classes",
+    "subNav": [{
+        "name": "List School Classes",
+        "action": "index"
+      },
+      {
+        "name": "New School Class",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Institutes",
+    "controller": "institutes",
+    "subNav": [{
+        "name": "List Institutes",
+        "action": "index"
+      },
+      {
+        "name": "New Institute",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Qualification Levels",
+    "controller": "qualification-levels",
+    "subNav": [{
+        "name": "List Qualification Levels",
+        "action": "index"
+      },
+      {
+        "name": "New Qualification Level",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Disciplines",
+    "controller": "disciplines",
+    "subNav": [{
+        "name": "List Disciplines",
+        "action": "index"
+      },
+      {
+        "name": "New Discipline",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Degree Awarding Boards",
+    "controller": "degree-awarding-boards",
+    "subNav": [{
+        "name": "List Degree Awarding Boards",
+        "action": "index"
+      },
+      {
+        "name": "New Degree Awarding Board",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Marital Statuses",
+    "controller": "marital-statuses",
+    "subNav": [{
+        "name": "List Marital Statuses",
+        "action": "index"
+      },
+      {
+        "name": "New Marital Status",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Users",
+    "controller": "Users",
+    "subNav": [{
+        "name": "List Users",
+        "action": "index"
+      },
+      {
+        "name": "New User",
+        "action": "create"
+      }
+    ]
+  },
+  {
+    "name": "Roles",
+    "controller": "Roles",
+    "subNav": [{
+        "name": "List Roles",
+        "action": "index"
+      },
+      {
+        "name": "New Role",
+        "action": "create"
+      }
+    ]
+  }
+]

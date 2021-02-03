@@ -28,6 +28,10 @@ class ViewServiceProvider extends ServiceProvider
             ['admin.layouts.app'], 
             'App\Http\View\Composers\AdminLayoutComposer'
         );
+        View::composer(
+            ['admin.components.left-sidebar'], 
+            'App\Http\View\Composers\LeftSidebarComposer'
+        );
 
     }
 }
