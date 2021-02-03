@@ -9,11 +9,6 @@
         <!-- Google Fonts -->
         <link href="{{ asset('css/font.css') }}" rel="stylesheet" type="text/css" >
         <link href="{{ asset('css/icon.css') }}" rel="stylesheet" type="text/css">
-
-
-        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-     
         <!-- Bootstrap Core Css -->
         <link href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
 
@@ -28,11 +23,11 @@
 
         <!-- Custom Css -->
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-        <!-- JQuery DataTable Css -->
-        <link href="{{ asset('plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-
+       
         <!-- Bootstrap Select Css -->
        <!-- <link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />-->
+
+       @stack('css')
 
         <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
         <link href="{{ asset('css/themes/all-themes.css') }}" rel="stylesheet"  />
@@ -134,7 +129,6 @@
                     url: "{{ route('admin.dashboard.services') }}",
                     data: "id=" + id + '&deselect=' + cheque_no,
                     success: function (data) {
-                        data = JSON.parse(data);
                         if (data != 0) {
                             $('#deselect' + id).parent().parent().hide();
                             $('<div class="alert alert-success"><strong>Success!</strong> The Appliant hasbeen deselected</div>').insertBefore($('.table')).fadeIn(1500).fadeOut(2500);
@@ -157,7 +151,6 @@
                     url: "{{ route('admin.dashboard.services') }}",
                     data: "id=" + id + '&cheque_no=' + cheque_no,
                     success: function (data) {
-                        data = JSON.parse(data);
                         if (data != 0) {
                            // $('#cheque_no' + id).parent().next('td').text(data);
                             if (cheque_no == 1) {
@@ -230,7 +223,6 @@
                     url: "{{ route('admin.dashboard.services') }}",
                     data: "fund_subcategory=" + fund_id,
                     success: function (data) {
-                        data = JSON.parse(data);
                         if (data == 3) {
                             $('#filter_div').find('input:text, select').val('');
                             $('#limit_div').attr('style', 'padding-left: 0;');
@@ -310,27 +302,17 @@
         <!-- Waves Effect Plugin Js -->
         <script src="{{ asset('plugins/node-waves/waves.js') }}"></script>
 
-        <!-- Jquery DataTable Plugin Js -->
-        <script src="{{ asset('plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/buttons.flash.min.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/jszip.min.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('plugins/jquery-datatable/extensions/export/buttons.print.min.js') }}"></script>
-
         <!-- Custom Js -->
         <script src="{{ asset('js/admin.js') }}"></script>
-        <script src="{{ asset('js/pages/tables/jquery-datatable.js') }}"></script>
         <script src="{{ asset('js/pages/forms/form-validation.js') }}"></script>
 
         <!-- Demo Js -->
         <script src="{{ asset('js/demo.js') }}"></script>
         <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
         <script src="{{ asset('js/jquery-ui.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
         <script>
+            $("#form-validate").validate();
             $(function () {
                 $(".datepicker").datepicker({dateFormat: 'yy-mm-dd'});
             });
@@ -342,5 +324,6 @@
                 });
             </script>
         @endif
+        @stack('scripts')
     </body>
 </html>
