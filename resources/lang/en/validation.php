@@ -146,6 +146,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'password' => 'Password',
+        'email' => 'Email Address',
+        'description' => 'Description',
+        'type_of_fund' => 'Funds Category Name',
+    ],
 
 ];

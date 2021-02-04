@@ -16,7 +16,7 @@
                         <li><a href="#indexApplicants">List Applicants</a></li>
                         <li><a href="#newApplicants">New Applicants</a></li>
                     </ul>
-                </li>             
+                </li>           
             @else
                 <li>
                     <a href="{{ route('admin.dashboard.index') }}">

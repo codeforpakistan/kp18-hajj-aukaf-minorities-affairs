@@ -63,14 +63,14 @@ class FundCategoryDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
-            Column::make('type_of_fund'),
-            Column::make('description'),
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+            Column::make('id')->title('Fund Category Id'),
+            Column::make('type_of_fund')->title('Fund Category Name'),
+            Column::make('description')->title('Description'),
+            Column::computed('action')->title('Actions')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 

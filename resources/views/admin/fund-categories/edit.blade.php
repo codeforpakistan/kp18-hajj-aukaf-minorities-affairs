@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Fund Category
+                                Edit Fund Category ({{ $fundCategory->type_of_fund }})
                                 <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default pull-right">List Fund Categories</a>
                             </h2>
                         </div>
