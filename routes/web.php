@@ -34,7 +34,21 @@ Route::middleware(['auth', 'role:Admin'])
 	Route::get('dashboard-map', 'DashboardController@dashboardMap')->name('dashboard.dashboard-map');
 
 	/**
-	 * Categories routes
+	 * Resource routes for the modules that have common structure
 	 */
+	Route::resource('applicants', 'ApplicantController');
+	Route::resource('degree-awarding-boards', 'DegreeAwardingBoardController');
+	Route::resource('disciplines', 'DisciplineController');
+	Route::resource('districts', 'DistrictController');
+	Route::resource('funds', 'FundController');
+	Route::resource('institute-types', 'InstituteTypeController');
+	Route::resource('institutes', 'InstituteController');
+	Route::resource('marital-statuses', 'MaritalStatusController');
+	Route::resource('qualification-levels', 'QualificationLevelController');
+	Route::resource('religions', 'ReligionController');
+	Route::resource('roles', 'RoleController');
+	Route::resource('school-classes', 'SchoolClassController');
+	Route::resource('sub-categories', 'SubCategoryController');
+	Route::resource('users', 'UserController');
 	Route::resource('fund-categories', 'FundCategoryController');
 });
