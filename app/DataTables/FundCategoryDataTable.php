@@ -21,7 +21,8 @@ class FundCategoryDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'admin.fund-categories.actions');
+            ->addColumn('action', 'admin.fund-categories.actions')
+            ->rawColumns(['action']);
     }
 
     /**
@@ -43,16 +44,16 @@ class FundCategoryDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('fund-category-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset')
-                    );
+            ->setTableId('fund-category-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons(
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset')
+            );
     }
 
     /**
@@ -64,7 +65,7 @@ class FundCategoryDataTable extends DataTable
     {
         return [
             Column::make('id')->title('Fund Category Id'),
-            Column::make('type_of_fund')->title('Fund Category Name'),
+            Column::make('type_of_fund')->title('Fund Category'),
             Column::make('description')->title('Description'),
             Column::computed('action')->title('Actions')
                 ->exportable(false)

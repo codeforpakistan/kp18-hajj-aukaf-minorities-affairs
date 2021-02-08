@@ -25,7 +25,7 @@ class Fund extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'fund_category_id', 'sub_category_id', 'total_amount', 'receiving_date', 'amount_remaining', 'last_date', 'fund_for_year', 'institute_students', 'active'
+        'fund_name', 'fund_category_id', 'sub_category_id', 'total_amount', 'receiving_date', 'amount_remaining', 'last_date', 'fund_for_year', 'institute_students', 'active'
     ];
 
     /**
