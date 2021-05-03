@@ -56,7 +56,7 @@
                                     </li>
                                 @else
                                     <li>
-                                        <a href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subNavLink->action) ? route('admin.' . $navigationLink->controller . '.' . $subNavLink->action) : '#' }}" class="@if($routeAction == $subNavLink->action) myactive @endif">{{ $subNavLink->name }}</a>
+                                        <a href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subNavLink->action) ? route('admin.' . $navigationLink->controller . '.' . $subNavLink->action) : '#' }}" class="@if($navigationLink->controller == $routeController && $routeAction == $subNavLink->action) myactive @endif">{{ $subNavLink->name }}</a>
                                     </li>
                                 @endif
                             @endforeach

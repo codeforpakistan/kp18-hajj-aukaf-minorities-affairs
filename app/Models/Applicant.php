@@ -63,9 +63,9 @@ class Applicant extends Model
     /**
      * Get the models that are related to this model.
      */
-    public function applicantAddresses()
+    public function applicantAddress()
     {
-        return $this->hasMany('App\Models\ApplicantAddress', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\ApplicantAddress', 'applicant_id', 'id');
     }
 
     /**
@@ -87,33 +87,33 @@ class Applicant extends Model
     /**
      * Get the models that are related to this model.
      */
-    public function applicantFundDetails()
+    public function applicantFundDetail()
     {
-        return $this->hasMany('App\Models\ApplicantFundDetail', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\ApplicantFundDetail', 'applicant_id', 'id');
     }
 
     /**
      * Get the models that are related to this model.
      */
-    public function applicantHouseholdDetails()
+    public function applicantHouseholdDetail()
     {
-        return $this->hasMany('App\Models\ApplicantHouseholdDetail', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\ApplicantHouseholdDetail', 'applicant_id', 'id');
     }
 
     /**
      * Get the models that are related to this model.
      */
-    public function applicantIncomes()
+    public function applicantIncome()
     {
-        return $this->hasMany('App\Models\ApplicantIncome', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\ApplicantIncome', 'applicant_id', 'id');
     }
 
     /**
      * Get the models that are related to this model.
      */
-    public function applicantProfessions()
+    public function applicantProfession()
     {
-        return $this->hasMany('App\Models\ApplicantProfession', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\ApplicantProfession', 'applicant_id', 'id');
     }
 
     /**
@@ -135,8 +135,8 @@ class Applicant extends Model
     /**
      * Get the models that are related to this model.
      */
-    public function qualifications()
+    public function qualification()
     {
-        return $this->hasMany('App\Models\Qualification', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\Qualification', 'applicant_id', 'id');
     }
 }

@@ -1,5 +1,4 @@
 function open_modal(sub_categories, fund_id) {
-//    alert(fund_id);return false;
     if (sub_categories == 2) {
         if ($('#groom_or_bride_name').val() == '') {
             $('#show_bride_name_field').show();
@@ -12,10 +11,11 @@ function open_modal(sub_categories, fund_id) {
     $('#sub_category_id').val(sub_categories);
     $('#fund_id').val(fund_id);
 
+    var url = baseUrl + '/admin/services';
     $.ajax({
         type: "GET",
         contentType: 'json',
-        url: "services",
+        url: url,
         data: "attachments=" + sub_categories,
         success: function (data) {
             data = JSON.parse(data);
@@ -29,14 +29,7 @@ function open_modal(sub_categories, fund_id) {
 
 // load disciplines
 function callForDisciplines(qualification_level) {
-//    alert(qualification_level);
-//    return false;
- if (location.host == 'localhost') {
-        var url = location.protocol + "//" + location.host + '/kp18-hajj-aukaf-minorities-affairs/applicants/services';
-    } else {
-        var url = location.protocol + "//" + location.host + '/applicants/services';
-
-    }
+    var url = baseUrl + '/admin/services';
     $.ajax({
         type: "GET",
         contentType: 'json',
@@ -65,12 +58,13 @@ function callForDisciplines(qualification_level) {
 
 //edit qualification
 function uncheck_fields(id) {
-//    alert($('#checkbox_' + id).val());
+    // alert($('#checkbox_' + id).val());
     $('#qualification_details :checkbox:not("#checkbox_' + id + '")').attr('checked', false);
+    var url = baseUrl + '/admin/services';
     $.ajax({
         type: "GET",
         contentType: 'json',
-        url: "services",
+        url: url,
         data: "qualification_id=" + id,
         success: function (data) {
             data = JSON.parse(data);
@@ -91,11 +85,8 @@ function uncheck_fields(id) {
                 } else {
                     $('#passing_date').val('');
                 }
-//                $("input[name='Qualifications[education_system]']").removeAttr('checked');
-                $("input[name='Qualifications[education_system]'][value='" + data.education_system + "']").prop('checked', true);
-//                $("input[name='Qualifications[grading_system]']").removeAttr('checked');
-                $("input[name='Qualifications[grading_system]'][value='" + data.grading_system + "']").prop('checked', true);
-//                alert(data.grading_system);
+                $("input[name='Qualification[education_system]'][value='" + data.education_system + "']").prop('checked', true);
+                $("input[name='Qualification[grading_system]'][value='" + data.grading_system + "']").prop('checked', true);
                 if (data.grading_system == 'marks') {
                     $('#total_marks').val(data.total_marks);
                     $('#obtained_marks').val(data.obtained_marks);
@@ -116,18 +107,18 @@ function uncheck_fields(id) {
                     $('#marks_fields').hide();
                     $('#percentage_div').show();
                 }
-// qualifications details
+                // qualifications details
                 if (data.qualification_level_id) {
                     $('#qualification_level').val(data.qualification_level_id);
 
                     if (data.qualification_level_id == 1 || data.qualification_level_id == 2) {
                         $('#school_fields').fadeIn();
-//            $("#school_fields :input").attr('required', true).val('');
+                        // $("#school_fields :input").attr('required', true).val('');
                         $("#city_dropdown").attr('required', true);
                         $("#degree_awarding_id").attr('required', true);
                         $("#institue_name").attr('required', true);
 
-//            hide the fields and disable required attr
+                        // hide the fields and disable required attr
                         $('#university_fields').fadeOut();
                         $("#institute_id").attr('required', false).val('');
                         $("#university_fields :input").attr('required', false).val('');
@@ -136,11 +127,11 @@ function uncheck_fields(id) {
                     } else {
                         $('.select2-chosen').text('');
                         $('#school_fields').fadeOut();
-//                        $("#school_fields :input").attr('required', false).val('');
+                        // $("#school_fields :input").attr('required', false).val('');
 
                         $('#school_fields').find('input:text, select').attr('required', false).val('');
                         $('#school_fields').find('input:radio').attr('required', false).prop('checked', false);
-//            show the fields and disable required attr
+                        // show the fields and disable required attr
                         $('#university_fields').fadeIn();
                         $("#institute_id").attr('required', true);
                         $("#discipline_field").attr('required', true);
@@ -158,7 +149,7 @@ function uncheck_fields(id) {
                     $('#discipline_field').val(data.discipline.discipline);
                 }
                 if (data.institute.institute_type_id != 2) {
-//                    alert(data.institute.institute_type_id);
+                    // alert(data.institute.institute_type_id);
                     $('#i_id').val(data.institute.id);
                     $('#institue_name').val(data.institute.name);
                     $("#city_dropdown").select2("val", data.institute.city_id); //set the value
@@ -171,7 +162,7 @@ function uncheck_fields(id) {
                     $("input[name='Institutes[institute_sector]'][value=" + data.institute.institute_sector + "]").prop('checked', false);
                 }
 
-//                $('#degree_awarding_id').val(data.degree_awarding_id);
+                // $('#degree_awarding_id').val(data.degree_awarding_id);
                 $("#degree_awarding_id").select2("val", data.degree_awarding_id); //set the value
                 $('.select2-search-choice-close').remove();
 
@@ -208,18 +199,18 @@ function change_fields(qualification_level) {
     if (qualification_level == 1 || qualification_level == 2) {
 
         $('#school_fields').fadeIn();
-//            $("#school_fields :input").attr('required', true).val('');
-//        $("#city_dropdown").attr('required', true).val('');
-//        $("#degree_awarding_id").attr('required', true).val('');
+        // $("#school_fields :input").attr('required', true).val('');
+        // $("#city_dropdown").attr('required', true).val('');
+        // $("#degree_awarding_id").attr('required', true).val('');
         $("#city_dropdown").select2("data", null); //set the value
         $("#degree_awarding_id").select2("data", null); //set the value
 
         $("#institue_name").attr('required', true).val('');
 
-//            hide the fields and disable required attr
+        // hide the fields and disable required attr
         $('#university_fields').fadeOut();
         $("#institute_id").attr('required', false).val('');
-//        $("#university_fields :input").attr('required', false).val('');
+        // $("#university_fields :input").attr('required', false).val('');
         $('#institute_id').select2('data', null).attr('required', false);
         $('#discipline_field').val('').attr('required', false);
 
@@ -228,11 +219,11 @@ function change_fields(qualification_level) {
     } else {
         $('.select2-chosen').text('');
         $('#school_fields').fadeOut();
-//            $("#school_fields :input").attr('required', false).val('');
+        // $("#school_fields :input").attr('required', false).val('');
         $('#school_fields').find('input:text, select').attr('required', false).val('');
         $('#school_fields').find('input:radio').attr('required', false).prop('checked', false);
 
-//            show the fields and disable required attr
+        // show the fields and disable required attr
         $('#university_fields').fadeIn();
         $("#institute_id").attr('required', true).val('');
         $("#discipline_field").attr('required', true).val('');
@@ -316,7 +307,7 @@ $(function () {
     $('#canceladdapplicant').click(function () {
         $('#education_form').hide();
     });
-//    alert($('#affiliated_with_board').checked);
+    // alert($('#affiliated_with_board').checked);
     $('#add_more').click(function () {
         $('#student_table').append('<tr><td> <div class="input text"><input name="instituteclasses[class_no][]" class="form-control" required="required" id="class-no" type="text"></div> </td> <td> <div class="input text"><input name="instituteclasses[total_students][]" class="form-control" required="required" id="total-students" type="text"></div> </td> <td> <div class="input text"><input name="instituteclasses[minority_students][]" class="form-control" required="required" id="minority-students" type="text"></div> </td> <td> <div class="input text"><input name="instituteclasses[needy_students][]" class="form-control" required="required" id="needy-students" type="text"></div> </td> <td> <div class="input text"><input name="instituteclasses[textbook_cost][]" class="form-control" required="required" id="textbook-cost" type="text"></div> </td> <td> <div class="input text"><input name="instituteclasses[boys_uniform][]" class="form-control" required="required" id="boys-uniform" type="text"></div> </td> <td> <div class="input text"><input name="instituteclasses[girls_uniform][]" class="form-control" required="required" id="girls-uniform" type="text"></div> </td> <td><a href="#" class="btn btn-danger btn-xs s_number">Remove</a></td></tr>');
         $('#student_table tr:last').attr('id', 'class_row' + $('.s_number').length);
@@ -324,7 +315,7 @@ $(function () {
         $("html, body").animate({scrollTop: $(document).height()}, 1000);
     });
     $('#add_contact_row').click(function () {
-        $('<div class="form-group has-success" style="margin-bottom: 0;"><label class="col-md-3 control-label">Mobile Number<span class="required"> *</span></label><div class="col-md-5"><div class="input text"><input name="Applicantcontacts[mob_number][]" class="form-control has-success" pattern="[0-9]{4} [0-9]{7}" data-mask="0399 9999999" required="required" id="applicantcontacts-mob-number" type="text"></div><span class="help-block">03xx xxxxxxx</span></div></div>').insertBefore($(this).parent());
+        $('<div class="form-group has-success" style="margin-bottom: 0;"><label class="col-md-3 control-label">Mobile Number<span class="required"> *</span></label><div class="col-md-5"><div class="input text"><input name="ApplicantContact[mob_number][]" class="form-control has-success" pattern="[0-9]{4} [0-9]{7}" data-mask="0399 9999999" required="required" type="text"></div><span class="help-block">03xx xxxxxxx</span></div></div>').insertBefore($(this).parent());
     });
 
     if ($("#affiliated_with_board").prop('checked') == true) {
@@ -406,7 +397,7 @@ $(function () {
             $('#passing_date').attr('required', false);
         }
     });
-    $('input[type=radio][name="Qualifications[education_system]"]').on('change', function () {
+    $('select[name="Qualification[education_system]"]').on('change', function () {
         $('#recent_class').val('');
         $('#current_class').val('');
         $('#passing_date').val('');
@@ -429,7 +420,7 @@ $(function () {
 
         }
     });
-    $('input[type=radio][name="Qualifications[grading_system]"]').on('change', function () {
+    $('select[name="Qualification[grading_system]"]').on('change', function () {
         if (this.value == 'cgpa') {
             $("#cgpa_fields :input").attr('required', true).val('');
             $("#percentage_div :input").attr('required', true).val('');

@@ -56,6 +56,9 @@
                 .analysis{ margin-top: 125px !important; }
             }
         </style>
+        <script>
+            var baseUrl = "{{ route('guest.home.index') }}";
+        </script>
     </head>
     @php
         $loguser = \Auth::user();

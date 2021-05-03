@@ -23,6 +23,9 @@
 
         <link rel="stylesheet" href="{{ asset('client/assets/css/fontawesome/font-awesome.min.css') }}">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <script>
+            var baseUrl = "{{ route('guest.home.index') }}";
+        </script>
         <!--=== JavaScript ===-->
         <script type="text/javascript" src="{{ asset('client/assets/js/libs/jquery-1.10.2.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('client/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js') }}"></script>
@@ -142,9 +145,13 @@
                     <div class="col-lg-7 col-md-7 col-sm-8 col-xs-8"  style="color:white;">
                         <h2 class="header_text">{{ env("APP_NAME") }}</h2>
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 pull-right"  style="color:white;">
-                        <h2 class="header_text"><a href="{{ route('login') }}" class="btn btn-success btn-lg">Login</a></h2>
-                    </div>
+                    @if( ! \Auth::check() )
+                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 pull-right"  style="color:white;">
+                            <h2 class="header_text">
+                                <a href="{{ route('login') }}" class="btn btn-success btn-lg">Login</a>
+                            </h2>
+                        </div>
+                    @endif
                     <!-- /logo -->
                     <!-- Top Right Menu -->
                 </div>
@@ -154,8 +161,6 @@
         </header> <!-- /.header -->
 
         <div id="container" class="bg-image">
-
-            <!-- /Sidebar -->
             @yield('content')
         </div>
     </body>

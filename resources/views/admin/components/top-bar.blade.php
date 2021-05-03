@@ -52,8 +52,18 @@
                                 <i class="material-icons">keyboard_arrow_down</i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="admin/Users/password_change"><i class="material-icons">lock</i>Change Password</a></li>
-                                <li><a href="admin/Users/logout"><i class="material-icons">input</i>Sign Out</a></li>
+                                <li><a href="#"><i class="material-icons">lock</i>Change Password</a></li>
+                                <li>
+                                    <a href="{{ route('logout') }}" onclick="
+                                        event.preventDefault();
+                                        document.getElementById('logout-form').submit();
+                                    ">
+                                        <i class="material-icons">input</i>{{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     </ul>
