@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\InstituteDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\InstituteType;
+use App\Models\Institute;
 use Illuminate\Http\Request;
 
 class InstituteController extends Controller
@@ -12,9 +16,9 @@ class InstituteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(InstituteDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.institutes.index');
     }
 
     /**
@@ -24,7 +28,12 @@ class InstituteController extends Controller
      */
     public function create()
     {
-        //
+        $instituteTypes = InstituteType::pluck('type', 'id');
+        $cities = City::pluck('name', 'id');
+        return view('admin.institutes.create',[
+            'instituteTypes' => $instituteTypes,
+            'cities' => $cities,
+        ]);
     }
 
     /**
@@ -35,7 +44,12 @@ class InstituteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $institute = Institute::create($request->only(['name','city_id','institute_type_id','institute_sector','address']));
+        if($institute->wasRecentlyCreated)
+        {
+            return redirect()->route('admin.institutes.index')->with('create-success', 'The record has been created!');
+        }
+        return redirect()->route('admin.institutes.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -46,7 +60,10 @@ class InstituteController extends Controller
      */
     public function show($id)
     {
-        //
+        $institute = Institute::find($id);
+        return view('admin.institutes.show', [
+            'institute' => $institute,
+        ]);
     }
 
     /**
@@ -57,7 +74,14 @@ class InstituteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $institute = Institute::find($id);
+        $instituteTypes = InstituteType::pluck('type', 'id');
+        $cities = City::pluck('name', 'id');
+        return view('admin.institutes.edit', [
+            'institute' => $institute,
+            'instituteTypes' => $instituteTypes,
+            'cities' => $cities
+        ]);
     }
 
     /**
@@ -69,7 +93,19 @@ class InstituteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $institute = Institute::find($id);
+
+        if( ! $institute){
+            return redirect()->route('admin.institutes.index')->with('edit-failed', 'Could not find the record!');
+        }
+
+        $recordUpdated = $institute->update($request->only(['name','city_id','institute_type_id','institute_sector','address']));
+        
+        if ($recordUpdated) {
+            return redirect()->route('admin.institutes.index')->with('edit-success', 'The record has been updated!');
+        } else {
+            return redirect()->route('admin.institutes.index')->with('edit-failed', 'Could not update the record!');
+        }
     }
 
     /**
@@ -80,6 +116,11 @@ class InstituteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $institute = Institute::find($id);
+        $recordDeleted = $institute->delete();
+        if ( ! $recordDeleted ) {
+            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        }
+        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

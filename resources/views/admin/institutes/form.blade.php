@@ -1,26 +1,67 @@
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('type_of_fund', null, [
-            'class' => 'form-control',
-            'data-msg-required' => 'The Funds Category Name field is required.',
-            'required',
+        {!! Form::select('institute_type_id', $instituteTypes, null, [
+            'class' => 'form-control show-tick',
+            'label' => false,
+            'placeholder' => 'Select Institute Type',
+            'data-msg-required' => 'The Institute Type field is required.',
+            'required'
         ]) !!}
-        @error('type_of_fund')
-            {!! Form::label('type_of_fund', $message, ['class' => 'error', 'id' => 'type_of_fund-error']) !!}
+        @error('institute_type_id')
+            {!! Form::label('institute_type_id', $message, ['class' => 'error', 'id' => 'institute_type_id-error']) !!}
         @enderror
-        {!! Form::label('type_of_fund', 'Funds Category Name', ['class' => 'form-label']) !!}
     </div>
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('description', null, [
+        {!! Form::text('name', null, [
             'class' => 'form-control',
-            'data-msg-required' => 'The Description field is required.',
+            'data-msg-required' => 'The Institute Name field is required.',
             'required',
         ]) !!}
-        @error('description')
-            {!! Form::label('description', $message, ['class' => 'error', 'id' => 'description-error']) !!}
+        @error('name')
+            {!! Form::label('name', $message, ['class' => 'error', 'id' => 'name-error']) !!}
         @enderror
-        {!! Form::label('description', 'Description', ['class' => 'form-label']) !!}
+        {!! Form::label('name', 'Institute Name', ['class' => 'form-label']) !!}
+    </div>
+</div>
+<div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::select('city_id', $cities, null, [
+            'class' => 'form-control show-tick',
+            'label' => false,
+            'placeholder' => 'Select City',
+            'data-msg-required' => 'The City field is required.',
+            'required'
+        ]) !!}
+        @error('city_id')
+            {!! Form::label('city_id', $message, ['class' => 'error', 'id' => 'city_id-error']) !!}
+        @enderror
+    </div>
+</div>
+
+<div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::text('institute_sector', null, [
+            'class' => 'form-control',
+            'data-msg-required' => 'The Institute Sector field is required.',
+            'required',
+        ]) !!}
+        @error('institute_sector')
+            {!! Form::label('institute_sector', $message, ['class' => 'error', 'id' => 'institute_sector-error']) !!}
+        @enderror
+        {!! Form::label('institute_sector', 'Institute Sector', ['class' => 'form-label']) !!}
+    </div>
+</div>
+
+<div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::text('address', null, [
+            'class' => 'form-control',
+        ]) !!}
+        @error('address')
+            {!! Form::label('address', $message, ['class' => 'error', 'id' => 'address-error']) !!}
+        @enderror
+        {!! Form::label('address', 'Address', ['class' => 'form-label']) !!}
     </div>
 </div>

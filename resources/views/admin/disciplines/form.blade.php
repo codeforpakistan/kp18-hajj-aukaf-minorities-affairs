@@ -1,26 +1,27 @@
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('type_of_fund', null, [
-            'class' => 'form-control',
-            'data-msg-required' => 'The Funds Category Name field is required.',
-            'required',
-        ]) !!}
-        @error('type_of_fund')
-            {!! Form::label('type_of_fund', $message, ['class' => 'error', 'id' => 'type_of_fund-error']) !!}
-        @enderror
-        {!! Form::label('type_of_fund', 'Funds Category Name', ['class' => 'form-label']) !!}
+       {!! Form::text('discipline', null, [
+           'class' => 'form-control',
+           'data-msg-required' => 'The Discipline Name field is required.',
+           'required',
+       ]) !!}
+       @error('discipline')
+           {!! Form::label('discipline', $message, ['class' => 'error', 'id' => 'discipline-error']) !!}
+       @enderror
+       {!! Form::label('discipline', 'Discipline Name', ['class' => 'form-label']) !!}
     </div>
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('description', null, [
-            'class' => 'form-control',
-            'data-msg-required' => 'The Description field is required.',
-            'required',
+        {!! Form::select('qualification_level_id', $qualificationLevels, null, [
+            'class' => 'form-control show-tick',
+            'label' => false,
+            'placeholder' => 'Select Qualification Level',
+            'data-msg-required' => 'The Qualification Level field is required.',
+            'required'
         ]) !!}
-        @error('description')
-            {!! Form::label('description', $message, ['class' => 'error', 'id' => 'description-error']) !!}
+        @error('qualification_level_id')
+            {!! Form::label('qualification_level_id', $message, ['class' => 'error', 'id' => 'qualification_level_id-error']) !!}
         @enderror
-        {!! Form::label('description', 'Description', ['class' => 'form-label']) !!}
     </div>
 </div>

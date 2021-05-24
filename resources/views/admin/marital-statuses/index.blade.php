@@ -9,8 +9,8 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Fund Categories
-                                <a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default pull-right">New Fund Category</a>
+                                Marital Status
+                                <a href='{{ route('admin.marital-statuses.create') }}' class="btn btn-default pull-right">New Marital Status</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

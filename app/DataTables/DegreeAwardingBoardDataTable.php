@@ -21,7 +21,7 @@ class DegreeAwardingBoardDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'degreeawardingboarddatatable.action');
+            ->addColumn('action', 'admin.degree-awarding-boards.actions');
     }
 
     /**
@@ -30,7 +30,7 @@ class DegreeAwardingBoardDataTable extends DataTable
      * @param \App\Models\DegreeAwardingBoardDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(DegreeAwardingBoardDataTable $model)
+    public function query(DegreeAwarding $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +65,13 @@ class DegreeAwardingBoardDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('name'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  // ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

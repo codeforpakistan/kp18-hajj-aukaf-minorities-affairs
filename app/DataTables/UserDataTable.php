@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\UserDataTable;
+use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,7 +21,16 @@ class UserDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'userdatatable.action');
+            ->addColumn('role', function($row){
+                $role = $row->role;
+                if($role)
+                {
+                    return '<a href="' . route('admin.roles.show', [$role->id]) . '">' . $role->name . '</a>';
+                }
+                return '';
+            })
+            ->rawColumns(['action','role'])
+            ->addColumn('action', 'admin.users.actions');
     }
 
     /**
@@ -30,7 +39,7 @@ class UserDataTable extends DataTable
      * @param \App\Models\UserDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(UserDataTable $model)
+    public function query(User $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +74,17 @@ class UserDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('role'),
+            Column::make('name'),
+            Column::make('phone'),
+            Column::make('email'),
+            Column::make('address'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  // ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

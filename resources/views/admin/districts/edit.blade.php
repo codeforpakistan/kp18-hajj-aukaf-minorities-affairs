@@ -14,8 +14,8 @@
                             </h2>
                         </div>
                         <div class="body">
-                            {!! Form::model($fundCategory, ['route' => ['admin.fund-categories.update', [$fundCategory->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.fund-categories.form')
+                            {!! Form::model($district, ['route' => ['admin.districts.update', [$district->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
+                                @include('admin.districts.form')
                                 <button class="btn btn-primary waves-effect" type="submit">Update</button>
                             {!! Form::close() !!}
                         </div>

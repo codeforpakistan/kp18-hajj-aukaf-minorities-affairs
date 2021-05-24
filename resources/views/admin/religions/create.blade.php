@@ -9,13 +9,13 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Fund Category
-                                <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default pull-right">List Fund Categories</a>
+                                New Religion
+                                <a href='{{ route('admin.religions.index') }}' class="btn btn-default pull-right">List Religions</a>
                             </h2>
                         </div>
                         <div class="body">
-                            {!! Form::open(['route' => 'admin.fund-categories.store', 'method' => 'POST', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.fund-categories.form')
+                            {!! Form::open(['route' => 'admin.religions.store', 'method' => 'POST', 'files' => 'true', 'id' => 'form-validate']) !!}
+                                @include('admin.religions.form')
                                 <button class="btn btn-primary waves-effect" type="submit">Save</button>
                             {!! Form::close() !!}
                         </div>

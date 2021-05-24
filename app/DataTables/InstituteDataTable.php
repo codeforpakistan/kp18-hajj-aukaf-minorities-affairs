@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\InstituteDataTable;
+use App\Models\Institute;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,7 +21,24 @@ class InstituteDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'institutedatatable.action');
+            ->addColumn('action', 'admin.institutes.actions')
+            ->addColumn('institute_type', function($row){
+                $instituteType = $row->instituteType;
+                if($instituteType)
+                {
+                    return '<a href="' . route('admin.institute-types.show', [$instituteType->id]) . '">' . $instituteType->type . '</a>';
+                }
+                return '';
+            })
+            ->addColumn('city', function($row){
+                $city = $row->city;
+                if($city)
+                {
+                    return '<a href="' . route('admin.districts.show', [$city->id]) . '">' . $city->name . '</a>';
+                }
+                return '';
+            })
+            ->rawColumns(['institute_type', 'action','city']);
     }
 
     /**
@@ -30,7 +47,7 @@ class InstituteDataTable extends DataTable
      * @param \App\Models\InstituteDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(InstituteDataTable $model)
+    public function query(Institute $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +82,16 @@ class InstituteDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('institute_type'),
+            Column::make('name'),
+            Column::make('city'),
+            Column::make('institute_sector'),
+            Column::make('address'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
@@ -84,6 +102,6 @@ class InstituteDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Institute_' . date('YmdHis');
+        return 'Institutes_' . date('YmdHis');
     }
 }

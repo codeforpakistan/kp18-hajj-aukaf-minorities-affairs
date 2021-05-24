@@ -1,26 +1,79 @@
+{{-- <div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::select('role_id', $roles, null, [
+            'class' => 'form-control show-tick',
+            'label' => false,
+            'placeholder' => 'Select Role',
+            'data-msg-required' => 'The Role field is required.',
+            'required'
+        ]) !!}
+        @error('role_id')
+            {!! Form::label('role_id', $message, ['class' => 'error', 'id' => 'role_id-error']) !!}
+        @enderror
+    </div>
+</div> --}}
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('type_of_fund', null, [
+        {!! Form::text('name', null, [
             'class' => 'form-control',
-            'data-msg-required' => 'The Funds Category Name field is required.',
+            'data-msg-required' => 'The Name field is required.',
             'required',
         ]) !!}
-        @error('type_of_fund')
-            {!! Form::label('type_of_fund', $message, ['class' => 'error', 'id' => 'type_of_fund-error']) !!}
+        @error('name')
+            {!! Form::label('name', $message, ['class' => 'error', 'id' => 'name-error']) !!}
         @enderror
-        {!! Form::label('type_of_fund', 'Funds Category Name', ['class' => 'form-label']) !!}
+        {!! Form::label('name', 'Name', ['class' => 'form-label']) !!}
     </div>
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('description', null, [
+        {!! Form::text('email', null, [
             'class' => 'form-control',
-            'data-msg-required' => 'The Description field is required.',
+            'data-msg-required' => 'The Email field is required.',
             'required',
         ]) !!}
-        @error('description')
-            {!! Form::label('description', $message, ['class' => 'error', 'id' => 'description-error']) !!}
+        @error('email')
+            {!! Form::label('email', $message, ['class' => 'error', 'id' => 'email-error']) !!}
         @enderror
-        {!! Form::label('description', 'Description', ['class' => 'form-label']) !!}
+        {!! Form::label('email', 'Email', ['class' => 'form-label']) !!}
+    </div>
+</div>
+<div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::text('phone', null, [
+            'class' => 'form-control',
+            'data-msg-required' => 'The Phone No is required.',
+            'required',
+        ]) !!}
+        @error('phone')
+            {!! Form::label('phone', $message, ['class' => 'error', 'id' => 'phone-error']) !!}
+        @enderror
+        {!! Form::label('phone', 'Phone No', ['class' => 'form-label']) !!}
+    </div>
+</div>
+<div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::text('address', null, [
+            'class' => 'form-control',
+            'data-msg-required' => 'The Address is required.',
+            'required',
+        ]) !!}
+        @error('address')
+            {!! Form::label('address', $message, ['class' => 'error', 'id' => 'address-error']) !!}
+        @enderror
+        {!! Form::label('address', 'Address', ['class' => 'form-label']) !!}
+    </div>
+</div>
+<div class="form-group form-float">
+    <div class="form-line">
+        {!! Form::password('password', [
+            'class' => 'form-control',
+            'data-msg-required' => 'The Password is required.',
+            'required',
+        ]) !!}
+        @error('password')
+            {!! Form::label('password', $message, ['class' => 'error', 'id' => 'password-error']) !!}
+        @enderror
+        {!! Form::label('password', 'Password', ['class' => 'form-label']) !!}
     </div>
 </div>

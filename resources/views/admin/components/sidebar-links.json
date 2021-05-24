@@ -232,7 +232,7 @@
   },
   {
     "name": "Users",
-    "controller": "Users",
+    "controller": "users",
     "subNav": [{
         "name": "List Users",
         "action": "index"
@@ -245,7 +245,7 @@
   },
   {
     "name": "Roles",
-    "controller": "Roles",
+    "controller": "roles",
     "subNav": [{
         "name": "List Roles",
         "action": "index"

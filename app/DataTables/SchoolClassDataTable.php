@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\SchoolClassDataTable;
+use App\Models\SchoolClass;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,16 +21,17 @@ class SchoolClassDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'schoolclassdatatable.action');
+            ->addColumn('action', 'admin.school-classes.actions')
+            ->rawColumns(['action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\SchoolClassDataTable $model
+     * @param \App\Models\SchoolClass $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(SchoolClassDataTable $model)
+    public function query(SchoolClass $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +66,13 @@ class SchoolClassDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('class_number'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  // ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

@@ -9,10 +9,10 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                            	Fund Category ({{ $fundCategory->type_of_fund }})
+                            	School Class
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default">List Fund Categories</a>
-                            		<a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default">New Fund Category</a>
+                            		<a href='{{ route('admin.school-classes.index') }}' class="btn btn-default">List School Classs</a>
+                            		<a href='{{ route('admin.school-classes.create') }}' class="btn btn-default">New School Class</a>
                             	</div>
                             </h2>
                         </div>
@@ -21,15 +21,11 @@
                                 <table class="table dataTable js-exportable">
                                     <tr>
                                         <th scope="row">ID</th>
-                                        <td>{{ $fundCategory->id }}</td>
+                                        <td>{{ $schoolClass->id }}</td>
                                     </tr>
                                     <tr>
-                                    	<th scope="row">Fund Category Name</th>
-                                        <td>{{ $fundCategory->type_of_fund }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Description</th>
-                                        <td>{{ $fundCategory->description }}</td>
+                                    	<th scope="row">Class</th>
+                                        <td>{{ $schoolClass->class_number }}</td>
                                     </tr>
                                 </table>
                             </div>

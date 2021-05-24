@@ -9,13 +9,13 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Fund Category
-                                <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default pull-right">List Fund Categories</a>
+                                New Qualification Level
+                                <a href='{{ route('admin.qualification-levels.index') }}' class="btn btn-default pull-right">List Qualification Level</a>
                             </h2>
                         </div>
                         <div class="body">
-                            {!! Form::open(['route' => 'admin.fund-categories.store', 'method' => 'POST', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.fund-categories.form')
+                            {!! Form::open(['route' => 'admin.qualification-levels.store', 'method' => 'POST', 'files' => 'true', 'id' => 'form-validate']) !!}
+                                @include('admin.qualification-levels.form')
                                 <button class="btn btn-primary waves-effect" type="submit">Save</button>
                             {!! Form::close() !!}
                         </div>

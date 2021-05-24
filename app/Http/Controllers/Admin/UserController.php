@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\UserDataTable;
+use App\Models\User;
+use App\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,9 +15,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.users.index');
     }
 
     /**
@@ -24,7 +27,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::pluck('name', 'id');
+        return view('admin.users.create', [
+            'roles' => $roles,
+        ]);
     }
 
     /**
@@ -35,7 +41,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['name','password','email','phone','address']);
+        $data['password'] = bcrypt($data['password']);
+        $user = User::create($data);
+        if($user->wasRecentlyCreated)
+        {
+            return redirect()->route('admin.users.index')->with('create-success', 'The record has been created!');
+        }
+        return redirect()->route('admin.users.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -46,7 +59,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('admin.users.show', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -57,7 +73,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $roles = Role::pluck('name', 'id');
+        $user = User::find($id);
+        return view('admin.users.edit', [
+            'user' => $user,
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -69,7 +90,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        if( ! $user){
+            return redirect()->route('admin.users.index')->with('edit-failed', 'Could not find the record!');
+        }
+
+        $data = $request->only(['name','password','email','phone','address']);
+        $data['password'] = bcrypt($data['password']);
+
+        $recordUpdated = $user->update($data);
+        
+        if ($recordUpdated) {
+            return redirect()->route('admin.users.index')->with('edit-success', 'The record has been updated!');
+        } else {
+            return redirect()->route('admin.users.index')->with('edit-failed', 'Could not update the record!');
+        }
     }
 
     /**
@@ -80,6 +116,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $recordDeleted = $user->delete();
+        if ( ! $recordDeleted ) {
+            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        }
+        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

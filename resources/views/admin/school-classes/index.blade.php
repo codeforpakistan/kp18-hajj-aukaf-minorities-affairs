@@ -9,8 +9,8 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Fund Categories
-                                <a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default pull-right">New Fund Category</a>
+                                School Class
+                                <a href='{{ route('admin.school-classes.create') }}' class="btn btn-default pull-right">New School Class</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

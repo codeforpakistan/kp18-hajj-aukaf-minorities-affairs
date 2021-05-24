@@ -9,10 +9,10 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                            	Fund Category ({{ $fundCategory->type_of_fund }})
+                            	Institute
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default">List Fund Categories</a>
-                            		<a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default">New Fund Category</a>
+                            		<a href='{{ route('admin.institutes.index') }}' class="btn btn-default">List Institutes</a>
+                            		<a href='{{ route('admin.institutes.create') }}' class="btn btn-default">New Institute</a>
                             	</div>
                             </h2>
                         </div>
@@ -21,15 +21,23 @@
                                 <table class="table dataTable js-exportable">
                                     <tr>
                                         <th scope="row">ID</th>
-                                        <td>{{ $fundCategory->id }}</td>
+                                        <td>{{ $institute->id }}</td>
                                     </tr>
                                     <tr>
-                                    	<th scope="row">Fund Category Name</th>
-                                        <td>{{ $fundCategory->type_of_fund }}</td>
+                                    	<th scope="row">Institute Type</th>
+                                        <td>{{ @$institute->instituteType->type }}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Description</th>
-                                        <td>{{ $fundCategory->description }}</td>
+                                        <th scope="row">City</th>
+                                        <td>{{ @$institute->city->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Institute Sector</th>
+                                        <td>{{ $institute->institute_sector }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Address</th>
+                                        <td>{{ $institute->address }}</td>
                                     </tr>
                                 </table>
                             </div>

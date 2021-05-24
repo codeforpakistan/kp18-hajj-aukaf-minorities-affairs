@@ -25,6 +25,7 @@ class ApplicantController extends Controller
         }
         $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
         $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+        // dd($religionsList);
         return $dataTable->render('admin.applicants.index', [
             'fundsList'     => $fundsList,
             'citiesList'    => $citiesList,

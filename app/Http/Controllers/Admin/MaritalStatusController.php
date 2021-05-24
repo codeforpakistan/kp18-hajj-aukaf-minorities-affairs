@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\MaritalStatusDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\MaritalStatus;
 use Illuminate\Http\Request;
 
 class MaritalStatusController extends Controller
@@ -12,9 +14,9 @@ class MaritalStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MaritalStatusDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.marital-statuses.index');
     }
 
     /**
@@ -24,7 +26,7 @@ class MaritalStatusController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.marital-statuses.create');
     }
 
     /**
@@ -35,7 +37,12 @@ class MaritalStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $maritalStatus = MaritalStatus::create($request->only(['status']));
+        if($maritalStatus->wasRecentlyCreated)
+        {
+            return redirect()->route('admin.marital-statuses.index')->with('create-success', 'The record has been created!');
+        }
+        return redirect()->route('admin.marital-statuses.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -46,7 +53,10 @@ class MaritalStatusController extends Controller
      */
     public function show($id)
     {
-        //
+        $maritalStatus = MaritalStatus::find($id);
+        return view('admin.marital-statuses.show', [
+            'maritalStatus' => $maritalStatus,
+        ]);
     }
 
     /**
@@ -57,7 +67,8 @@ class MaritalStatusController extends Controller
      */
     public function edit($id)
     {
-        //
+        $maritalStatus = MaritalStatus::find($id);
+        return view('admin.marital-statuses.edit',['maritalStatus' => $maritalStatus]);
     }
 
     /**
@@ -69,7 +80,19 @@ class MaritalStatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $maritalStatus = MaritalStatus::find($id);
+
+        if( ! $maritalStatus){
+            return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not find the record!');
+        }
+
+        $recordUpdated = $maritalStatus->update($request->only(['status']));
+        
+        if ($recordUpdated) {
+            return redirect()->route('admin.marital-statuses.index')->with('edit-success', 'The record has been updated!');
+        } else {
+            return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not update the record!');
+        }
     }
 
     /**
@@ -80,6 +103,11 @@ class MaritalStatusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $maritalStatus = MaritalStatus::find($id);
+        $recordDeleted = $maritalStatus->delete();
+        if ( ! $recordDeleted ) {
+            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        }
+        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

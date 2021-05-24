@@ -9,13 +9,13 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Fund Category
-                                <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default pull-right">List Fund Categories</a>
+                                New Institute Type
+                                <a href='{{ route('admin.institute-types.index') }}' class="btn btn-default pull-right">List Institute Types</a>
                             </h2>
                         </div>
                         <div class="body">
-                            {!! Form::model($fundCategory, ['route' => ['admin.fund-categories.update', [$fundCategory->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.fund-categories.form')
+                            {!! Form::model($instituteType, ['route' => ['admin.institute-types.update', [$instituteType->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
+                                @include('admin.institute-types.form')
                                 <button class="btn btn-primary waves-effect" type="submit">Update</button>
                             {!! Form::close() !!}
                         </div>

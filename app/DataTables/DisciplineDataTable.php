@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\DisciplineDataTable;
+use App\Models\Discipline;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,7 +21,16 @@ class DisciplineDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'disciplinedatatable.action');
+            ->addColumn('qualification_level', function($row){
+                $qualificationLevel = $row->qualificationLevel;
+                if($qualificationLevel)
+                {
+                    return '<a href="' . route('admin.qualification-levels.show', [$row->qualification_level_id]) . '">' . $qualificationLevel->name . '</a>';
+                }
+                return '';
+            })
+            ->addColumn('action', 'admin.disciplines.actions')
+            ->rawColumns(['action','qualification_level']);
     }
 
     /**
@@ -30,7 +39,7 @@ class DisciplineDataTable extends DataTable
      * @param \App\Models\DisciplineDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(DisciplineDataTable $model)
+    public function query(Discipline $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +74,14 @@ class DisciplineDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('qualification_level'),
+            Column::make('discipline'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  // ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

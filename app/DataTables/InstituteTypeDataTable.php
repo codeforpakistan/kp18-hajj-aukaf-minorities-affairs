@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\InstituteTypeDataTable;
+use App\Models\InstituteType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,16 +21,16 @@ class InstituteTypeDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'institutetypedatatable.action');
+            ->addColumn('action', 'admin.institute-types.actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\InstituteTypeDataTable $model
+     * @param \App\Models\InstituteType $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(InstituteTypeDataTable $model)
+    public function query(InstituteType $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +65,13 @@ class InstituteTypeDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('type'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                  // ->width(60)
+                  ->addClass('text-center')
         ];
     }
 

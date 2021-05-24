@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\MaritalStatusDataTable;
+use App\Models\MaritalStatus;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -21,7 +21,7 @@ class MaritalStatusDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'maritalstatusdatatable.action');
+            ->addColumn('action', 'admin.marital-statuses.actions');
     }
 
     /**
@@ -30,7 +30,7 @@ class MaritalStatusDataTable extends DataTable
      * @param \App\Models\MaritalStatusDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(MaritalStatusDataTable $model)
+    public function query(MaritalStatus $model)
     {
         return $model->newQuery();
     }
@@ -65,15 +65,13 @@ class MaritalStatusDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            Column::make('id'),
+            Column::make('status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  // ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 

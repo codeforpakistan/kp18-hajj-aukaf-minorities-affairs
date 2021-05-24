@@ -9,10 +9,10 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                            	Fund Category ({{ $fundCategory->type_of_fund }})
+                            	Degree Awarding Board
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default">List Fund Categories</a>
-                            		<a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default">New Fund Category</a>
+                            		<a href='{{ route('admin.degree-awarding-boards.index') }}' class="btn btn-default">List Degree Awardings Boards</a>
+                            		<a href='{{ route('admin.degree-awarding-boards.create') }}' class="btn btn-default">New Degree Awarding Board</a>
                             	</div>
                             </h2>
                         </div>
@@ -21,15 +21,11 @@
                                 <table class="table dataTable js-exportable">
                                     <tr>
                                         <th scope="row">ID</th>
-                                        <td>{{ $fundCategory->id }}</td>
+                                        <td>{{ $degreeAwarding->id }}</td>
                                     </tr>
                                     <tr>
-                                    	<th scope="row">Fund Category Name</th>
-                                        <td>{{ $fundCategory->type_of_fund }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Description</th>
-                                        <td>{{ $fundCategory->description }}</td>
+                                    	<th scope="row">Degree Awarding Board</th>
+                                        <td>{{ $degreeAwarding->name }}</td>
                                     </tr>
                                 </table>
                             </div>

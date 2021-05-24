@@ -9,27 +9,31 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                            	Fund Category ({{ $fundCategory->type_of_fund }})
-                            	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default">List Fund Categories</a>
-                            		<a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default">New Fund Category</a>
-                            	</div>
+                            	View district
                             </h2>
                         </div>
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table dataTable js-exportable">
+                                <table class="table table-striped table-bordered table-hover js-exportable">
+                                    <tr>
+                                    	<th scope="row">Name</th>
+                                        <td>{{ $city->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Latitude</th>
+                                        <td>{{ $city->latitude }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Longitude</th>
+                                        <td>{{ $city->longitude }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Province</th>
+                                        <td>{{ $city->province }}</td>
+                                    </tr>
                                     <tr>
                                         <th scope="row">ID</th>
-                                        <td>{{ $fundCategory->id }}</td>
-                                    </tr>
-                                    <tr>
-                                    	<th scope="row">Fund Category Name</th>
-                                        <td>{{ $fundCategory->type_of_fund }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Description</th>
-                                        <td>{{ $fundCategory->description }}</td>
+                                        <td>{{ $city->id }}</td>
                                     </tr>
                                 </table>
                             </div>

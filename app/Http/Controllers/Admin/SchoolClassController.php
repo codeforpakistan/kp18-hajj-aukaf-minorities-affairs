@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\SchoolClassDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\SchoolClass;
 use Illuminate\Http\Request;
 
 class SchoolClassController extends Controller
@@ -12,9 +14,9 @@ class SchoolClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SchoolClassDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.school-classes.index');
     }
 
     /**
@@ -24,7 +26,7 @@ class SchoolClassController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.school-classes.create');
     }
 
     /**
@@ -35,7 +37,12 @@ class SchoolClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $schoolClass = SchoolClass::create($request->only(['class_number']));
+        if($schoolClass->wasRecentlyCreated)
+        {
+            return redirect()->route('admin.school-classes.index')->with('create-success', 'The record has been created!');
+        }
+        return redirect()->route('admin.school-classes.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -46,7 +53,10 @@ class SchoolClassController extends Controller
      */
     public function show($id)
     {
-        //
+        $schoolClass = SchoolClass::find($id);
+        return view('admin.school-classes.show', [
+            'schoolClass' => $schoolClass,
+        ]);
     }
 
     /**
@@ -57,7 +67,10 @@ class SchoolClassController extends Controller
      */
     public function edit($id)
     {
-        //
+        $schoolClass = SchoolClass::find($id);
+        return view('admin.school-classes.edit', [
+            'schoolClass' => $schoolClass
+        ]);
     }
 
     /**
@@ -69,7 +82,19 @@ class SchoolClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $schoolClass = SchoolClass::find($id);
+
+        if( ! $schoolClass){
+            return redirect()->route('admin.school-classes.index')->with('edit-failed', 'Could not find the record!');
+        }
+
+        $recordUpdated = $schoolClass->update($request->only(['class_number']));
+        
+        if ($recordUpdated) {
+            return redirect()->route('admin.school-classes.index')->with('edit-success', 'The record has been updated!');
+        } else {
+            return redirect()->route('admin.school-classes.index')->with('edit-failed', 'Could not update the record!');
+        }
     }
 
     /**
@@ -80,6 +105,11 @@ class SchoolClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $schoolClass = SchoolClass::find($id);
+        $recordDeleted = $schoolClass->delete();
+        if ( ! $recordDeleted ) {
+            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        }
+        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

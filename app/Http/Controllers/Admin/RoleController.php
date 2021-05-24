@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\RoleDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Role;
 
 class RoleController extends Controller
 {
@@ -12,9 +14,9 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(RoleDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.roles.index');
     }
 
     /**
@@ -24,7 +26,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.roles.create');
     }
 
     /**
@@ -35,7 +37,12 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role = Role::create($request->only(['name']));
+        if($role->wasRecentlyCreated)
+        {
+            return redirect()->route('admin.roles.index')->with('create-success', 'The record has been created!');
+        }
+        return redirect()->route('admin.roles.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -46,7 +53,10 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id);
+        return view('admin.roles.show', [
+            'role' => $role,
+        ]);
     }
 
     /**
@@ -57,7 +67,10 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::find($id);
+        return view('admin.roles.edit', [
+            'role' => $role,
+        ]);
     }
 
     /**
@@ -69,7 +82,19 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::find($id);
+
+        if( ! $role){
+            return redirect()->route('admin.roles.index')->with('edit-failed', 'Could not find the record!');
+        }
+
+        $recordUpdated = $role->update($request->only(['name']));
+        
+        if ($recordUpdated) {
+            return redirect()->route('admin.roles.index')->with('edit-success', 'The record has been updated!');
+        } else {
+            return redirect()->route('admin.roles.index')->with('edit-failed', 'Could not update the record!');
+        }
     }
 
     /**
@@ -80,6 +105,11 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::find($id);
+        $recordDeleted = $role->delete();
+        if ( ! $recordDeleted ) {
+            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        }
+        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }
