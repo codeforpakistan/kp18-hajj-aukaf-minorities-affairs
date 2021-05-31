@@ -32,14 +32,15 @@
                         </a>
                         <ul class="ml-menu">
                             @foreach($navigationLink->subNav as $subNavLink)
-                                @if($subNavLink->action == 'list-of-funds')
+                                {{-- @dd(Route::has('admin.' . 'applied-institutes' . '.' . $subNavLink->action)) --}}
+                                @if($subNavLink->action == 'funds')
                                     <li>
                                         <a href="javascript:void(0);" class="menu-toggle @if($navigationLink->controller == $routeController) toggled @endif" style="padding-left: 50px !important;">
                                             <span>Funds</span>
                                         </a>
                                         <ul class="ml-menu">
                                             @foreach ($eduFunds as $key => $eduFund)
-                                                <li><a href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subNavLink->action) ? route('admin.' . $navigationLink->controller . '.' . $subNavLink->action, [$eduFund->id]) : '#' }}">{{ $eduFund->fund_name }}</a></li>
+                                                <li><a href="{{ route('admin.' . $navigationLink->controller . '.' . $subNavLink->action, [$eduFund->id])}}">{{ $eduFund->fund_name }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -50,7 +51,7 @@
                                         </a>
                                         <ul class="ml-menu">
                                             @foreach($subNavLink->subNav as $subSubNavLink)
-                                                <li><a href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subNavLink->action . '-' . $subSubNavLink->action) ? route('admin.' . $navigationLink->controller . '.' . $subNavLink->action . '-' . $subSubNavLink->action) : '#' }}">{{ $subSubNavLink->name }}</a></li>
+                                                <li><a href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subSubNavLink->action) ? route('admin.' . $navigationLink->controller . '.'  . $subSubNavLink->action) : '#' }}">{{ $subSubNavLink->name }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>

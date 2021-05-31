@@ -28,6 +28,10 @@ class Applicant extends Model
         'user_id', 'institute_class_id', 'name', 'father_name', 'husband_name', 'religion_id', 'cnic', 'gender', 'domicile', 'maritalstatus_id', 'gname', 'gfather_name', 'gcnic', 'gcontact', 'disease', 'dname', 'clinic_address', 'dcontact', 'image', 'operator_review', 'recommended_by'
     ];
 
+    public $searchable = [
+        'name', 'father_name','cnic'
+    ];
+
     /**
      * Get the user that owns the institute.
      */

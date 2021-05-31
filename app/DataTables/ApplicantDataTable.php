@@ -2,6 +2,8 @@
 
 namespace App\DataTables;
 
+use App\Helpers\DataTableHelper;
+use App\Helpers\Table;
 use App\Models\Applicant;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -19,15 +21,31 @@ class ApplicantDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $datatable = request()->only([
+            'start',
+            'length',
+        ]);
+
+        $totalCount = $query->count();
+
+        // get total data in case of $actions
+        $actions = ['print','csv','excel','pdf'];
+
+        if(request()->has('action') && in_array(request()->action, $actions)){
+            
+            $limitedData = $query->get();
+
+        }else{
+            
+            $limitedData = $query->limit($datatable['length'])->offset($datatable['start'])->get();
+
+        }
+
         return datatables()
-            ->eloquent($query)
-            ->with([
-                'applicantHouseholdDetails',
-                'applicantIncomes',
-                'applicantAddress.city',
-                'religion',
-                'applicantFundDetail'
-            ])
+            ->of($limitedData)
+            ->skipPaging(function(){})
+            ->setFilteredRecords($totalCount)
+            ->setTotalRecords($totalCount)
             ->addColumn('action', 'admin.applicants.actions')
             ->addColumn('family_members', function($row){
                 $data = $row->applicantHouseholdDetails;
@@ -51,32 +69,6 @@ class ApplicantDataTable extends DataTable
             ->addColumn('amount', function($row){
                 return $row->applicantFundDetail ? $row->applicantFundDetail->amount_recived : '';
             })
-            ->filter(function ($query) {
-                if (request()->has('fund') && request()->input('fund') != "") {
-                    if ( ! request()->has('token') ) {
-                        $query->whereHas('applicantFundDetail', function ($query) {
-                            $query->where('fund_id', request()->input('fund'));
-                        });
-                    }
-                }
-                if (request()->has('city') && request()->input('city') != "") {
-                    if ( ! request()->has('token') ) {
-                        $query->whereHas('applicantAddress', function ($query) {
-                            $query->where('city_id', request()->input('city'));
-                        });
-                    }
-                }
-                if (request()->has('religion') && request()->input('religion') != "") {
-                    if ( ! request()->has('token') ) {
-                        $query->where('religion_id', request()->input('religion'));
-                    }
-                }
-                if (request()->has('token') && request()->input('token') != "") {
-                    $query->whereHas('applicantFundDetail', function ($query) {
-                        $query->where('id', request()->input('token'));
-                    });
-                }
-            })
             ->rawColumns(['action']);
     }
 
@@ -88,7 +80,38 @@ class ApplicantDataTable extends DataTable
      */
     public function query(Applicant $model)
     {
-        return $model->newQuery();
+        return Table::searchQuery($model,request()->search)->with([
+            'applicantHouseholdDetail',
+            'applicantIncome',
+            'applicantAddress.city',
+            'religion',
+            'applicantFundDetail'
+        ])->where(function($query){
+            if (request()->has('fund') && request()->input('fund') != "") {
+                if ( ! (request()->has('token') && request()->token) ) {
+                    $query->whereHas('applicantFundDetail', function ($query) {
+                        $query->where('fund_id', request()->input('fund'));
+                    });
+                }
+            }
+            if (request()->has('city') && request()->input('city') != "") {
+                if ( ! (request()->has('token') && request()->token) ) {
+                    $query->whereHas('applicantAddress', function ($query) {
+                        $query->where('city_id', request()->input('city'));
+                    });
+                }
+            }
+            if (request()->has('religion') && request()->input('religion') != "") {
+                if ( ! (request()->has('token') && request()->token) ) {
+                    $query->where('religion_id', request()->input('religion'));
+                }
+            }
+            if (request()->has('token')  && request()->token) {
+                $query->whereHas('applicantFundDetail', function ($query) {
+                    $query->where('id', request()->input('token'));
+                });
+            }
+        });
     }
 
     /**

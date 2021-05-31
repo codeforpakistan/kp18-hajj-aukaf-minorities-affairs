@@ -19,6 +19,8 @@ class InstituteTypeDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        // InstituteType::where()
+        dd($query->toSql());
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'admin.institute-types.actions');

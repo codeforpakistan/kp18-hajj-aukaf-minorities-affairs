@@ -84,7 +84,7 @@
     "controller": "applied-institutes",
     "subNav": [{
       "name": "Funds",
-      "action": "list-of-funds"
+      "action": "funds"
     }]
   },
   {
@@ -95,7 +95,7 @@
         "action": "selection",
         "subNav": [{
             "name": "Poverty based",
-            "action": "poverty-based"
+            "action": "distribution"
           },
           {
             "name": "Balloting system",
