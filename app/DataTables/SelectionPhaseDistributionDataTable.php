@@ -4,13 +4,14 @@ namespace App\DataTables;
 
 use App\Helpers\Table;
 use App\Models\ApplicantFundDetail;
+use App\Models\Fund;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SelectionPhaseDataTable extends DataTable
+class SelectionPhaseDistributionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,8 +25,16 @@ class SelectionPhaseDataTable extends DataTable
             'start',
             'length',
         ]);
-        
+
+
         $totalCount = $query->count();
+        
+        if(request()->limit && $totalCount){
+            $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
+            if(intval(request()->limit) < 10){
+                $datatable['length'] = intval(request()->limit);
+            }
+        }
 
         $actions = ['print','csv','excel','pdf'];
 
@@ -45,64 +54,78 @@ class SelectionPhaseDataTable extends DataTable
             ->skipPaging(function(){})
             ->setFilteredRecords($totalCount)
             ->setTotalRecords($totalCount)
-            ->addColumn('dependent_family_members',function($row) {
-                return $row->ApplicantHouseholdDetail->dependent_family_members;
+            ->addColumn('dependent_family_members',function($row){
+                return $row->dependent_family_members ?? 0;
             });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\SelectionPhaseDataTable $model
+     * @param \App\Models\ApplicantFundDetail $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ApplicantFundDetail $model)
     {
         $distributed_amount = ApplicantFundDetail::where('fund_id',request()->fund)->sum('amount_recived');
-        return Table::searchQuery($model,request()->search)
-                    ->join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
+
+        $select = [];
+
+        $sql = ApplicantFundDetail::join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
                     ->join('religions','religions.id','=','applicants.religion_id')
                     ->leftJoin('applicant_addresses','applicant_addresses.applicant_id','=','applicants.id')
                     ->leftJoin('cities','cities.id','=','applicant_addresses.city_id')
                     ->join('funds','funds.id','=','applicant_fund_details.fund_id')
                     ->where([
-                        ['funds.total_amount', '>', $distributed_amount],
+                        ['funds.total_amount', '>', floatval($distributed_amount)],
                         ['applicant_fund_details.amount_recived', '=', null],
                         ['applicant_fund_details.selected', '=', 0],
-                        ['applicant_fund_details.fund_id', '=', request()->fund],
-                    ])
-                    ->join('qualification_levels',function(){
-                        if(request()->percentage){
-                            $q->on('qualification_levels.id','qualifications.qualification_level_id')->orderByDesc('qualifications.percentage');
-                        }
-                    })
+                        ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
+                    ]);
+
+        if(request()->percentage){
+            $sql->join('qualifications',function($q){
+                $q->on('qualifications.applicant_id','applicants.id')->where('qualifications.percentage','>',request()->percentage);
+                $q->join('disciplines','disciplines.id','qualifications.discipline_id');
+            });
+            $select[] = 'qualifications.percentage';
+        }
+
+        // if(request()->percentage){
+        //     $sql->join('qualification_levels',function($q){
+        //         $q->on('qualification_levels.id','qualifications.qualification_level_id')->orderByDesc('qualifications.percentage');
+        //     });
+        // }
                     
-                    ->join('qualifications',function(){
 
-                        if(request()->percentage){
-                            $q->on('qualifications.applicant_id','applicants.id');
-                            $q->join('disciplines','disciplines.id','qualifications.discipline_id');
-                        }
+        if(request()->salary){
+            $sql->join('applicant_incomes',function($q){
+                $q->on('applicant_incomes.applicant_id','applicants.id')
+                    ->where('applicant_incomes.monthly_income',request()->salary_operator,intval(request()->salary))
+                    ->orderBy('applicant_incomes.monthly_income');
+            });
+        }
 
-                    })
+        if(request()->family_members){
+            $sql->join('applicant_household_details',function($q){
+                $q->on('applicant_household_details.applicant_id','applicants.id')
+                    ->where('applicant_household_details.dependent_family_members',request()->member_operator,intval(request()->family_members))
+                    ->orderByDesc('applicant_household_details.dependent_family_members');
+            });
+            $select[] = 'applicant_household_details.dependent_family_members';
+        }
 
-                    ->join('applicant_incomes',function(){
+        if(request()->religion){
+            $sql->where('applicants.religion_id',intval(request()->religion));
+        }
 
-                        if(request()->salary){
-                            $q->on('applicant_incomes.applicant_id','applicants.id')
-                                ->where('applicant_incomes.monthly_income',request()->salary_operator,request()->salary)
-                                ->orderBy('applicant_incomes.monthly_income');
-                        }
-                    
-                    })
+        if(request()->city){
+            $sql->where('applicant_addresses.city_id',intval(request()->city));
+        }
 
-                    ->join('applicant_household_details',function(){
-                        if(request()->family_members){
-                            $q->on('applicant_household_details.applicant_id','applicants.id')
-                                ->where('applicant_household_details.dependent_family_members',request()->member_operator,request()->family_members)
-                                ->orderByDesc('applicant_household_details.dependent_family_members');
-                        }
-                    });
+        $sql->select(array_merge(['applicant_fund_details.id as id','applicants.name as name','applicants.father_name','applicants.cnic'],$select));
+
+        return $sql;
     }
 
     /**

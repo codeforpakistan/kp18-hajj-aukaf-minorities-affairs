@@ -99,7 +99,7 @@
           },
           {
             "name": "Balloting system",
-            "action": "balloting-system"
+            "action": "balloting"
           }
         ]
       },

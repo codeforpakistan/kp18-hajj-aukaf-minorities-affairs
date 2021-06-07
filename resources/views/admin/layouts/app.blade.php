@@ -91,6 +91,7 @@
 
         <!-- Jquery Core Js -->
         <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/vue.min.js') }}"></script>
         <script>
             $(function () {
                 $("#checkall").click(function () {
@@ -327,6 +328,51 @@
                 });
             </script>
         @endif
+        <script>
+            @if(session()->has('create-success'))
+                $(window).load(function(){
+                    swal("Poof! The record has been created!", {
+                        icon: "success",
+                    });
+                });
+            @endif
+            @if(session()->has('create-failed'))
+                $(window).load(function(){
+                    swal("Oh noes!! Could not create the record!", {
+                        icon: "error",
+                    });
+                });
+            @endif
+            @if(session()->has('edit-success'))
+                $(window).load(function(){
+                    swal("Poof! The record has been updated!", {
+                        icon: "success",
+                    });
+                });
+            @endif
+            @if(session()->has('edit-failed'))
+                $(window).load(function(){
+                    swal("Oh noes!! Could not update the record!", {
+                        icon: "error",
+                    });
+                });
+            @endif
+            @if(session()->has('delete-success'))
+                $(window).load(function(){
+                    swal("Poof! The record has been deleted!", {
+                        icon: "success",
+                    });
+                });
+            @endif
+            @if(session()->has('delete-failed'))
+                $(window).load(function(){
+                    swal("Oh noes!! Could not delete the record!", {
+                        icon: "error",
+                    });
+                });
+            @endif
+        </script>
+        <script src="{{ asset('js/axios.min.js') }}"></script>
         @stack('scripts')
     </body>
 </html>

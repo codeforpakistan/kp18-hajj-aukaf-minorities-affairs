@@ -69,7 +69,10 @@ Route::middleware(['auth', 'role:Admin'])
     
     Route::get('applied-institutes/funds/{fund_id}', 'AppliedInstitutesController@funds')->name('applied-institutes.funds');
     Route::get('selection-phase/distribution', 'SelectionPhaseController@distribution')->name('selection-phase.distribution');
-    Route::get('selection-phase/', 'SelectionPhaseController@balloting')->name('selection-phase.balloting');
+    Route::post('selection-phase/distribution/submit', 'SelectionPhaseController@submitDistribution')->name('selection-phase.submit.distribution');
+    Route::get('selection-phase/balloting', 'SelectionPhaseController@balloting')->name('selection-phase.balloting');
+    Route::get('selection-phase/balloting/applicants', 'SelectionPhaseController@getApplicantsForBalloting')->name('selection-phase.balloting.applicants');
+    Route::post('selection-phase/balloting/submit', 'SelectionPhaseController@submitDistribution')->name('selection-phase.balloting.submit');
     
     Route::resource('marital-statuses', 'MaritalStatusController');
     Route::resource('qualification-levels', 'QualificationLevelController');
