@@ -47,11 +47,11 @@ class HomeController extends Controller
         if ( $request->has('check_status') ) {
             return $this->checkStatus($request);
         } else {
-            if (\Auth::check() && \Auth::user()->hasRole(['Admin', 'Operator'])) {
+            // if (\Auth::check() && \Auth::user()->hasRole(['Admin', 'Operator'])) {
                 return $this->apply($request);
-            } else {
-                return redirect()->back()->with('error', "Please contact the system administrator for application process.");
-            }
+            // } else {
+                // return redirect()->back()->with('error', "Please contact the system administrator for application process.");
+            // }
         }
     }
 
