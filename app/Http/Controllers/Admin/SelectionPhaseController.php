@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\SelectionPhaseDistributionDataTable;
+use App\DataTables\SelectionPhasePovertyBasedDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\ApplicantFundDetail;
 use App\Models\City;
@@ -19,7 +19,7 @@ class SelectionPhaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function distribution(SelectionPhaseDistributionDataTable $dataTable)
+    public function povertyBased(SelectionPhasePovertyBasedDataTable $dataTable)
     {
         $sql = $dataTable->query((new ApplicantFundDetail));
        
@@ -60,7 +60,7 @@ class SelectionPhaseController extends Controller
         $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
         $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
 
-        return $dataTable->render('admin.selection-phase.distribution',[
+        return $dataTable->render('admin.selection-phase.poverty-based',[
             'fundsList'     => $selectableList,
             'citiesList'    => $citiesList,
             'religionsList' => $religionsList,
@@ -72,9 +72,8 @@ class SelectionPhaseController extends Controller
         ]);
     }
 
-    public function submitDistribution()
+    public function submitSelection()
     {
-        return response()->json(['message' => 'Applicants are selected successfully'],200);
         try {
             
             $amountPerHead = request()->amount_per_head;
@@ -86,6 +85,7 @@ class SelectionPhaseController extends Controller
                                         'selected' => 1,
                                         'amount_recived' => $amountPerHead
                                     ]);
+                return response()->json(['message' => 'Applicants are selected successfully'],200);
             }else{
 
                 return response()->json(['error' => 'Amount per head should be greater that zero'],500);
@@ -101,30 +101,10 @@ class SelectionPhaseController extends Controller
 
     public function balloting()
     {
-        // $sql = $this->ballotingQuery((new ApplicantFundDetail));
-       
-        // $totalCount = $sql->count();
-
-        // if(request()->limit && $totalCount){
-        //     $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
-        // }
-       
-        // $ids = $sql->select(['applicant_fund_details.id as id'])->limit($totalCount)->pluck('id')->toArray();
-
         $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
         $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
         $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
 
-        // $selectableList = [];
-
-        // foreach ($fundsList as $fund) {
-        //     $selectableList[] = [
-        //         'id' => $fund->id,
-        //         'fund_name' => $fund->fund_name,
-        //         'sub_category' => $fund->subCategory->type,
-        //         'grant_or_scholarshipt' => $fund->subCategory->type === 'Educational grants' ? 1 : 0, // 1 : grant, 0 : sholarship
-        //     ];
-        // }
         return view('admin.selection-phase.balloting',[
             'fundsList' => $fundsList,
             'citiesList'    => $citiesList,
@@ -179,20 +159,21 @@ class SelectionPhaseController extends Controller
                                         ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
                                     ])
                                     ;
-        if(request()->religion){
+        if(!empty(request()->religion)){
             $sql->where('applicants.religion_id',intval(request()->religion));
         }
 
-        if(request()->city){
+        if(!empty(request()->city)){
             $sql->where('applicant_addresses.city_id',intval(request()->city));
         }
 
-        if(request()->limit && intval(request()->limit)){
+        if(!empty(request()->limit)){
             $sql->limit(intval(request()->limit));
         }
 
         $sql->select([
             'applicant_fund_details.id',
+            'applicant_fund_details.appling_date',
             'applicants.name',
             'applicants.father_name',
             'applicants.gender',
@@ -208,9 +189,158 @@ class SelectionPhaseController extends Controller
         return $sql;
     }
 
-    public function submitBalloting()
+    public function deselect()
     {
-        dd(request()->all());
+        $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+        $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+        $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+        return view('admin.selection-phase.deselect',[
+            'fundsList' => $fundsList,
+            'citiesList'    => $citiesList,
+            'religionsList' => $religionsList,
+        ]);
     }
 
+    /**
+     * This query is used for both de-selection and distribute grants
+     * @return 
+     */
+    public function commonQuery()
+    {
+        $select = [];   
+        $sql = ApplicantFundDetail::join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
+                                    ->join('religions','religions.id','=','applicants.religion_id')
+                                    ->leftJoin('applicant_addresses','applicant_addresses.applicant_id','=','applicants.id')
+                                    ->leftJoin('cities','cities.id','=','applicant_addresses.city_id')
+                                    ->join('funds','funds.id','=','applicant_fund_details.fund_id')
+                                    ->leftJoin('applicant_household_details','applicant_household_details.applicant_id','=','applicants.id')
+                                    ->leftJoin('applicant_incomes','applicant_incomes.applicant_id','=','applicants.id')
+                                    ->where([
+                                        ['applicant_fund_details.amount_recived', '!=', null],
+                                        ['applicant_fund_details.selected', '=', 1],
+                                        ['applicant_fund_details.distributed', '=', 0],
+                                        ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
+                                    ]);
+        if(!empty(request()->fund)){
+            $fund = Fund::with(['subCategory'])->where(['id' => intval(request()->fund)])->first();//pluck('fund_name', 'id');
+            if($fund->subCategory->id === 3){
+                $sql->join('qualifications',function($q){
+                    $q->on('qualifications.applicant_id','applicants.id');
+                    $q->join('qualification_levels','qualification_levels.id','qualifications.qualification_level_id');
+                    $q->join('disciplines','disciplines.id','qualifications.discipline_id');
+                });
+                $select = array_merge($select,['qualifications.percentage','qualifications.passing_date','qualifications.recent_class','qualifications.current_class','disciplines.discipline','qualification_levels.name as qualification_name']);
+            }
+        }
+
+        if(!empty(request()->religion)){
+            $sql->where('applicants.religion_id',intval(request()->religion));
+        }
+
+        if(!empty(request()->city)){
+            $sql->where('applicant_addresses.city_id',intval(request()->city));
+        }
+
+        if(!empty(request()->token)){
+            $sql->where('applicant_fund_details.id',intval(request()->token));
+        }
+
+        if(!empty(request()->cnicOrName)){
+            $sql->where(function($query){
+                $query->where('applicants.cnic','like','%'.request()->cnicOrName.'%')
+                ->orWhere('applicants.name','like','%'.request()->cnicOrName.'%');
+            });
+        }
+
+        $sql->select(array_merge($select,[
+            'applicant_fund_details.id',
+            'applicant_fund_details.appling_date',
+            'applicant_fund_details.selected',
+            'applicant_fund_details.amount_recived',
+            'applicant_fund_details.check_number',
+            'applicant_fund_details.payment_date',
+            'applicant_fund_details.distributed',
+            'applicants.name',
+            'applicants.father_name',
+            'applicants.gender',
+            'applicants.cnic',
+            'applicant_household_details.dependent_family_members',
+            'applicant_incomes.monthly_income',
+            'cities.name as city_name',
+            'religions.religion_name'
+        ]));
+
+        return $sql;
+    }
+
+    public function deselectApplicant(){
+        
+        try {
+            $updated = ApplicantFundDetail::where('id',intval(request()->id))
+                                ->update([
+                                    'selected' => 0,
+                                    'amount_recived' => null
+                                ]);
+            if($updated){
+                return response()->json(['message' => 'Applicant has been deselected'],200);
+            }
+            return response()->json(['error' => 'Could not deselect the applicant'],400);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong'],500);
+        }
+    }
+
+    public function getApplicants()
+    {
+        try {
+            
+            $sql = $this->commonQuery();
+
+            $data = [
+                'list' => $sql->get(),
+            ];
+            
+            return response()->json($data,200);
+
+        } catch (\Exception $e) {
+            return response()->json(['message'=>'Something went wrong'],500);
+        }
+    }
+
+    public function distribution()
+    {
+        $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+        $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+        $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+
+        return view('admin.selection-phase.grants',[
+            'fundsList' => $fundsList,
+            'citiesList' => $citiesList,
+            'religionsList' => $religionsList
+        ]);
+    }
+
+    public function distributionApplicants()
+    {
+        $sql = $this->distributionQuery();
+        dd(request()->all(),$sql->toSql());
+    }
+
+    public function submitDistribution()
+    {
+        try{
+
+            $updated = ApplicantFundDetail::where('id',intval(request()->id))
+                                ->update([
+                                    'distributed' => request()->distributed,
+                                    'payment_date' => now()
+                                ]);
+            if($updated){
+                return response()->json(['message' => 'Distributed'],200);
+            }
+            return response()->json(['error' => 'Could not deselect the applicant'],400);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong'],500);
+        }
+    }
 }

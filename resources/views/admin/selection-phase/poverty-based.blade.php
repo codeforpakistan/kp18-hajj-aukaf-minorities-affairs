@@ -14,7 +14,7 @@
                         </div>
                         <div class="body">
                             <div class="search-form">
-                                @include('admin.selection-phase.search')
+                                @include('admin.selection-phase.poverty-based-search')
                             </div>
                             @if($fund && $totalCount)
                                 <div class="table-responsive">{!! $dataTable->table() !!}</div>
@@ -82,8 +82,8 @@
 
         const remainingAmount = totalAmount - distributedAmount;
         
-        const submitDistributionurl = '{{ route('admin.selection-phase.submit.distribution') }}';
-        const filterUrl = '{{ route('admin.selection-phase.distribution') }}';
+        const submitDistributionurl = '{{ route('admin.selection-phase.poverty.submit') }}';
+        const filterUrl = '{{ route('admin.selection-phase.poverty-based') }}';
 
         const totalCount = {{$totalCount}};
         const ids = @json($ids);

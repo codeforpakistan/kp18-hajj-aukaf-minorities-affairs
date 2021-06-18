@@ -95,7 +95,7 @@
         "action": "selection",
         "subNav": [{
             "name": "Poverty based",
-            "action": "distribution"
+            "action": "poverty-based"
           },
           {
             "name": "Balloting system",

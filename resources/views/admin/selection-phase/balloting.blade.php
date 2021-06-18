@@ -14,7 +14,7 @@
                         </div>
                         <div class="body" id="balloting-app" v-cloak>
                             <div class="search-form">
-                                @include('admin.selection-phase.balloting-search')
+                                @include('admin.selection-phase.search',['limitField' => true])
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover no-footer" v-if="list.length">
@@ -28,7 +28,7 @@
                                             <th>Income</th>
                                             <th>City</th>
                                             <th>Religion</th>
-                                            {{-- <th>Applied On</th> --}}
+                                            <th>Applied On</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -42,13 +42,13 @@
                                             <td v-text="detail.monthly_income"></td>
                                             <td v-text="detail.city_name"></td>
                                             <td v-text="detail.religion_name"></td>
-                                            {{-- <td v-text="detail.applied_on"></td> --}}
+                                            <td v-text="detail.appling_date"></td>
                                             <td>
                                                 <input type="checkbox" v-model="selectedApplicants" :value="detail.id"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="8"></td>
+                                            <td colspan="9"></td>
                                             <td>
                                                 <input type="checkbox" :checked="allSelected" @change="selectAll"/> Check All
                                             </td>

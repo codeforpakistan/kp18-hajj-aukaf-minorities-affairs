@@ -59,7 +59,8 @@ class AppliedInstitutesDataTable extends DataTable
      */
     public function query(Institute $model)
     {
-        return Table::searchQuery($model,request()->search)->join('users as u','u.id','=','institutes.user_id')
+        return Table::searchQuery($model,request()->search)
+                        ->join('users','users.id','=','institutes.user_id')
                         ->join('cities','cities.id','=','institutes.city_id')
                         ->join('institute_classes','institutes.id','=','institute_classes.institute_id')
                         ->join('applicants','applicants.institute_class_id','=','institute_classes.id')

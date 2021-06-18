@@ -68,11 +68,34 @@ Route::middleware(['auth', 'role:Admin'])
     Route::resource('institutes', 'InstituteController');
     
     Route::get('applied-institutes/funds/{fund_id}', 'AppliedInstitutesController@funds')->name('applied-institutes.funds');
-    Route::get('selection-phase/distribution', 'SelectionPhaseController@distribution')->name('selection-phase.distribution');
-    Route::post('selection-phase/distribution/submit', 'SelectionPhaseController@submitDistribution')->name('selection-phase.submit.distribution');
-    Route::get('selection-phase/balloting', 'SelectionPhaseController@balloting')->name('selection-phase.balloting');
-    Route::get('selection-phase/balloting/applicants', 'SelectionPhaseController@getApplicantsForBalloting')->name('selection-phase.balloting.applicants');
-    Route::post('selection-phase/balloting/submit', 'SelectionPhaseController@submitDistribution')->name('selection-phase.balloting.submit');
+    
+    Route::group(['prefix' => 'selection-phase'],function(){
+        Route::get('/', 'SelectionPhaseController@povertyBased')
+             ->name('selection-phase.poverty-based');
+        Route::post('/submit', 'SelectionPhaseController@submitSelection')
+             ->name('selection-phase.poverty.submit');
+        
+        Route::get('balloting', 'SelectionPhaseController@balloting')
+             ->name('selection-phase.balloting');
+        Route::get('balloting/applicants', 'SelectionPhaseController@getApplicantsForBalloting')
+             ->name('selection-phase.balloting.applicants');
+        Route::post('balloting/submit', 'SelectionPhaseController@submitSelection')
+             ->name('selection-phase.balloting.submit');
+
+        Route::get('de-select/applicants','SelectionPhaseController@getApplicants')
+             ->name('selection-phase.de-select.get.applicants');
+        Route::get('de-select', 'SelectionPhaseController@deselect')
+             ->name('selection-phase.de-select');
+        Route::get('de-select/applicant', 'SelectionPhaseController@deselectApplicant')
+             ->name('selection-phase.de-select.applicant');
+        
+        Route::get('distribution', 'SelectionPhaseController@distribution')
+             ->name('selection-phase.distribution');
+        Route::get('distribution/applicants', 'SelectionPhaseController@getApplicants')
+             ->name('selection-phase.distribution.applicants');
+         Route::post('distribution/submit', 'SelectionPhaseController@submitDistribution')
+             ->name('selection-phase.distribution.submit');
+    });
     
     Route::resource('marital-statuses', 'MaritalStatusController');
     Route::resource('qualification-levels', 'QualificationLevelController');
