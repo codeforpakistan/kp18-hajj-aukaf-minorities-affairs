@@ -70,7 +70,7 @@
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+     
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     @if($fund && $totalCount)
         {!! $dataTable->scripts() !!}
@@ -222,23 +222,30 @@
                         })
                         .then((response) => {
                             console.log(response);
-                            swal("Poof! " + response.data.message, {
-                                icon: "success",
-                            });
-
+                            Swal.fire(
+                                "Poof!",
+                                response.data.message,
+                                "success"
+                            );
+                            window.location = this.url
                             // setTimeout(() => {
                             //     window.location = this.refreshUrl;
                             // }, 2000);
                         })
                         .catch((error) => {
                             try {
-                                swal("Poof! " + error.response.data.error, {
-                                    icon: "error",
-                                });
+                                Swal.fire(
+                                    "Poof!",
+                                    error.response.data.error,
+                                    "error"
+                                );
                             } catch(e) {
-                                swal("Poof! Something went wrong", {
-                                    icon: "error",
-                                });
+
+                                Swal.fire(
+                                    "Poof!",
+                                    "Something went wrong",
+                                    "error"
+                                );
                             }
                         });
                     }

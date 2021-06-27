@@ -45,6 +45,9 @@ class FundController extends Controller
      */
     public function store(FundRequest $request)
     {
+        $this->validate($request,[
+            'fund_name' => 'unique:funds'
+        ]);
         $fund = Fund::create($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
         if ($fund->wasRecentlyCreated) {
             return redirect()->route('admin.funds.index')->with('create-success', 'The record has been created!');

@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'Guest\HomeController@index')->name('guest.home.index');
 Route::post('/', 'Guest\HomeController@submit')->name('guest.home.submit');
 Route::post('/submit-application', 'Guest\HomeController@submitApplication')
-    ->name('guest.home.submit-application')
-    ->middleware(['auth', 'role:Admin|School|Operator']);
+    ->name('guest.home.submit-application');
+    // ->middleware(['auth', 'role:Admin|School|Operator']);
 Route::get('/print', 'Guest\HomeController@print')->name('guest.home.print');
 
 Auth::routes();
@@ -70,9 +70,9 @@ Route::middleware(['auth', 'role:Admin'])
     Route::get('applied-institutes/funds/{fund_id}', 'AppliedInstitutesController@funds')->name('applied-institutes.funds');
     
     Route::group(['prefix' => 'selection-phase'],function(){
-        Route::get('/', 'SelectionPhaseController@povertyBased')
+        Route::get('/poverty-based', 'SelectionPhaseController@povertyBased')
              ->name('selection-phase.poverty-based');
-        Route::post('/submit', 'SelectionPhaseController@submitSelection')
+        Route::post('/poverty-based/submit', 'SelectionPhaseController@submitSelection')
              ->name('selection-phase.poverty.submit');
         
         Route::get('balloting', 'SelectionPhaseController@balloting')

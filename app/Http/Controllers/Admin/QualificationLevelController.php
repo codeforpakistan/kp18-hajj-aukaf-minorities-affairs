@@ -41,6 +41,9 @@ class QualificationLevelController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'name' => 'unique:qualification_levels'
+        ]);
         $qualificationLevel = QualificationLevel::create($request->only(['name','institute_type_id']));
         if($qualificationLevel->wasRecentlyCreated)
         {

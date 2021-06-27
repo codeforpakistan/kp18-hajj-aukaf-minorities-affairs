@@ -19,7 +19,7 @@
         <link href="{{ asset('plugins/animate-css/animate.css') }}" rel="stylesheet" />
 
         <!-- Sweet Alert Css -->
-        <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet" />
 
         <!-- Custom Css -->
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -301,7 +301,7 @@
         <script src="{{ asset('plugins/jquery-steps/jquery.steps.js') }}"></script>
 
         <!-- Sweet Alert Plugin Js -->
-        <script src="{{ asset('plugins/sweetalert/sweetalert.min.js') }}"></script>
+        <script src="{{ asset('js/sweetalert2.min.js') }}"></script>
 
         <!-- Waves Effect Plugin Js -->
         <script src="{{ asset('plugins/node-waves/waves.js') }}"></script>
@@ -329,48 +329,50 @@
             </script>
         @endif
         <script>
-            @if(session()->has('create-success'))
-                $(window).load(function(){
-                    swal("Poof! The record has been created!", {
-                        icon: "success",
-                    });
-                });
-            @endif
-            @if(session()->has('create-failed'))
-                $(window).load(function(){
-                    swal("Oh noes!! Could not create the record!", {
-                        icon: "error",
-                    });
-                });
-            @endif
-            @if(session()->has('edit-success'))
-                $(window).load(function(){
-                    swal("Poof! The record has been updated!", {
-                        icon: "success",
-                    });
-                });
-            @endif
-            @if(session()->has('edit-failed'))
-                $(window).load(function(){
-                    swal("Oh noes!! Could not update the record!", {
-                        icon: "error",
-                    });
-                });
-            @endif
-            @if(session()->has('delete-success'))
-                $(window).load(function(){
-                    swal("Poof! The record has been deleted!", {
-                        icon: "success",
-                    });
-                });
-            @endif
-            @if(session()->has('delete-failed'))
-                $(window).load(function(){
-                    swal("Oh noes!! Could not delete the record!", {
-                        icon: "error",
-                    });
-                });
-            @endif
+            $(window).load(function(){
+                @if(session()->has('create-success'))
+                    Swal.fire(
+                        "Poof!",
+                        "The record has been created!",
+                        "success"
+                    );
+                @endif
+                @if(session()->has('create-failed'))
+                    Swal.fire(
+                        "Oh noes!!",
+                        "Could not create the record!",
+                        "error"
+                    );
+                @endif
+                @if(session()->has('edit-success'))
+                    Swal.fire(
+                        "Poof!",
+                        "The record has been updated!",
+                        "success"
+                    );
+                @endif
+                @if(session()->has('edit-failed'))
+                    Swal.fire(
+                        "Oh noes!!",
+                        "Could not update the record!",
+                        "error"
+                    );
+                @endif
+                @if(session()->has('delete-success'))
+                    Swal.fire(
+                        "Poof!",
+                        "The record has been deleted!",
+                        "success"
+                    );
+                @endif
+                @if(session()->has('delete-failed'))
+                    Swal.fire(
+                        "Oh noes!!",
+                        "Could not delete the record!",
+                        "error"
+                    );
+                @endif
+            });
         </script>
         <script src="{{ asset('js/axios.min.js') }}"></script>
         @stack('scripts')

@@ -36,51 +36,7 @@
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+     
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {!! $dataTable->scripts() !!}
-    <script>
-        @if(session()->has('create-success'))
-            $(window).load(function(){
-                swal("Poof! The record has been created!", {
-                    icon: "success",
-                });
-            });
-        @endif
-        @if(session()->has('create-failed'))
-            $(window).load(function(){
-                swal("Oh noes!! Could not create the record!", {
-                    icon: "error",
-                });
-            });
-        @endif
-        @if(session()->has('edit-success'))
-            $(window).load(function(){
-                swal("Poof! The record has been updated!", {
-                    icon: "success",
-                });
-            });
-        @endif
-        @if(session()->has('edit-failed'))
-            $(window).load(function(){
-                swal("Oh noes!! Could not update the record!", {
-                    icon: "error",
-                });
-            });
-        @endif
-        @if(session()->has('delete-success'))
-            $(window).load(function(){
-                swal("Poof! The record has been deleted!", {
-                    icon: "success",
-                });
-            });
-        @endif
-        @if(session()->has('delete-failed'))
-            $(window).load(function(){
-                swal("Oh noes!! Could not delete the record!", {
-                    icon: "error",
-                });
-            });
-        @endif
-    </script>
 @endpush

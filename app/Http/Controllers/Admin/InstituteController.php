@@ -44,6 +44,10 @@ class InstituteController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'name' => 'unique:institutes'
+        ]);
+        
         $institute = Institute::create($request->only(['name','city_id','institute_type_id','institute_sector','address']));
         if($institute->wasRecentlyCreated)
         {

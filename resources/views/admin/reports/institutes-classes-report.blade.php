@@ -28,7 +28,7 @@
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+     
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {{-- {!! $dataTable->scripts() !!} --}}
 @endpush

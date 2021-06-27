@@ -37,6 +37,9 @@ class DegreeAwardingBoardController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'name' => 'unique:degree_awardings'
+        ]);
         $degreeAwarding = DegreeAwarding::create($request->only(['name']));
         if($degreeAwarding->wasRecentlyCreated)
         {

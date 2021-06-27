@@ -124,20 +124,19 @@
                     }).then((response => {
                         this.list = [];
                         this.list = response.data.list;
-                        // this.selectedApplicants = this.list.map((fund) => {return fund.id});
-                        // swal(`Poof! ${response.data.message}`, {
-                            // icon: "success",
-                        // });
                     })).catch((error) => {
-                        console.table(error)
                         try {
-                            swal("Poof! " + error.response.data.error, {
-                                icon: "error",
-                            });
+                            Swal.fire(
+                                "Poof!",
+                                error.response.data.error,
+                                "error",
+                            );
                         } catch(e) {
-                            swal("Poof! Something went wrong", {
-                                icon: "error",
-                            });
+                            Swal.fire(
+                                "Poof!",
+                                "Something went wrong",
+                                "error",
+                            );
                         }
                     })
                 }

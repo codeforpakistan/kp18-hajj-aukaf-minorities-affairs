@@ -37,6 +37,9 @@ class InstituteTypeController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'type' => 'unique:institute_types'
+        ]);
         $instituteType = InstituteType::create($request->only(['type']));
         if($instituteType->wasRecentlyCreated)
         {

@@ -27,6 +27,7 @@ class DisciplineController extends Controller
      */
     public function create()
     {
+
         $qualificationLevels = QualificationLevel::pluck('name','id');
         return view('admin.disciplines.create',[
             'qualificationLevels' => $qualificationLevels
@@ -41,6 +42,9 @@ class DisciplineController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'discipline' => 'unique:disciplines'
+        ]);
         $discipline = Discipline::create($request->only(['discipline','qualification_level_id']));
         if($discipline->wasRecentlyCreated)
         {

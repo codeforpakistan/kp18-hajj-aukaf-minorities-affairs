@@ -51,7 +51,7 @@
                                         </a>
                                         <ul class="ml-menu">
                                             @foreach($subNavLink->subNav as $subSubNavLink)
-                                                <li><a href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subSubNavLink->action) ? route('admin.' . $navigationLink->controller . '.'  . $subSubNavLink->action) : '#' }}">{{ $subSubNavLink->name }}</a></li>
+                                                <li><a class="{{ $navigationLink->controller == $routeController && $routeAction == $subSubNavLink->action ? 'myactive' : '' }}" href="{{ Route::has('admin.' . $navigationLink->controller . '.' . $subSubNavLink->action) ? route('admin.' . $navigationLink->controller . '.'  . $subSubNavLink->action) : '#' }}">{{ $subSubNavLink->name }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>

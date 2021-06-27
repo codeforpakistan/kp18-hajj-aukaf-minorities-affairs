@@ -183,22 +183,28 @@
                     })
                     .then((response) => {
 
-                        swal("Poof! " + response.data.message, {
-                            icon: "success",
-                        });
+                        Swal.fire(
+                            "Poof!",
+                            response.data.message,
+                            "success",
+                        );
 
                         setTimeout(() => {
                             window.location.reload();
                         }, 2000);
                     }).catch((error) => {
                         try {
-                            swal("Poof! " + error.response.data.error, {
-                                icon: "error",
-                            });
+                            Swal.fire(
+                                "Poof!",
+                                error.response.data.error,
+                                "error",
+                            );
                         } catch(e) {
-                            swal("Poof! Something went wrong", {
-                                icon: "error",
-                            });
+                            Swal.fire(
+                                "Poof!",
+                                "Something went wrong",
+                                "error",
+                            );
                         }
                     });
                 },
@@ -227,6 +233,7 @@
 
                 filter(){
 
+                    this.list = [];
                     let submitForm = true;
                     for(let i in this.form){
                         if(( ! this.form[i].length || ! this.form[i]) && i !== 'limit'){

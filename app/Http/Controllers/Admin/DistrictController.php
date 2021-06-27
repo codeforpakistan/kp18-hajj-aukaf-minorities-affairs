@@ -37,6 +37,9 @@ class DistrictController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'name' => 'unique:cities'
+        ]);
         $city = City::create($request->only(['name','latitude','longitude','province']));
         if($city->wasRecentlyCreated)
         {

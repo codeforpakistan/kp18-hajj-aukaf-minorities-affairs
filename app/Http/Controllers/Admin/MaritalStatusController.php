@@ -37,6 +37,9 @@ class MaritalStatusController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'status' => 'unique:marital_statuses'
+        ]);
         $maritalStatus = MaritalStatus::create($request->only(['status']));
         if($maritalStatus->wasRecentlyCreated)
         {

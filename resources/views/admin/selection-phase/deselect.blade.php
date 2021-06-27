@@ -32,7 +32,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr role="row" v-for="(detail,index) in list">
+                                        <tr role="row" v-for="(detail,index) in list" :key="detail.id">
                                             <td v-text="detail.name"></td>
                                             <td v-text="detail.father_name"></td>
                                             <td v-text="detail.cnic"></td>
@@ -88,22 +88,12 @@
                 }
             },
 
-            watch : {
-                // selectedApplicants(newVal, oldVal){
-                //     if(newVal.length !== this.list.length){
-                //         this.allSelected = false;
-                //     }
-                //     else if(newVal.length && this.list.length){
-                //         this.allSelected = true;
-                //     }
-                // }
-            },
-
             methods: {
 
                 filter(){
 
                     let submitForm = true;
+                    this.list = [];
                     for(let i in this.form){
                         if(( ! this.form[i].length || ! this.form[i]) && i !== 'token'){
                             submitForm = false;
@@ -111,15 +101,12 @@
                     }
 
                     if(submitForm){
-                        this.selectedApplicants = [];
-                        this.allSelected = false;
                         axios({
                             params : this.form,
                             url : this.applicantsUrl
                         }).then((response) => {
 
                             this.list = response.data.list;
-                            this.selectedApplicants = this.list.map((fund) => {return fund.id});
 
                         }).catch((error) => {
                             console.log(error);
@@ -135,19 +122,25 @@
                         },
                         url : this.deselectUrl
                     }).then((response) => {
-                        swal(`Poof! ${response.data.message}`, {
-                            icon: "success",
-                        });
+                        Swal.fire(
+                            `Poof!`,
+                            response.data.message,
+                            "success",
+                        );
                         this.list.splice(index,1);
                     }).catch((error) => {
                         try {
-                            swal("Poof! " + error.response.data.error, {
-                                icon: "error",
-                            });
+                            Swal.fire(
+                                "Poof!",
+                                error.response.data.error,
+                                "error",
+                            );
                         } catch(e) {
-                            swal("Poof! Something went wrong", {
-                                icon: "error",
-                            });
+                            Swal.fire(
+                                "Oh noes!!",
+                                "Something went wrong",
+                                "error",
+                            );
                         }
                     })
                 }

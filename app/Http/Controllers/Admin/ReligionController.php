@@ -37,6 +37,9 @@ class ReligionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'religion_name' => 'unique:religions'
+        ]);
         $religion = Religion::create($request->only(['religion_name']));
         if($religion->wasRecentlyCreated)
         {

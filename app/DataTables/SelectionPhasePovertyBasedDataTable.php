@@ -26,9 +26,7 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
             'length',
         ]);
 
-
         $totalCount = $query->count();
-        
         if(request()->limit && $totalCount){
             $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
             if(intval(request()->limit) < 10){
@@ -52,7 +50,6 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
         return datatables()
             ->of($limitedData)
             ->skipPaging(function(){})
-            ->setFilteredRecords($totalCount)
             ->setTotalRecords($totalCount)
             ->addColumn('dependent_family_members',function($row){
                 return $row->dependent_family_members ?? 0;
@@ -70,18 +67,18 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
         $distributed_amount = ApplicantFundDetail::where('fund_id',request()->fund)->sum('amount_recived');
 
         $select = [];
-
-        $sql = ApplicantFundDetail::join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
-                    ->join('religions','religions.id','=','applicants.religion_id')
-                    ->leftJoin('applicant_addresses','applicant_addresses.applicant_id','=','applicants.id')
-                    ->leftJoin('cities','cities.id','=','applicant_addresses.city_id')
-                    ->join('funds','funds.id','=','applicant_fund_details.fund_id')
-                    ->where([
-                        ['funds.total_amount', '>', floatval($distributed_amount)],
-                        ['applicant_fund_details.amount_recived', '=', null],
-                        ['applicant_fund_details.selected', '=', 0],
-                        ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
-                    ]);
+        $sql = Table::searchQuery($model,request()->search)
+                ->join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
+                ->join('religions','religions.id','=','applicants.religion_id')
+                ->leftJoin('applicant_addresses','applicant_addresses.applicant_id','=','applicants.id')
+                ->leftJoin('cities','cities.id','=','applicant_addresses.city_id')
+                ->join('funds','funds.id','=','applicant_fund_details.fund_id')
+                ->where([
+                    ['funds.total_amount', '>', floatval($distributed_amount)],
+                    ['applicant_fund_details.amount_recived', '=', null],
+                    ['applicant_fund_details.selected', '=', 0],
+                    ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
+                ]);
 
         if(request()->percentage){
             $sql->join('qualifications',function($q){

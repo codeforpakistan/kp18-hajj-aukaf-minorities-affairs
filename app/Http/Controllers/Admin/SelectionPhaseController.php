@@ -75,7 +75,6 @@ class SelectionPhaseController extends Controller
     public function submitSelection()
     {
         try {
-            
             $amountPerHead = request()->amount_per_head;
             $ids = request()->ids;
             
