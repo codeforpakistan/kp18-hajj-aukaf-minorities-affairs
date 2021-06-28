@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\GeneralReportDataTable;
+use App\DataTables\InstituteClassesReportDataTable;
 use App\DataTables\InstituteReportDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\ApplicantFundDetail;
@@ -16,8 +17,8 @@ class ReportController extends Controller
     {
         public function generalReport(GeneralReportDataTable $dataTable)
         {
-            $years = Fund::where(['active' => 1])->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
             $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
             $userList = User::orderBy('name', 'ASC')->pluck('name', 'id');
             $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
@@ -45,17 +46,22 @@ class ReportController extends Controller
 
         public function institutesReport(InstituteReportDataTable $dataTable)
         {
-            $years = Fund::where(['active' => 1])->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
             return $dataTable->render('admin.reports.institutes-report',[
                 'years' => $years,
                 'fundsList' => $fundsList,
             ]);
         }
 
-        public function institutesClassesReport(Request $request)
+        public function instituteClassesReport(InstituteClassesReportDataTable $dataTable)
         {
-        	return view('admin.reports.institutes-classes-report');
+            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+            $fundsList = Fund::where('active',1)->where('sub_category_id',3)->pluck('fund_name', 'id');
+            return $dataTable->render('admin.reports.institute-classes-report',[
+                'years' => $years,
+                'fundsList' => $fundsList,
+            ]);
         }
 
         public function institutesStudentsReport(Request $request)
@@ -70,8 +76,8 @@ class ReportController extends Controller
             {
                 $data = $this->regionReligionData();
             }
-            $years = Fund::where(['active' => 1])->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
             
         	return view('admin.reports.region-religion-report',[
                 'years' => $years,
@@ -103,22 +109,31 @@ class ReportController extends Controller
             if (request()->applicant_status == 'distributed') {
                 $sql->where('applicant_fund_details.distributed',1);
             }
+           
+            if (request()->from_date && request()->to_date) {
+                // dd('OK');
+                $sql->whereBetween('applicant_fund_details.appling_date',[date(request()->from_date),date(request()->to_date)]);
+            }
             // total applicants count
             $totalApplicantsQuery = clone $sql;
             $totalApplicants = $totalApplicantsQuery->count();
+            
             // district wise
             $districtWiseQuery = clone $sql;
             $districtWiseQuery->select('cities.id','cities.name',\DB::raw('COUNT(applicant_fund_details.fund_id) as total'));
             $districtWiseQuery->groupBy('applicant_addresses.city_id')->orderByDesc('total');
             
+            // gender wise
             $genderWiseQuery = clone $sql;
             $genderWiseQuery->select('applicants.gender',\DB::raw('COUNT(applicant_fund_details.fund_id) as total'));
             $genderWiseQuery->groupBy('applicants.gender')->orderByDesc('total');
             
+            // religion wise
             $religionWiseQuery = clone $sql;
             $religionWiseQuery->select('religions.religion_name',\DB::raw('COUNT(applicant_fund_details.fund_id) as total'));
             $religionWiseQuery->groupBy('religions.religion_name')->orderByDesc('total');
 
+            // religions district-wise
             $religionDistrictWiseQuery = clone $sql;
             $religionDistrictWiseQuery->select('religions.religion_name','applicant_addresses.city_id',\DB::raw('COUNT(applicants.religion_id) as total'));
             $religionDistrictWiseQuery->groupBy('applicants.religion_id')->groupBy('applicant_addresses.city_id');
@@ -134,6 +149,19 @@ class ReportController extends Controller
 
         public function dateWiseSummary(Request $request)
         {
+            $data = [];
+            if(request()->fund)
+            {
+                $data = $this->regionReligionData();
+            }
+            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+            
+            return view('admin.reports.date-wise-summary-report',[
+                'years' => $years,
+                'fundsList' => $fundsList,
+                'data' => $data,
+            ]);
         	return view('admin.reports.date-wise-summary-report');
         }
 }

@@ -31,7 +31,7 @@ class SelectionPhaseController extends Controller
        
         $ids = $sql->select(['applicant_fund_details.id as id'])->limit($totalCount)->pluck('id')->toArray();
 
-        $fundsList = Fund::with(['subCategory'])->where(['active' => 1])->get();//pluck('fund_name', 'id');
+        $fundsList = Fund::with(['subCategory'])->where('active',1)->get();//pluck('fund_name', 'id');
 
         $selectableList = [];
 
@@ -100,7 +100,7 @@ class SelectionPhaseController extends Controller
 
     public function balloting()
     {
-        $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
         $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
         $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
 
@@ -190,7 +190,7 @@ class SelectionPhaseController extends Controller
 
     public function deselect()
     {
-        $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
         $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
         $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
         return view('admin.selection-phase.deselect',[
@@ -221,7 +221,7 @@ class SelectionPhaseController extends Controller
                                         ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
                                     ]);
         if(!empty(request()->fund)){
-            $fund = Fund::with(['subCategory'])->where(['id' => intval(request()->fund)])->first();//pluck('fund_name', 'id');
+            $fund = Fund::with(['subCategory'])->where('id', intval(request()->fund))->first();//pluck('fund_name', 'id');
             if($fund->subCategory->id === 3){
                 $sql->join('qualifications',function($q){
                     $q->on('qualifications.applicant_id','applicants.id');
@@ -308,7 +308,7 @@ class SelectionPhaseController extends Controller
 
     public function distribution()
     {
-        $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
         $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
         $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
 

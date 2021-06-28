@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\FundDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FundRequest;
-use App\DataTables\FundDataTable;
-use App\Models\FundCategory;
-use App\Models\SubCategory;
 use App\Models\Fund;
+use App\Models\FundCategory;
+use App\Models\Institute;
+use App\Models\InstituteFundDetail;
+use App\Models\SubCategory;
+use Illuminate\Http\Request;
 
 
 class FundController extends Controller
@@ -68,6 +71,31 @@ class FundController extends Controller
         return view('admin.funds.show', [
             'fund' => $fund,
         ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function institutes(Request $request, $fund_id)
+    {
+        // $institutes =
+        // Institute::join('institute_classes','institute_classes.institute_id','=','institutes.id')
+        // ->join('applicants','applicants.institute_class_id','=','institute_classes.id')
+        // ->join('institute_fund_details','institute_fund_details.applicant_id','applicants.id')
+        // ->select('institutes.id','institutes.name as institute')
+        // ->where('institute_fund_details.fund_id',$fund_id)->get();
+
+        $institutes =
+        Institute::join('institute_classes','institute_classes.institute_id','=','institutes.id')
+        ->where('institute_classes.fund_id',$fund_id)
+        ->select('institutes.id','institutes.name')
+        ->get();
+
+        return response()->json(['data' => $institutes],200);
+
     }
 
     /**

@@ -19,7 +19,7 @@ class ApplicantController extends Controller
      */
     public function index(ApplicantDataTable $dataTable)
     {
-        $fundsList = Fund::where(['active' => 1])->pluck('fund_name', 'id');
+        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
         if (! request()->has('fund') ) {
             return redirect()->route('admin.applicants.index', ['fund' => $fundsList->keys()->last()]);
         }

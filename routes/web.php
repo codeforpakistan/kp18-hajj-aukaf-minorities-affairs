@@ -49,10 +49,11 @@ Route::middleware(['auth', 'role:Admin'])
      */
     Route::get('reports/general-report', 'ReportController@generalReport')->name('reports.general-report');
     Route::get('reports/institutes-report', 'ReportController@institutesReport')->name('reports.institutes-report');
-    Route::get('reports/institutes-classes-report', 'ReportController@institutesClassesReport')->name('reports.institutes-classes-report');
+    Route::get('reports/institutes-classes-report', 'ReportController@instituteClassesReport')->name('reports.institutes-classes-report');
     Route::get('reports/institutes-students-report', 'ReportController@institutesStudentsReport')->name('reports.institutes-students-report');
     Route::get('reports/region-religion-report', 'ReportController@regionReligionReport')->name('reports.region-religion-report');
     Route::get('reports/date-wise-summary', 'ReportController@dateWiseSummary')->name('reports.date-wise-summary');
+    Route::get('fund/{fund_id}/get-institutes', 'FundController@institutes')->name('funds.institutes-by-fund');
 
     /**
      * Resource routes for the modules that have common structure

@@ -116,8 +116,8 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
             $sql->where('applicants.religion_id',intval(request()->religion));
         }
 
-        if(request()->city){
-            $sql->where('applicant_addresses.city_id',intval(request()->city));
+        if(request()->city_id){
+            $sql->where('applicant_addresses.city_id',intval(request()->city_id));
         }
 
         $sql->select(array_merge(['applicant_fund_details.id as id','applicants.name as name','applicants.father_name','applicants.cnic'],$select));

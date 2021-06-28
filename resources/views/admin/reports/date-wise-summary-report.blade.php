@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>Date Wise Summary</h2>
                         </div>
-                        <div class="body"><div class="table-responsive">{{-- {!! $dataTable->table() !!} --}}</div></div>
+                        @include('admin.reports.date-and-region-religion-report',['route' => 'admin.reports.date-wise-summary','include_dates' => true])
                     </div>
                 </div>
             </div>
