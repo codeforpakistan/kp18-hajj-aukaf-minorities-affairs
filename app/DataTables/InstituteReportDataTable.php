@@ -87,7 +87,6 @@ class InstituteReportDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),

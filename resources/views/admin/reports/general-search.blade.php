@@ -101,8 +101,8 @@
             <small class="myspan">To Date</small>
         </div>
     </div>
-    <div class="row m-0">
-        <div class="col-lg-12">
+    <div class="row">
+        <div class="col-lg-12 m-0">
             <label class="text-muted">Select fields to include in table</label>
         </div>
     </div>

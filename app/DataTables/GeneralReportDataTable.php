@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Helpers\Table;
 use App\Models\ApplicantFundDetail;
 use App\Models\City;
 use App\Models\Fund;
@@ -129,7 +130,20 @@ class GeneralReportDataTable extends DataTable
             'funds.sub_category_id','applicant_fund_details.id','applicant_fund_details.created_by','applicant_fund_details.updated_by','applicant_fund_details.amount_recived as amount_recieved','applicant_fund_details.check_number as cheque_no','applicant_fund_details.payment_date','applicant_fund_details.appling_date as applying_date','applicants.name','applicants.father_name','applicants.cnic','applicants.gender','applicants.disease','applicants.dname','applicants.dcontact','applicants.clinic_address','applicants.gname','applicants.gfather_name','applicants.gcnic','applicants.gcontact','applicant_addresses.permenent_address as permanent_address','applicant_addresses.current_address','applicant_addresses.postal_address','applicant_household_details.dependent_family_members as family_members','applicant_incomes.monthly_income as income','cities.name as city_name','religions.religion_name',
                 'users.name as username',
         ];
-        $sql = ApplicantFundDetail::join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
+
+        $searchableFields = [
+            'applicants.name',
+            'applicants.father_name',
+            'applicants.cnic',
+            'cities.name',
+            'religions.religion_name',
+            'applicant_addresses.current_address',
+            'applicant_addresses.permenent_address',
+            'applicant_addresses.postal_address',
+        ];
+
+        $sql = Table::searchQuery(new ApplicantFundDetail,request()->search,$searchableFields)
+                    ->join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
                     ->join('funds','applicant_fund_details.fund_id','=','funds.id')
                     ->join('applicant_household_details','applicant_household_details.applicant_id','=','applicants.id')
                     ->join('religions', 'religions.id','=','applicants.religion_id')

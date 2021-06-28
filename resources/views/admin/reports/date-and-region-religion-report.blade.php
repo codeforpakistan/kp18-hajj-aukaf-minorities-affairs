@@ -29,7 +29,7 @@
                 <small class="myspan">Select applicant's status</small>
             </div>
         </div>
-        @if($include_dates)
+        @if(@$include_dates)
             <div class="row">
                 <div class="form-line col-lg-6">
                     <input type="date" class="form-control" name="from_date" value="{{ request()->input('from_date') }}">

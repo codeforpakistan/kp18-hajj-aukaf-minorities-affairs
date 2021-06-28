@@ -27,7 +27,11 @@
                 @foreach($navigationLinks as $navigationLink)
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle @if($navigationLink->controller == $routeController) toggled @endif">
-                            <i> <img   src="{{ asset('img/category.svg') }}" alt=""  width="24px"/></i>
+                            @if(@$navigationLink->icon)
+                                <i class="material-icons">{{ $navigationLink->icon }}</i>
+                            @elseif(@$navigationLink->imageIcon)
+                                <img src="{{ asset($navigationLink->imageIcon) }}" width="24px">
+                            @endif
                             <span class="@if($navigationLink->controller == $routeController) myactive @endif">{{ $navigationLink->name }}</span>
                         </a>
                         <ul class="ml-menu">

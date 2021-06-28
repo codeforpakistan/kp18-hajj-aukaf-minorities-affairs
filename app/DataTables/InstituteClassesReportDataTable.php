@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Helpers\Table;
 use App\Models\Institute;
 use App\Models\InstituteFundDetail;
 use Yajra\DataTables\Html\Button;
@@ -50,25 +51,20 @@ class InstituteClassesReportDataTable extends DataTable
      * @param \App\Models\InstituteType $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Institute $model)
+    public function query(InstituteClass $model)
     {
 
-        // ' FROM institutes as i '
-        // . 'inner join instituteclasses ON instituteclasses.institute_id=i.id '
-        // . 'inner join applicants as a ON a.instituteclass_id=instituteclasses.id '
-        // . 'inner join institute_funddetails as ifd ON ifd.applicant_id=a.id '
+        $select = $searchable = ['school_classes.class_number','institute_classes.id' ,'institute_classes.total_students,','institute_classes.minority_students','institute_classes.needy_students','institute_classes.textbook_cost','institute_classes.boys_uniform','institute_classes.girls_uniform'];
+        // This is just to to Display Class in table header ( in blade file )
+        $select[0] = 'school_classes.class_number as class';
 
-        $select = [
-            'institutes.id','institutes.name as institute','institutes.reg_num as registration_number','institutes.contact_number','institutes.address','users.email','cities.name as city'
-        ];
-        return $model
-            // ->join('users','institutes.user_id','=','users.id')
-            // ->join('cities','institutes.city_id','=','cities.id')
-            ->join('institute_classes','institutes.id','=','institute_classes.institute_id')
-            ->join('applicants','institute_classes.id','=','applicants.institute_class_id')
-            ->join('institute_fund_details','applicants.id','=','institute_fund_details.applicant_id')
-            ->where('institute_fund_details.fund_id',request()->fund)
-            ->select($select);
+        return Table::searchQuery($model,request()->search,$select)
+                        ->join('school_classes','school_classes.id','=','institute_classes.school_class_id')
+                        ->join('applicants','applicants.institute_class_id','institute_classes.id')
+                        ->join('institute_fund_details','institute_fund_details.applicant_id','applicants.id')
+                        ->where('institute_classes.institute_id',request()->institute_id)
+                        ->where('institute_fund_details.fund_id',request()->fund)
+                        ->select($select);
     }
 
     /**
@@ -79,12 +75,11 @@ class InstituteClassesReportDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('institutereportdatatable-table')
+                    ->setTableId('instituteClassesreportdatatable-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -100,14 +95,14 @@ class InstituteClassesReportDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('institute'),
-            Column::make('registration_number'),
-            Column::make('contact_number'),
-            Column::make('address'),
-            Column::make('city'),
-            Column::make('email'),
-            // Column::make('applied_students'),
-            // Column::make('remark'),
+            Column::make('class'),
+            Column::make('total_students'),
+            Column::make('minority_students'),
+            Column::make('needy_students'),
+            Column::make('textbook_cost'),
+            Column::make('boys_uniform'),
+            Column::make('girls_uniform'),
+            Column::make('remark'),
         ];
     }
 
@@ -118,6 +113,6 @@ class InstituteClassesReportDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'InstituteReport_' . date('YmdHis');
+        return 'InstituteClassesReport_' . date('YmdHis');
     }
 }

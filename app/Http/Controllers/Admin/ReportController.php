@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ApplicantFundDetail;
 use App\Models\City;
 use App\Models\Fund;
+use App\Models\InstituteClass;
 use App\Models\Religion;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,6 +64,22 @@ class ReportController extends Controller
                 'fundsList' => $fundsList,
             ]);
         }
+
+        // public function instituteClassesReportQuery()
+        // {
+
+            // $funds = Fund::where('active',1)
+            //              ->where('sub_category_id',3)
+            //              ->where('fund_for_year',request()->fund)
+            //              ->get();
+
+            // $institutes = Institute::join('institute_classes','institute_classes.institute_id','=','institutes.id')
+            //                        ->join('applicants','applicants.institute_class_id','=','institute_classes.id')
+            //                        ->join('institute_fund_details','institute_fund_details.applicant_id','=','applicants.id')
+            //                        ->where('institute_fund_details.fund_id',request()->fund)
+            //                        ->select('institutes.id','institutes.name');
+
+        // }
 
         public function institutesStudentsReport(Request $request)
         {

@@ -1,6 +1,7 @@
 [{
     "name": "Fund Categories",
     "controller": "fund-categories",
+    "icon" : "category",
     "subNav": [{
         "name": "List Fund Categories",
         "action": "index"
@@ -14,6 +15,7 @@
   {
     "name": "Fund Sub Categories",
     "controller": "sub-categories",
+    "icon" : "category",
     "subNav": [{
         "name": "List Fund Sub Categories",
         "action": "index"
@@ -27,6 +29,7 @@
   {
     "name": "Funds",
     "controller": "funds",
+    "imageIcon" : "img/funds.svg",
     "subNav": [{
         "name": "List Funds",
         "action": "index"
@@ -40,6 +43,7 @@
   {
     "name": "Reports",
     "controller": "reports",
+    "imageIcon" : "img/reporting.svg",
     "subNav": [{
         "name": "General Report",
         "action": "general-report"
@@ -69,6 +73,7 @@
   {
     "name": "Applicants",
     "controller": "applicants",
+    "icon" : "people",
     "subNav": [{
         "name": "List Applicants",
         "action": "index"
@@ -82,6 +87,7 @@
   {
     "name": "Applied Institutes",
     "controller": "applied-institutes",
+    "imageIcon" : "/img/appliedinstitutues.svg",
     "subNav": [{
       "name": "Funds",
       "action": "funds"
@@ -90,6 +96,7 @@
   {
     "name": "Selection phase",
     "controller": "selection-phase",
+    "imageIcon" : "/img/grantsphase.svg",
     "subNav": [{
         "name": "Selection",
         "action": "selection",
@@ -115,6 +122,7 @@
   },
   {
     "name": "Districts",
+    "icon" : "place",
     "controller": "districts",
     "subNav": [{
         "name": "List Districts",
@@ -128,6 +136,7 @@
   },
   {
     "name": "Religions",
+    "imageIcon" : "/img/religion.svg",
     "controller": "religions",
     "subNav": [{
         "name": "List Religions",
@@ -142,6 +151,7 @@
   {
     "name": "Institute Types",
     "controller": "institute-types",
+    "imageIcon" : "/img/institute type-07.svg",
     "subNav": [{
         "name": "List Institute Types",
         "action": "index"
@@ -155,6 +165,7 @@
   {
     "name": "School Classes",
     "controller": "school-classes",
+    "imageIcon" : "/img/institute type-07.svg",
     "subNav": [{
         "name": "List School Classes",
         "action": "index"
@@ -168,6 +179,7 @@
   {
     "name": "Institutes",
     "controller": "institutes",
+    "icon" : "location_city",
     "subNav": [{
         "name": "List Institutes",
         "action": "index"
@@ -180,6 +192,7 @@
   },
   {
     "name": "Qualification Levels",
+    "icon" : "school",
     "controller": "qualification-levels",
     "subNav": [{
         "name": "List Qualification Levels",
@@ -193,6 +206,7 @@
   },
   {
     "name": "Disciplines",
+    "icon" : "class",
     "controller": "disciplines",
     "subNav": [{
         "name": "List Disciplines",
@@ -207,6 +221,7 @@
   {
     "name": "Degree Awarding Boards",
     "controller": "degree-awarding-boards",
+    "imageIcon" : "img/degree awarding.svg",
     "subNav": [{
         "name": "List Degree Awarding Boards",
         "action": "index"
@@ -220,6 +235,7 @@
   {
     "name": "Marital Statuses",
     "controller": "marital-statuses",
+    "icon" : "assignment",
     "subNav": [{
         "name": "List Marital Statuses",
         "action": "index"
@@ -233,6 +249,7 @@
   {
     "name": "Users",
     "controller": "users",
+    "icon" : "account_box",
     "subNav": [{
         "name": "List Users",
         "action": "index"
@@ -246,6 +263,7 @@
   {
     "name": "Roles",
     "controller": "roles",
+    "icon" : "timeline",
     "subNav": [{
         "name": "List Roles",
         "action": "index"

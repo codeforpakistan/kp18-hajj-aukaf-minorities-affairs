@@ -81,18 +81,19 @@ class FundController extends Controller
      */
     public function institutes(Request $request, $fund_id)
     {
-        // $institutes =
-        // Institute::join('institute_classes','institute_classes.institute_id','=','institutes.id')
-        // ->join('applicants','applicants.institute_class_id','=','institute_classes.id')
-        // ->join('institute_fund_details','institute_fund_details.applicant_id','applicants.id')
-        // ->select('institutes.id','institutes.name as institute')
-        // ->where('institute_fund_details.fund_id',$fund_id)->get();
-
         $institutes =
         Institute::join('institute_classes','institute_classes.institute_id','=','institutes.id')
-        ->where('institute_classes.fund_id',$fund_id)
+        ->join('applicants','applicants.institute_class_id','=','institute_classes.id')
+        ->join('institute_fund_details','institute_fund_details.applicant_id','applicants.id')
+        ->where('institute_fund_details.fund_id',$fund_id)
         ->select('institutes.id','institutes.name')
         ->get();
+
+        // $institutes =
+        // Institute::join('institute_classes','institute_classes.institute_id','=','institutes.id')
+        // ->where('institute_classes.fund_id',$fund_id)
+        // ->select('institutes.id','institutes.name')
+        // ->get();
 
         return response()->json(['data' => $institutes],200);
 
