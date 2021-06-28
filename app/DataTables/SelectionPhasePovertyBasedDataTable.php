@@ -67,7 +67,7 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
         $distributed_amount = ApplicantFundDetail::where('fund_id',request()->fund)->sum('amount_recived');
 
         $select = [];
-        $sql = Table::searchQuery($model,request()->search)
+        $sql = $model
                 ->join('applicants','applicants.id','=','applicant_fund_details.applicant_id')
                 ->join('religions','religions.id','=','applicants.religion_id')
                 ->leftJoin('applicant_addresses','applicant_addresses.applicant_id','=','applicants.id')
@@ -139,7 +139,6 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),

@@ -80,7 +80,7 @@ class ApplicantDataTable extends DataTable
      */
     public function query(Applicant $model)
     {
-        return Table::searchQuery($model,request()->search)->with([
+        return Table::searchQuery($model,request()->search,['applicants.name','applicants.father_name','applicants.cnic'])->with([
             'applicantHouseholdDetail',
             'applicantIncome',
             'applicantAddress.city',

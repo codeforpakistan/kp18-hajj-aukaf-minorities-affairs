@@ -54,9 +54,7 @@ class InstituteClassesReportDataTable extends DataTable
     public function query(InstituteClass $model)
     {
 
-        $select = $searchable = ['school_classes.class_number','institute_classes.id' ,'institute_classes.total_students,','institute_classes.minority_students','institute_classes.needy_students','institute_classes.textbook_cost','institute_classes.boys_uniform','institute_classes.girls_uniform'];
-        // This is just to to Display Class in table header ( in blade file )
-        $select[0] = 'school_classes.class_number as class';
+        $select = ['school_classes.class_number','institute_classes.id' ,'institute_classes.total_students,','institute_classes.minority_students','institute_classes.needy_students','institute_classes.textbook_cost','institute_classes.boys_uniform','institute_classes.girls_uniform'];
 
         return Table::searchQuery($model,request()->search,$select)
                         ->join('school_classes','school_classes.id','=','institute_classes.school_class_id')
@@ -95,7 +93,7 @@ class InstituteClassesReportDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('class'),
+            Column::make('class_number')->title('Class'),
             Column::make('total_students'),
             Column::make('minority_students'),
             Column::make('needy_students'),
