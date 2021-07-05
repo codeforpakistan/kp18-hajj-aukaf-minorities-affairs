@@ -22,6 +22,13 @@
                         </div>
                     </div>
                 @endif
+                @if(session('success'))
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    </div>
+                @endif
                 @if ($errors->any())
                     <div class="col-md-12">
                         <div class="alert alert-danger">

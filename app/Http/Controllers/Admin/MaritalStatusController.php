@@ -6,9 +6,12 @@ use App\DataTables\MaritalStatusDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\MaritalStatus;
 use Illuminate\Http\Request;
+use App\Helpers\ExceptionHelper;
+use Illuminate\Validation\ValidationException;
 
 class MaritalStatusController extends Controller
 {
+    protected $indexRoute = 'admin.marital-statuses.index';
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,11 @@ class MaritalStatusController extends Controller
      */
     public function index(MaritalStatusDataTable $dataTable)
     {
-        return $dataTable->render('admin.marital-statuses.index');
+        try{
+            return $dataTable->render('admin.marital-statuses.index');
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -37,15 +44,23 @@ class MaritalStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'status' => 'unique:marital_statuses'
-        ]);
-        $maritalStatus = MaritalStatus::create($request->only(['status']));
-        if($maritalStatus->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.marital-statuses.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'status' => 'unique:marital_statuses'
+            ]);
+            $maritalStatus = MaritalStatus::create($request->only(['status']));
+            if($maritalStatus->wasRecentlyCreated)
+            {
+                return redirect()->route('admin.marital-statuses.index')->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route('admin.marital-statuses.index')->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.marital-statuses.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -56,10 +71,14 @@ class MaritalStatusController extends Controller
      */
     public function show($id)
     {
-        $maritalStatus = MaritalStatus::find($id);
-        return view('admin.marital-statuses.show', [
-            'maritalStatus' => $maritalStatus,
-        ]);
+        try{
+            $maritalStatus = MaritalStatus::find($id);
+            return view('admin.marital-statuses.show', [
+                'maritalStatus' => $maritalStatus,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -70,8 +89,12 @@ class MaritalStatusController extends Controller
      */
     public function edit($id)
     {
-        $maritalStatus = MaritalStatus::find($id);
-        return view('admin.marital-statuses.edit',['maritalStatus' => $maritalStatus]);
+        try{
+            $maritalStatus = MaritalStatus::find($id);
+            return view('admin.marital-statuses.edit',['maritalStatus' => $maritalStatus]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -83,18 +106,30 @@ class MaritalStatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $maritalStatus = MaritalStatus::find($id);
+        try{
+            $this->validate($request,[
+                'status' => 'unique:marital_statuses'
+            ]);
 
-        if( ! $maritalStatus){
-            return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not find the record!');
-        }
+            $maritalStatus = MaritalStatus::find($id);
 
-        $recordUpdated = $maritalStatus->update($request->only(['status']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.marital-statuses.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not update the record!');
+            if( ! $maritalStatus){
+                return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not find the record!');
+            }
+
+            $recordUpdated = $maritalStatus->update($request->only(['status']));
+            
+            if ($recordUpdated) {
+                return redirect()->route('admin.marital-statuses.index')->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -106,11 +141,15 @@ class MaritalStatusController extends Controller
      */
     public function destroy($id)
     {
-        $maritalStatus = MaritalStatus::find($id);
-        $recordDeleted = $maritalStatus->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $maritalStatus = MaritalStatus::find($id);
+            $recordDeleted = $maritalStatus->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

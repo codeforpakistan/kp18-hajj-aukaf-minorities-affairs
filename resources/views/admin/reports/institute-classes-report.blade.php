@@ -86,6 +86,20 @@
                     options += `<option value=${institute.id}>${institute.name}</option>`
                 }
                 $("#institutes").html(options);
+            }).catch((error) => {
+                try{
+                    Swal.fire(
+                        "Oh noes!!",
+                        error.response.data.message,
+                        "error"
+                    );
+                } catch(err){
+                    Swal.fire(
+                        "Oh noes!!",
+                        'Something went wrong on server. Contact the department if the issue persists',
+                        "error"
+                    );
+                }
             })
         }
     </script>

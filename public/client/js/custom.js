@@ -232,25 +232,25 @@ function change_fields(qualification_level) {
     }
 }
 function remove_button(fund_expired) {
-    $.ajax({
-        type: "GET",
-        contentType: 'json',
-        url: "Applicants/services",
-        data: "fund_expired=" + fund_expired,
-        success: function (data) {
-            data = JSON.parse(data);
-            if (data == 1) {
-                if ($('button[name=check_status]').siblings('button').length == 0) {
-                    var button = '<button class="btn btn-success pull-right" style="margin-left:5px;" type="submit">Click to Apply</button>';
-                    $(button).insertBefore('button[name=check_status]');
-                }
-            } else {
-                $('button[name=check_status]').siblings('button').remove();
-            }
-        }, error: function (error) {
-            alert(json.stringify(error));
-        }
-    });
+    // $.ajax({
+    //     type: "GET",
+    //     contentType: 'json',
+    //     url: "services",
+    //     data: "fund_expired=" + fund_expired,
+    //     success: function (data) {
+    //         data = JSON.parse(data);
+    //         if (data == 1) {
+    //             if ($('button[name=check_status]').siblings('button').length == 0) {
+    //                 var button = '<button class="btn btn-success pull-right" style="margin-left:5px;" type="submit">Click to Apply</button>';
+    //                 $(button).insertBefore('button[name=check_status]');
+    //             }
+    //         } else {
+    //             $('button[name=check_status]').siblings('button').remove();
+    //         }
+    //     }, error: function (error) {
+    //         console.log(error.responseJSON);
+    //     }
+    // });
 }
 $(function () {
     if ($('#fund_id').val() != '') {
@@ -314,7 +314,8 @@ $(function () {
         $('.s_number').last().attr('onclick', 'remove_row(' + $(".s_number").length + ')');
         $("html, body").animate({scrollTop: $(document).height()}, 1000);
     });
-    $('#add_contact_row').click(function () {
+    $('#add_contact_row').click(function (e) {
+        e.preventDefault();
         $('<div class="form-group has-success" style="margin-bottom: 0;"><label class="col-md-3 control-label">Mobile Number<span class="required"> *</span></label><div class="col-md-5"><div class="input text"><input name="ApplicantContact[mob_number][]" class="form-control has-success" pattern="[0-9]{4} [0-9]{7}" data-mask="0399 9999999" required="required" type="text"></div><span class="help-block">03xx xxxxxxx</span></div></div>').insertBefore($(this).parent());
     });
 

@@ -11,6 +11,7 @@ use App\Models\Institute;
 use App\Models\InstituteType;
 use App\Models\Religion;
 use Illuminate\Http\Request;
+use App\Helpers\ExceptionHelper;
 
 class SelectionPhaseController extends Controller
 {
@@ -21,55 +22,60 @@ class SelectionPhaseController extends Controller
      */
     public function povertyBased(SelectionPhasePovertyBasedDataTable $dataTable)
     {
-        $sql = $dataTable->query((new ApplicantFundDetail));
-       
-        $totalCount = $sql->count();
+        try{
+            $sql = $dataTable->query((new ApplicantFundDetail));
+           
+            // dd($sql->get());
+            $totalCount = $sql->count();
 
-        if(request()->limit && $totalCount){
-            $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
+            if(request()->limit && $totalCount){
+                $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
+            }
+           
+            $ids = $sql->select(['applicant_fund_details.id as id'])->limit($totalCount)->pluck('id')->toArray();
+
+            $fundsList = Fund::with(['subCategory'])->where('active',1)->get();//pluck('fund_name', 'id');
+
+            $selectableList = [];
+
+            foreach ($fundsList as $fund) {
+                $selectableList[] = [
+                    'id' => $fund->id,
+                    'fund_name' => $fund->fund_name,
+                    'sub_category' => $fund->subCategory->type,
+                    'grant_or_scholarshipt' => $fund->subCategory->type === 'Educational grants' ? 1 : 0, // 1 : grant, 0 : sholarship
+                ];
+            }
+
+            $distributedAmount = ApplicantFundDetail::where('fund_id',request()->fund)->sum('amount_recived');
+
+            $fund = Fund::find(request()->fund);
+            
+            $selectedApplicants = 
+            ApplicantFundDetail::
+            where([
+                ['fund_id','=',request()->fund], 
+                ['selected','=',1], 
+                ['amount_recived', '!=', null]
+            ])
+            ->count();
+
+            $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+            $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+
+            return $dataTable->render('admin.selection-phase.poverty-based',[
+                'fundsList'     => $selectableList,
+                'citiesList'    => $citiesList,
+                'religionsList' => $religionsList,
+                'fund' => $fund,
+                'distributedAmount' => $distributedAmount,
+                'selectedApplicants' => $selectedApplicants,
+                'totalCount' => $totalCount,
+                'ids' => $ids,
+            ]);
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
         }
-       
-        $ids = $sql->select(['applicant_fund_details.id as id'])->limit($totalCount)->pluck('id')->toArray();
-
-        $fundsList = Fund::with(['subCategory'])->where('active',1)->get();//pluck('fund_name', 'id');
-
-        $selectableList = [];
-
-        foreach ($fundsList as $fund) {
-            $selectableList[] = [
-                'id' => $fund->id,
-                'fund_name' => $fund->fund_name,
-                'sub_category' => $fund->subCategory->type,
-                'grant_or_scholarshipt' => $fund->subCategory->type === 'Educational grants' ? 1 : 0, // 1 : grant, 0 : sholarship
-            ];
-        }
-
-        $distributedAmount = ApplicantFundDetail::where('fund_id',request()->fund)->sum('amount_recived');
-
-        $fund = Fund::find(request()->fund);
-        
-        $selectedApplicants = 
-        ApplicantFundDetail::
-        where([
-            ['fund_id','=',request()->fund], 
-            ['selected','=',1], 
-            ['amount_recived', '!=', null]
-        ])
-        ->count();
-
-        $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
-        $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
-
-        return $dataTable->render('admin.selection-phase.poverty-based',[
-            'fundsList'     => $selectableList,
-            'citiesList'    => $citiesList,
-            'religionsList' => $religionsList,
-            'fund' => $fund,
-            'distributedAmount' => $distributedAmount,
-            'selectedApplicants' => $selectedApplicants,
-            'totalCount' => $totalCount,
-            'ids' => $ids,
-        ]);
     }
 
     public function submitSelection()
@@ -92,7 +98,7 @@ class SelectionPhaseController extends Controller
             }
         } catch (\Exception $e) {
 
-            return response()->json(['error' => 'Something went wrong'],500);
+            return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         
         }
 
@@ -100,15 +106,19 @@ class SelectionPhaseController extends Controller
 
     public function balloting()
     {
-        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-        $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
-        $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+        try{
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+            $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+            $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
 
-        return view('admin.selection-phase.balloting',[
-            'fundsList' => $fundsList,
-            'citiesList'    => $citiesList,
-            'religionsList' => $religionsList,
-        ]);
+            return view('admin.selection-phase.balloting',[
+                'fundsList' => $fundsList,
+                'citiesList'    => $citiesList,
+                'religionsList' => $religionsList,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
+        }
     }
 
     public function getApplicantsForBalloting()
@@ -137,7 +147,7 @@ class SelectionPhaseController extends Controller
             return response()->json($data,200);
 
         } catch (\Exception $e) {
-            return response()->json(['message'=>'Something went wrong'],500);
+            return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
     }
 
@@ -190,14 +200,18 @@ class SelectionPhaseController extends Controller
 
     public function deselect()
     {
-        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-        $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
-        $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
-        return view('admin.selection-phase.deselect',[
-            'fundsList' => $fundsList,
-            'citiesList'    => $citiesList,
-            'religionsList' => $religionsList,
-        ]);
+        try{
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+            $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+            $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+            return view('admin.selection-phase.deselect',[
+                'fundsList' => $fundsList,
+                'citiesList'    => $citiesList,
+                'religionsList' => $religionsList,
+            ]);
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -283,9 +297,8 @@ class SelectionPhaseController extends Controller
             if($updated){
                 return response()->json(['message' => 'Applicant has been deselected'],200);
             }
-            return response()->json(['error' => 'Could not deselect the applicant'],400);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong'],500);
+            return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
     }
 
@@ -302,7 +315,7 @@ class SelectionPhaseController extends Controller
             return response()->json($data,200);
 
         } catch (\Exception $e) {
-            return response()->json(['message'=>'Something went wrong'],500);
+            return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
     }
 
@@ -319,12 +332,6 @@ class SelectionPhaseController extends Controller
         ]);
     }
 
-    public function distributionApplicants()
-    {
-        $sql = $this->distributionQuery();
-        dd(request()->all(),$sql->toSql());
-    }
-
     public function submitDistribution()
     {
         try{
@@ -337,9 +344,8 @@ class SelectionPhaseController extends Controller
             if($updated){
                 return response()->json(['message' => 'Distributed'],200);
             }
-            return response()->json(['error' => 'Could not deselect the applicant'],400);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong'],500);
+            return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
     }
 }

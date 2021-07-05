@@ -221,13 +221,11 @@
                             },
                         })
                         .then((response) => {
-                            console.log(response);
                             Swal.fire(
                                 "Poof!",
                                 response.data.message,
                                 "success"
                             );
-                            window.location = this.url
                             // setTimeout(() => {
                             //     window.location = this.refreshUrl;
                             // }, 2000);
@@ -236,14 +234,14 @@
                             try {
                                 Swal.fire(
                                     "Poof!",
-                                    error.response.data.error,
+                                    error.response.data.message,
                                     "error"
                                 );
                             } catch(e) {
 
                                 Swal.fire(
                                     "Poof!",
-                                    "Something went wrong",
+                                    somethingWentWrongText(),
                                     "error"
                                 );
                             }

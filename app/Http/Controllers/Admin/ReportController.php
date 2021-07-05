@@ -12,57 +12,70 @@ use App\Models\Fund;
 use App\Models\InstituteClass;
 use App\Models\Religion;
 use App\Models\User;
+use App\Helpers\ExceptionHelper;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
     {
         public function generalReport(GeneralReportDataTable $dataTable)
         {
-            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-            $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
-            $userList = User::orderBy('name', 'ASC')->pluck('name', 'id');
-            $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+            try{
+                    $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+                    $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+                    $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+                    $userList = User::orderBy('name', 'ASC')->pluck('name', 'id');
+                    $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
 
-            $fund = Fund::find(request()->fund);
-            
-            $data = [
-                'years' => $years,
-                'fundsList' => $fundsList,
-                'citiesList'    => $citiesList,
-                'religionsList' => $religionsList,
-                'userList' => $userList,
-                'fund' => $fund
-            ];
-            
-            if($fund)
-            {
-            	return $dataTable->render('admin.reports.general-report',$data);
-            }
-            else
-            {
-                return view('admin.reports.general-report',$data);
+                    $fund = Fund::find(request()->fund);
+                    
+                    $data = [
+                        'years' => $years,
+                        'fundsList' => $fundsList,
+                        'citiesList'    => $citiesList,
+                        'religionsList' => $religionsList,
+                        'userList' => $userList,
+                        'fund' => $fund
+                    ];
+                    
+                    if($fund)
+                    {
+                    	return $dataTable->render('admin.reports.general-report',$data);
+                    }
+                    else
+                    {
+                        return view('admin.reports.general-report',$data);
+                    }
+            } catch (\Exception $e) {
+                return ExceptionHelper::customError($e);
             }
         }
 
         public function institutesReport(InstituteReportDataTable $dataTable)
         {
-            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-            return $dataTable->render('admin.reports.institutes-report',[
-                'years' => $years,
-                'fundsList' => $fundsList,
-            ]);
+            try{
+                $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+                $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+                return $dataTable->render('admin.reports.institutes-report',[
+                    'years' => $years,
+                    'fundsList' => $fundsList,
+                ]);
+            } catch (\Exception $e) {
+                return ExceptionHelper::customError($e);
+            }
         }
 
         public function instituteClassesReport(InstituteClassesReportDataTable $dataTable)
         {
-            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where('active',1)->where('sub_category_id',3)->pluck('fund_name', 'id');
-            return $dataTable->render('admin.reports.institute-classes-report',[
-                'years' => $years,
-                'fundsList' => $fundsList,
-            ]);
+            try{
+                $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+                $fundsList = Fund::where('active',1)->where('sub_category_id',3)->pluck('fund_name', 'id');
+                return $dataTable->render('admin.reports.institute-classes-report',[
+                    'years' => $years,
+                    'fundsList' => $fundsList,
+                ]);
+            } catch (\Exception $e) {
+                return ExceptionHelper::customError($e);
+            }
         }
 
         // public function instituteClassesReportQuery()
@@ -88,19 +101,23 @@ class ReportController extends Controller
 
         public function regionReligionReport(Request $request)
         {
-            $data = [];
-            if(request()->fund)
-            {
-                $data = $this->regionReligionData();
+            try{
+                $data = [];
+                if(request()->fund)
+                {
+                    $data = $this->regionReligionData();
+                }
+                $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+                $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+                
+            	return view('admin.reports.region-religion-report',[
+                    'years' => $years,
+                    'fundsList' => $fundsList,
+                    'data' => $data,
+                ]);
+            } catch (\Exception $e) {
+                return ExceptionHelper::customError($e);
             }
-            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-            
-        	return view('admin.reports.region-religion-report',[
-                'years' => $years,
-                'fundsList' => $fundsList,
-                'data' => $data,
-            ]);
         }
 
         public function regionReligionData()
@@ -166,19 +183,23 @@ class ReportController extends Controller
 
         public function dateWiseSummary(Request $request)
         {
-            $data = [];
-            if(request()->fund)
-            {
-                $data = $this->regionReligionData();
+            try{
+                $data = [];
+                if(request()->fund)
+                {
+                    $data = $this->regionReligionData();
+                }
+                $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
+                $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+                
+                return view('admin.reports.date-wise-summary-report',[
+                    'years' => $years,
+                    'fundsList' => $fundsList,
+                    'data' => $data,
+                ]);
+            	return view('admin.reports.date-wise-summary-report');
+            } catch (\Exception $e) {
+                return ExceptionHelper::customError($e);
             }
-            $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
-            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-            
-            return view('admin.reports.date-wise-summary-report',[
-                'years' => $years,
-                'fundsList' => $fundsList,
-                'data' => $data,
-            ]);
-        	return view('admin.reports.date-wise-summary-report');
         }
 }

@@ -22,7 +22,7 @@ class QualificationLevelDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('institute_type', function($row){
-                $instituteType = $row->institute_type_id;
+                $instituteType = $row->instituteType;
                 if($instituteType)
                 {
                     return '<a href="' . route('admin.institute-types.show', [$instituteType->id]) . '">' . $instituteType->type . '</a>';
@@ -41,7 +41,7 @@ class QualificationLevelDataTable extends DataTable
      */
     public function query(QualificationLevel $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('instituteType');
     }
 
     /**

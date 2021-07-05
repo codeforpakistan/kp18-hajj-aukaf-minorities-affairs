@@ -6,9 +6,12 @@ use App\DataTables\SchoolClassDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
+use App\Helpers\ExceptionHelper;
+use Illuminate\Validation\ValidationException;
 
 class SchoolClassController extends Controller
 {
+    protected $indexRoute = 'admin.school-classes.index';
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,11 @@ class SchoolClassController extends Controller
      */
     public function index(SchoolClassDataTable $dataTable)
     {
-        return $dataTable->render('admin.school-classes.index');
+        try{
+            return $dataTable->render('admin.school-classes.index');
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -37,12 +44,23 @@ class SchoolClassController extends Controller
      */
     public function store(Request $request)
     {
-        $schoolClass = SchoolClass::create($request->only(['class_number']));
-        if($schoolClass->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.school-classes.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'class_number' => 'unique:school_classes'
+            ]);
+            $schoolClass = SchoolClass::create($request->only(['class_number']));
+            if($schoolClass->wasRecentlyCreated)
+            {
+                return redirect()->route('admin.school-classes.index')->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route('admin.school-classes.index')->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.school-classes.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -53,10 +71,14 @@ class SchoolClassController extends Controller
      */
     public function show($id)
     {
-        $schoolClass = SchoolClass::find($id);
-        return view('admin.school-classes.show', [
-            'schoolClass' => $schoolClass,
-        ]);
+        try{
+            $schoolClass = SchoolClass::find($id);
+            return view('admin.school-classes.show', [
+                'schoolClass' => $schoolClass,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -67,10 +89,14 @@ class SchoolClassController extends Controller
      */
     public function edit($id)
     {
-        $schoolClass = SchoolClass::find($id);
-        return view('admin.school-classes.edit', [
-            'schoolClass' => $schoolClass
-        ]);
+        try{
+            $schoolClass = SchoolClass::find($id);
+            return view('admin.school-classes.edit', [
+                'schoolClass' => $schoolClass
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -82,18 +108,30 @@ class SchoolClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $schoolClass = SchoolClass::find($id);
+        try{
+            $this->validate($request,[
+                'class_number' => 'unique:school_classes'
+            ]);
 
-        if( ! $schoolClass){
-            return redirect()->route('admin.school-classes.index')->with('edit-failed', 'Could not find the record!');
-        }
+            $schoolClass = SchoolClass::find($id);
 
-        $recordUpdated = $schoolClass->update($request->only(['class_number']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.school-classes.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.school-classes.index')->with('edit-failed', 'Could not update the record!');
+            if( ! $schoolClass){
+                return redirect()->route('admin.school-classes.index')->with('edit-failed', 'Could not find the record!');
+            }
+
+            $recordUpdated = $schoolClass->update($request->only(['class_number']));
+            
+            if ($recordUpdated) {
+                return redirect()->route('admin.school-classes.index')->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route('admin.school-classes.index')->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -105,11 +143,15 @@ class SchoolClassController extends Controller
      */
     public function destroy($id)
     {
-        $schoolClass = SchoolClass::find($id);
-        $recordDeleted = $schoolClass->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $schoolClass = SchoolClass::find($id);
+            $recordDeleted = $schoolClass->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplicantRequest;
 use App\DataTables\ApplicantDataTable;
+use App\Http\Controllers\Controller;
+use App\Helpers\ExceptionHelper;
 use App\Models\Applicant;
+use App\Models\Religion;
 use App\Models\Fund;
 use App\Models\City;
-use App\Models\Religion;
 
 class ApplicantController extends Controller
 {
+    protected $indexRoute = 'admin.applicants.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -19,18 +22,22 @@ class ApplicantController extends Controller
      */
     public function index(ApplicantDataTable $dataTable)
     {
-        $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
-        if (! request()->has('fund') ) {
-            return redirect()->route('admin.applicants.index', ['fund' => $fundsList->keys()->last()]);
+        try{
+            $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
+            if (! request()->has('fund') ) {
+                return redirect()->route('admin.applicants.index', ['fund' => $fundsList->keys()->last()]);
+            }
+            $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
+            $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
+            // dd($religionsList);
+            return $dataTable->render('admin.applicants.index', [
+                'fundsList'     => $fundsList,
+                'citiesList'    => $citiesList,
+                'religionsList' => $religionsList,
+            ]);
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
         }
-        $citiesList = City::orderBy('name', 'ASC')->pluck('name', 'id');
-        $religionsList = Religion::orderBy('religion_name', 'ASC')->pluck('religion_name', 'id');
-        // dd($religionsList);
-        return $dataTable->render('admin.applicants.index', [
-            'fundsList'     => $fundsList,
-            'citiesList'    => $citiesList,
-            'religionsList' => $religionsList,
-        ]);
     }
 
     /**
@@ -51,11 +58,15 @@ class ApplicantController extends Controller
      */
     public function store(FundRequest $request)
     {
-        $fund = Fund::create($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
-        if ($fund->wasRecentlyCreated) {
-            return redirect()->route('admin.applicants.index')->with('create-success', 'The record has been created!');
-        } else {
-            return redirect()->route('admin.applicants.index')->with('create-failed', 'Could not create the record!');
+        try {
+            $fund = Fund::create($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
+            if ($fund->wasRecentlyCreated) {
+                return redirect()->route($this->indexRoute)->with('create-success', 'The record has been created!');
+            } else {
+                return redirect()->route($this->indexRoute)->with('create-failed', 'Could not create the record!');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -67,10 +78,14 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
-        $fund = Fund::find($id);
-        return view('admin.applicants.show', [
-            'fund' => $fund,
-        ]);
+        try{
+            $fund = Fund::find($id);
+            return view('admin.applicants.show', [
+                'fund' => $fund,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -81,14 +96,18 @@ class ApplicantController extends Controller
      */
     public function edit($id)
     {
-        $fund = Fund::find($id);
-        $fundCategories = FundCategory::pluck('type_of_fund', 'id');
-        $subCategories = SubCategory::where('fund_category_id', $fund->fund_category_id)->pluck('type', 'id');
-        return view('admin.applicants.edit', [
-            'fund' => $fund,
-            'fundCategories' => $fundCategories,
-            'subCategories'  => $subCategories,
-        ]);
+        try {
+            $fund = Fund::find($id);
+            $fundCategories = FundCategory::pluck('type_of_fund', 'id');
+            $subCategories = SubCategory::where('fund_category_id', $fund->fund_category_id)->pluck('type', 'id');
+            return view('admin.applicants.edit', [
+                'fund' => $fund,
+                'fundCategories' => $fundCategories,
+                'subCategories'  => $subCategories,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -100,14 +119,16 @@ class ApplicantController extends Controller
      */
     public function update(FundRequest $request, $id)
     {
-
-        $fund = Fund::find($id);
-
-        $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
-        if ($recordUpdated) {
-            return redirect()->route('admin.applicants.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.applicants.index')->with('edit-failed', 'Could not update the record!');
+        try {
+            $fund = Fund::find($id);
+            $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
+            if ($recordUpdated) {
+                return redirect()->route($this->indexRoute)->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route($this->indexRoute)->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -119,11 +140,15 @@ class ApplicantController extends Controller
      */
     public function destroy($id)
     {
-        $fund = Fund::find($id);
-        $recordDeleted = $fund->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $fund = Fund::find($id);
+            $recordDeleted = $fund->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

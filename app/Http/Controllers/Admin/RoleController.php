@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\RoleDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Helpers\ExceptionHelper;
 use App\Models\Role;
+use Illuminate\Validation\ValidationException;
 
 class RoleController extends Controller
 {
+    protected $indexRoute = 'admin.roles.index';
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,11 @@ class RoleController extends Controller
      */
     public function index(RoleDataTable $dataTable)
     {
-        return $dataTable->render('admin.roles.index');
+        try{
+            return $dataTable->render('admin.roles.index');
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -37,12 +44,23 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create($request->only(['name']));
-        if($role->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.roles.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'name' => 'unique:roles'
+            ]);
+            $role = Role::create($request->only(['name']));
+            if($role->wasRecentlyCreated)
+            {
+                return redirect()->route('admin.roles.index')->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route('admin.roles.index')->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.roles.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -53,10 +71,14 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = Role::find($id);
-        return view('admin.roles.show', [
-            'role' => $role,
-        ]);
+        try{
+            $role = Role::find($id);
+            return view('admin.roles.show', [
+                'role' => $role,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -67,10 +89,14 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::find($id);
-        return view('admin.roles.edit', [
-            'role' => $role,
-        ]);
+        try{
+            $role = Role::find($id);
+            return view('admin.roles.edit', [
+                'role' => $role,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -82,18 +108,29 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $role = Role::find($id);
+        try{
+            $this->validate($request,[
+                'name' => 'unique:roles'
+            ]);
+            $role = Role::find($id);
 
-        if( ! $role){
-            return redirect()->route('admin.roles.index')->with('edit-failed', 'Could not find the record!');
-        }
+            if( ! $role){
+                return redirect()->route('admin.roles.index')->with('edit-failed', 'Could not find the record!');
+            }
 
-        $recordUpdated = $role->update($request->only(['name']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.roles.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.roles.index')->with('edit-failed', 'Could not update the record!');
+            $recordUpdated = $role->update($request->only(['name']));
+            
+            if ($recordUpdated) {
+                return redirect()->route('admin.roles.index')->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route('admin.roles.index')->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -105,11 +142,15 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::find($id);
-        $recordDeleted = $role->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $role = Role::find($id);
+            $recordDeleted = $role->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

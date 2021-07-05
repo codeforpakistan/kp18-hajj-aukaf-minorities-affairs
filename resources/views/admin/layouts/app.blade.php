@@ -314,6 +314,7 @@
         <script src="{{ asset('js/demo.js') }}"></script>
         <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
         <script src="{{ asset('js/jquery-ui.js') }}"></script>
+        <script src="{{ asset('js/helpers.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
         <script>
             $("#form-validate").validate();
@@ -330,6 +331,20 @@
         @endif
         <script>
             $(window).load(function(){
+                @if(session()->has('error'))
+                    Swal.fire(
+                        "Oh noes!!",
+                        "{{session()->get('error')}}",
+                        "error"
+                    );
+                @endif
+                @if(session()->has('success'))
+                    Swal.fire(
+                        "Poof!",
+                        "{{session()->get('success')}}",
+                        "success"
+                    );
+                @endif
                 @if(session()->has('create-success'))
                     Swal.fire(
                         "Poof!",

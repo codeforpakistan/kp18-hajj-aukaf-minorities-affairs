@@ -6,9 +6,12 @@ use App\DataTables\InstituteTypeDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\InstituteType;
 use Illuminate\Http\Request;
+use App\Helpers\ExceptionHelper;
+use Illuminate\Validation\ValidationException;
 
 class InstituteTypeController extends Controller
 {
+    protected $indexRoute = 'admin.institute-types.index';
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,11 @@ class InstituteTypeController extends Controller
      */
     public function index(InstituteTypeDataTable $dataTable)
     {
-        return $dataTable->render('admin.institute-types.index');
+        try{
+            return $dataTable->render('admin.institute-types.index');
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -37,15 +44,23 @@ class InstituteTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'type' => 'unique:institute_types'
-        ]);
-        $instituteType = InstituteType::create($request->only(['type']));
-        if($instituteType->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.institute-types.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'type' => 'unique:institute_types'
+            ]);
+            $instituteType = InstituteType::create($request->only(['type']));
+            if($instituteType->wasRecentlyCreated)
+            {
+                return redirect()->route($this->indexRoute)->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route($this->indexRoute)->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.institute-types.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -56,10 +71,14 @@ class InstituteTypeController extends Controller
      */
     public function show($id)
     {
-        $instituteType = InstituteType::find($id);
-        return view('admin.institute-types.show', [
-            'instituteType' => $instituteType,
-        ]);
+        try{
+            $instituteType = InstituteType::find($id);
+            return view('admin.institute-types.show', [
+                'instituteType' => $instituteType,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -70,10 +89,14 @@ class InstituteTypeController extends Controller
      */
     public function edit($id)
     {
-        $instituteType = InstituteType::find($id);
-        return view('admin.institute-types.edit', [
-            'instituteType' => $instituteType,
-        ]);
+        try{
+            $instituteType = InstituteType::find($id);
+            return view('admin.institute-types.edit', [
+                'instituteType' => $instituteType,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -85,18 +108,30 @@ class InstituteTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $instituteType = InstituteType::find($id);
+        try{
+            $this->validate($request,[
+                'type' => 'unique:institute_types'
+            ]);
+            
+            $instituteType = InstituteType::find($id);
 
-        if( ! $instituteType){
-            return redirect()->route('admin.institute-types.index')->with('edit-failed', 'Could not find the record!');
-        }
+            if( ! $instituteType){
+                return redirect()->route($this->indexRoute)->with('edit-failed', 'Could not find the record!');
+            }
 
-        $recordUpdated = $instituteType->update($request->only(['type']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.institute-types.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.institute-types.index')->with('edit-failed', 'Could not update the record!');
+            $recordUpdated = $instituteType->update($request->only(['type']));
+            
+            if ($recordUpdated) {
+                return redirect()->route($this->indexRoute)->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route($this->indexRoute)->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -108,11 +143,15 @@ class InstituteTypeController extends Controller
      */
     public function destroy($id)
     {
-        $instituteType = InstituteType::find($id);
-        $recordDeleted = $instituteType->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $instituteType = InstituteType::find($id);
+            $recordDeleted = $instituteType->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

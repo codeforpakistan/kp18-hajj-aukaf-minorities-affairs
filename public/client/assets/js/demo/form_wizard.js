@@ -40,11 +40,16 @@ $(document).ready(function () {
     });
 
     // Functions
-    var displayConfirm = function () {
+    let displayConfirm = function () {
         $('#tab4 .form-control-static', form).each(function () {
             var input = $('[name="' + $(this).attr("data-display") + '"]', form);
+            if($(this).attr("data-display") === 'ApplicantContact[mob_number][]')
+            {
+                let mobileNumbers = $('[name="ApplicantContact[mob_number][]"]').map(function(){return $(this).val();}).get();
+                $(this).html(mobileNumbers.toString());
 
-            if (input.is(":text") || input.is("textarea")) {
+            }
+            else if (input.is('input') || input.is('textarea')) {
                 $(this).html(input.val());
             } else if (input.is("select")) {
                 $(this).html(input.find('option:selected').text());

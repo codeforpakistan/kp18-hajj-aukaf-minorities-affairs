@@ -82,7 +82,7 @@
     <div class="form-group">
         <label class="control-label col-md-3">Mobile Number</label>
         <div class="col-md-5">
-            <p class="form-control-static" data-display="ApplicantContact[mob_number]"></p>
+            <p class="form-control-static" data-display="ApplicantContact[mob_number][]"></p>
         </div>
     </div>
     <div class="form-actions" style="background-color: unset;border: none;">

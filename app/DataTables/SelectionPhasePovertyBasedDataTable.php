@@ -28,9 +28,9 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
 
         $totalCount = $query->count();
         if(request()->limit && $totalCount){
-            $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
-            if(intval(request()->limit) < 10){
-                $datatable['length'] = intval(request()->limit);
+            $totalCount = request()->limit <= $totalCount ? request()->limit : $totalCount;
+            if(request()->limit < 10){
+                $datatable['length'] = request()->limit;
             }
         }
 
@@ -74,50 +74,38 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
                 ->leftJoin('cities','cities.id','=','applicant_addresses.city_id')
                 ->join('funds','funds.id','=','applicant_fund_details.fund_id')
                 ->where([
-                    ['funds.total_amount', '>', floatval($distributed_amount)],
+                    ['funds.total_amount', '>', $distributed_amount],
                     ['applicant_fund_details.amount_recived', '=', null],
                     ['applicant_fund_details.selected', '=', 0],
-                    ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
+                    ['applicant_fund_details.fund_id', '=', request()->fund],
                 ]);
 
         if(request()->percentage){
-            $sql->join('qualifications',function($q){
-                $q->on('qualifications.applicant_id','applicants.id')->where('qualifications.percentage','>',request()->percentage);
-                $q->join('disciplines','disciplines.id','qualifications.discipline_id');
-            });
+            $sql->join('qualifications','qualifications.applicant_id','=','applicants.id');
+            $sql->join('disciplines','disciplines.id','=','qualifications.discipline_id');
+            $sql->where('qualifications.percentage','>',request()->percentage);
             $select[] = 'qualifications.percentage';
         }
 
-        // if(request()->percentage){
-        //     $sql->join('qualification_levels',function($q){
-        //         $q->on('qualification_levels.id','qualifications.qualification_level_id')->orderByDesc('qualifications.percentage');
-        //     });
-        // }
-                    
-
         if(request()->salary){
-            $sql->join('applicant_incomes',function($q){
-                $q->on('applicant_incomes.applicant_id','applicants.id')
-                    ->where('applicant_incomes.monthly_income',request()->salary_operator,intval(request()->salary))
-                    ->orderBy('applicant_incomes.monthly_income');
-            });
+            $sql->join('applicant_incomes','applicant_incomes.applicant_id','=','applicants.id');
+            $sql->orderBy('applicant_incomes.monthly_income');
+            $sql->where('applicant_incomes.monthly_income',request()->salary_operator,request()->salary);
         }
 
         if(request()->family_members){
-            $sql->join('applicant_household_details',function($q){
-                $q->on('applicant_household_details.applicant_id','applicants.id')
-                    ->where('applicant_household_details.dependent_family_members',request()->member_operator,intval(request()->family_members))
-                    ->orderByDesc('applicant_household_details.dependent_family_members');
-            });
+            $sql->join('applicant_household_details','applicant_household_details.applicant_id','=','applicants.id');
+            $sql->where('applicant_household_details.dependent_family_members',request()->member_operator,request()->family_members);
+            $sql->orderByDesc('applicant_household_details.dependent_family_members');
             $select[] = 'applicant_household_details.dependent_family_members';
         }
 
         if(request()->religion){
-            $sql->where('applicants.religion_id',intval(request()->religion));
+            $sql->where('applicants.religion_id',request()->religion);
         }
 
         if(request()->city_id){
-            $sql->where('applicant_addresses.city_id',intval(request()->city_id));
+            $sql->where('applicant_addresses.city_id',request()->city_id);
         }
 
         $sql->select(array_merge(['applicant_fund_details.id as id','applicants.name as name','applicants.father_name','applicants.cnic'],$select));

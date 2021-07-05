@@ -9,7 +9,7 @@
                 <div class="col-md-8">
                     {!! Form::select('Qualification[qualification_level_id]', $qualificationLevels, null, [
                         'id' => 'qualification_level',
-                        'class' => 'select2-select-00 col-md-12 full-width-fix',
+                        'class' => 'form-control',
                         'label' => false,
                         'placeholder' => 'Select Qualification Level',
                         'required',
@@ -166,7 +166,7 @@
                     <label class="col-md-4 control-label">City<span class="required"> *</span></label>
                     <div class="col-md-8">
                         {!! Form::select('Institute[city_id]', $cities, null, [
-                            'class' => 'select2-select-00 col-md-12 full-width-fix',
+                            'class' => 'form-control',
                             'label' => false,
                             'id' => 'q_city_dropdown',
                             'placeholder' => 'Select City',
@@ -179,7 +179,7 @@
                     <label class="col-md-4 control-label">Select Board<span class="required"> *</span></label>
                     <div class="col-md-8">
                         {!! Form::select('Qualification[degree_awarding_id]', $degreeAwardings, null, [
-                            'class' => 'select2-select-00 col-md-12 full-width-fix',
+                            'class' => 'form-control',
                             'id' => 'degree_awarding_id',
                             'label' => false,
                             'id' => 'city_dropdown',
@@ -229,7 +229,7 @@
                     <label class="col-md-4 control-label">Select University <span class="required"> *</span></label>
                     <div class="col-md-8">
                         {!! Form::select('Qualification[institute_id]', $institutes, null, [
-                            'class' => 'select2-select-00 col-md-12 full-width-fix',
+                            'class' => 'form-control',
                             'id' => 'institute_id',
                             'label' => false,
                             'placeholder' => 'Select University',

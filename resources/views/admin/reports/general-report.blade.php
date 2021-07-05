@@ -8,7 +8,7 @@
         'current_address' => 'Current Address',
         'permanent_address' => 'Permanent Address',
         'postal_address' => 'Postal Address',
-        'amount_recived' => 'Amount Recieved',
+        'amount_recieved' => 'Amount Recieved',
         'cheque_no' => 'Cheque No',
         'applying_date' => 'Applying Date',
         'payment_date' => 'Payment Date',

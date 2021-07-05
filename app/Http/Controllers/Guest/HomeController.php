@@ -133,82 +133,104 @@ class HomeController extends Controller
      */
     public function submitApplication(Request $request)
     {
-        $applicantId = NULL;
-        foreach ($request->except(['_token']) as $model => $input) {
-            $modelRef = 'App\Models\\' . $model;
-            $varName = lcfirst($model);
-            if ($model == 'Applicant') {
-                $$varName = $modelRef::create($input);
-                $applicantId = $$varName->id;
-            }
-            if ( ! is_null( $applicantId ) ) {
-                if ($model == 'Qualification') {
-                    if (!empty($input['total_marks']) && !empty($input['obtained_marks'])) {
-                        $input['percentage'] = round(($input['obtained_marks'] * 100) / $input['total_marks'], 2);
+        try {
+            $applicantId = NULL;
+            \DB::beginTransaction();
+            foreach ($request->except(['_token']) as $model => $input) {
+                $modelRef = 'App\Models\\' . $model;
+                $varName = lcfirst($model);
+                if ($model == 'Applicant') {
+                    if($model = $modelRef::where('cnic',$input['cnic'])->first())
+                    {
+                        $applicantId = $model->id;
+                        $model->update($input);
                     }
-                    if (!empty($request->Institute['name'])) {
-                        $instituteType = \App\Models\QualificationLevel::find($input['qualification_level_id']);
-                        $instituteInput = $request->Institute;
-                        $instituteInput['institute_type_id'] = $instituteType->institute_type_id;
-                        $institute = \App\Models\Institute::create($instituteInput);
-                        $input['institute_id'] = $institute->id;
+                    else{
+                        $$varName = $modelRef::create($input);
+                        $applicantId = $$varName->id;
                     }
-                    if (!empty($request->Discipline['discipline'])) {
-                        $disciplineInput = $request->Discipline;
-                        $disciplineInput['qualification_level_id'] = $input['qualification_level_id'];
-
-                        $discipline = \App\Models\Discipline::create($disciplineInput);
-                        $input['discipline_id'] = $discipline->id;
-                    }
-                    $input['applicant_id'] = $applicantId;
-                    $$varName = $modelRef::create($input);
                 }
-                if ($model == 'ApplicantContact') {
-                    if (!empty($request->ApplicantContact['mob_number'][0])) {
-                        foreach ($request->ApplicantContact['mob_number'] as $number){
-                            $contact = \App\Models\ApplicantContact::create([
-                                'applicant_id' => $applicantId,
-                                'mob_number' => $number,
-                            ]);
+                if ( ! is_null( $applicantId ) ) {
+                    if ($model == 'Qualification') {
+                        if (!empty($input['total_marks']) && !empty($input['obtained_marks'])) {
+                            $input['percentage'] = round(($input['obtained_marks'] * 100) / $input['total_marks'], 2);
+                        }
+                        if (!empty($request->Institute['name'])) {
+                            $instituteType = \App\Models\QualificationLevel::find($input['qualification_level_id']);
+                            $instituteInput = $request->Institute;
+                            $instituteInput['institute_type_id'] = $instituteType->institute_type_id;
+                            $institute = \App\Models\Institute::create($instituteInput);
+                            $input['institute_id'] = $institute->id;
+                        }
+                        if (!empty($request->Discipline['discipline'])) {
+                            $disciplineInput = $request->Discipline;
+                            $disciplineInput['qualification_level_id'] = $input['qualification_level_id'];
+
+                            $discipline = \App\Models\Discipline::create($disciplineInput);
+                            $input['discipline_id'] = $discipline->id;
+                        }
+                        $input['applicant_id'] = $applicantId;
+                        $$varName = $modelRef::create($input);
+                    }
+                    if ($model == 'ApplicantContact') {
+                        if (!empty($request->ApplicantContact['mob_number'][0])) {
+                            foreach ($request->ApplicantContact['mob_number'] as $number){
+                                \App\Models\ApplicantContact::create([
+                                    'applicant_id' => $applicantId,
+                                    'mob_number' => $number,
+                                ]);
+                            }
+                        }
+                    }
+                    if ($model == 'ApplicantProfession') {
+                        $applicantProfession = \App\Models\ApplicantProfession::create([
+                            'applicant_id' => $applicantId,
+                            'profession' => $input['profession'],
+                        ]);
+                    }
+                    if ($model == 'ApplicantHouseholdDetail') {
+                        $applicantProfession = \App\Models\ApplicantHouseholdDetail::create([
+                            'applicant_id' => $applicantId,
+                            'dependent_family_members' => $input['dependent_family_members'],
+                        ]);
+                    }
+                    if ($model == 'ApplicantIncome') {
+                        $applicantProfession = \App\Models\ApplicantIncome::create([
+                            'applicant_id' => $applicantId,
+                            'monthly_income' => $input['monthly_income'],
+                        ]);
+                    }
+                    if ($model == 'ApplicantAddress') {
+                        $address = \App\Models\ApplicantAddress::where('applicant_id','=',$applicantId);   
+                        $applicantAddressInput = [
+                            'applicant_id' => $applicantId,
+                            'current_address' => $input['current_address'],
+                            'permenent_address' => $input['permenent_address'],
+                            'postal_address' => $input['postal_address'],
+                            'city_id' => $input['city_id'],
+                        ];
+                        if($address)
+                        {
+                            $address->update($applicantAddressInput);   
+                        }
+                        else
+                        {
+                            $address = \App\Models\ApplicantAddress::create($applicantAddressInput);   
                         }
                     }
                 }
-                if ($model == 'ApplicantProfession') {
-                    $applicantProfession = \App\Models\ApplicantProfession::create([
-                        'applicant_id' => $applicantId,
-                        'profession' => $input['profession'],
-                    ]);
-                }
-                if ($model == 'ApplicantHouseholdDetail') {
-                    $applicantProfession = \App\Models\ApplicantHouseholdDetail::create([
-                        'applicant_id' => $applicantId,
-                        'dependent_family_members' => $input['dependent_family_members'],
-                    ]);
-                }
-                if ($model == 'ApplicantIncome') {
-                    $applicantProfession = \App\Models\ApplicantIncome::create([
-                        'applicant_id' => $applicantId,
-                        'monthly_income' => $input['monthly_income'],
-                    ]);
-                }
-                if ($model == 'ApplicantAddress') {
-                    $applicantAddressInput = [
-                        'applicant_id' => $applicantId,
-                        'current_address' => $input['current_address'],
-                        'permenent_address' => $input['permenent_address'],
-                        'postal_address' => $input['postal_address'],
-                        'city_id' => $input['city_id'],
-                    ];
-                    $address = \App\Models\ApplicantAddress::create($applicantAddressInput);   
-                }
             }
+            $applicantFundDetailInput = $request->ApplicantFundDetail;
+            $applicantFundDetailInput['applicant_id'] = $applicantId;
+            $applicantFundDetailInput['appling_date'] = date('Y-m-d');
+            $applicantFundDetail = ApplicantFundDetail::create($applicantFundDetailInput);
+            \DB::commit();
+            return redirect()->route('guest.home.index')->with('success', 'Application successful.');
+        } catch (\Exception $e) {
+            \DB::rollback();
+            report($e);
+            return redirect()->route('guest.home.index')->with('error', 'Something went wrong on server. Contact the department if the issue persists');
         }
-        $applicantFundDetailInput = $request->ApplicantFundDetail;
-        $applicantFundDetailInput['applicant_id'] = $applicantId;
-        $applicantFundDetailInput['appling_date'] = date('Y-m-d');
-        $applicantFundDetailInput['user_id'] = \Auth::id();
-        $applicantFundDetail = ApplicantFundDetail::create($applicantFundDetailInput);
-        return redirect()->route('guest.home.index')->with('success', 'Application successful.');
     }
 
     /**
@@ -219,16 +241,21 @@ class HomeController extends Controller
      */
     public function print(Request $request)
     {
-        if ($request->has('token')) {
-            $result = \App\Models\ApplicantFundDetail::find($request->token); 
-        } else {
-            return redirect()->route('guest.home.index')->with('error', "you can not access this location.");
+        try{
+            if ($request->has('token')) {
+                $result = \App\Models\ApplicantFundDetail::find($request->token); 
+            } else {
+                return redirect()->route('guest.home.index')->with('error', "you can not access this location.");
+            }
+            if (! $result) {
+                return redirect()->route('guest.home.index')->with('error', "no application found for this token.");
+            }
+            return view('applicants.applicant-print', [
+                'result' => $result,
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return redirect()->route('guest.home.index')->with('error', 'Something went wrong on server. Contact the department if the issue persists');
         }
-        if (! $result) {
-            return redirect()->route('guest.home.index')->with('error', "no application found for this token.");
-        }
-        return view('applicants.applicant-print', [
-            'result' => $result,
-        ]);
     }
 }

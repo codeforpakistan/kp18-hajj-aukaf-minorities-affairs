@@ -6,10 +6,13 @@ use App\DataTables\DisciplineDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Discipline;
 use App\Models\QualificationLevel;
+use App\Helpers\ExceptionHelper;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
 {
+    protected $indexRoute = 'admin.disciplines.index';
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +20,11 @@ class DisciplineController extends Controller
      */
     public function index(DisciplineDataTable $dataTable)
     {
-        return $dataTable->render('admin.disciplines.index');
+        try{
+            return $dataTable->render('admin.disciplines.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -27,11 +34,15 @@ class DisciplineController extends Controller
      */
     public function create()
     {
+        try{
 
-        $qualificationLevels = QualificationLevel::pluck('name','id');
-        return view('admin.disciplines.create',[
-            'qualificationLevels' => $qualificationLevels
-        ]);
+            $qualificationLevels = QualificationLevel::pluck('name','id');
+            return view('admin.disciplines.create',[
+                'qualificationLevels' => $qualificationLevels
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -42,15 +53,23 @@ class DisciplineController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'discipline' => 'unique:disciplines'
-        ]);
-        $discipline = Discipline::create($request->only(['discipline','qualification_level_id']));
-        if($discipline->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.disciplines.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'discipline' => 'unique:disciplines'
+            ]);
+            $discipline = Discipline::create($request->only(['discipline','qualification_level_id']));
+            if($discipline->wasRecentlyCreated)
+            {
+                return redirect()->route('admin.disciplines.index')->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route('admin.disciplines.index')->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.disciplines.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -61,10 +80,14 @@ class DisciplineController extends Controller
      */
     public function show($id)
     {
-        $discipline = Discipline::find($id);
-        return view('admin.disciplines.show', [
-            'discipline' => $discipline,
-        ]);
+        try{
+            $discipline = Discipline::find($id);
+            return view('admin.disciplines.show', [
+                'discipline' => $discipline,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -75,12 +98,16 @@ class DisciplineController extends Controller
      */
     public function edit($id)
     {
-        $discipline = Discipline::find($id);
-        $qualificationLevels = QualificationLevel::pluck('name','id');
-        return view('admin.disciplines.edit', [
-            'discipline' => $discipline,
-            'qualificationLevels' => $qualificationLevels
-        ]);
+        try{
+            $discipline = Discipline::find($id);
+            $qualificationLevels = QualificationLevel::pluck('name','id');
+            return view('admin.disciplines.edit', [
+                'discipline' => $discipline,
+                'qualificationLevels' => $qualificationLevels
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -92,18 +119,30 @@ class DisciplineController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $discipline = Discipline::find($id);
+        try{
+            $this->validate($request,[
+                'discipline' => 'unique:disciplines'
+            ]);
+            
+            $discipline = Discipline::find($id);
 
-        if( ! $discipline){
-            return redirect()->route('admin.disciplines.index')->with('edit-failed', 'Could not find the record!');
-        }
+            if( ! $discipline){
+                return redirect()->route('admin.disciplines.index')->with('edit-failed', 'Could not find the record!');
+            }
 
-        $recordUpdated = $discipline->update($request->only(['discipline','qualification_level_id']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.disciplines.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.disciplines.index')->with('edit-failed', 'Could not update the record!');
+            $recordUpdated = $discipline->update($request->only(['discipline','qualification_level_id']));
+            
+            if ($recordUpdated) {
+                return redirect()->route('admin.disciplines.index')->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route('admin.disciplines.index')->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -115,11 +154,15 @@ class DisciplineController extends Controller
      */
     public function destroy($id)
     {
-        $discipline = Discipline::find($id);
-        $recordDeleted = $discipline->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $discipline = Discipline::find($id);
+            $recordDeleted = $discipline->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

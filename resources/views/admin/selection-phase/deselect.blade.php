@@ -132,7 +132,7 @@
                         try {
                             Swal.fire(
                                 "Poof!",
-                                error.response.data.error,
+                                error.response.data.message,
                                 "error",
                             );
                         } catch(e) {

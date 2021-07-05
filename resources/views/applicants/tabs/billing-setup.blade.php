@@ -36,10 +36,10 @@
     <div class="form-group">
         <label class="col-md-3 control-label">District<span class="required"> *</span></label>
         <div class="col-md-5">
-            {!! Form::select('ApplicantAddress[city_id]', $cities, null, [
-                'class' => 'select2-select-00 col-md-12 full-width-fix',
-                'label' => false,
-                'placeholder' => 'Select City',
+            {!! Form::select('ApplicantAddress[city_id]', $cities, $cities->first(), [
+                'class' => 'form-control',
+                'label' => true,
+                'placeholder' => 'Select City/District',
                 'required',
             ]) !!}
         </div>

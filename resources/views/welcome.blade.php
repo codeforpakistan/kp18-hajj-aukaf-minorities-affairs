@@ -23,6 +23,13 @@
                     </div>
                 </div>
             @endif
+            @if(session('success'))
+                <div class="col-md-12">
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            @endif
             <!--=== Form Wizard ===-->
             <div class="col-md-1"></div>
             @if (isset($no_available_grants))

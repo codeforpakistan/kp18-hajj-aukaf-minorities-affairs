@@ -35,7 +35,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr role="row" v-for="(detail,index) in list" :key="index">
+                                        <tr role="row" v-for="(detail,index) in list" :key="detail.id">
                                             <td v-text="detail.name"></td>
                                             <td v-text="detail.father_name"></td>
                                             <td v-text="detail.cnic"></td>
@@ -118,17 +118,17 @@
                 },
 
                 filter(){
+                    this.list = [];
                     axios({
                         url : this.getApplicantsUrl,
                         params : this.form
                     }).then((response => {
-                        this.list = [];
                         this.list = response.data.list;
                     })).catch((error) => {
                         try {
                             Swal.fire(
                                 "Poof!",
-                                error.response.data.error,
+                                error.response.data.message,
                                 "error",
                             );
                         } catch(e) {

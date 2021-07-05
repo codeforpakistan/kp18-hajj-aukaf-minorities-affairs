@@ -6,9 +6,12 @@ use App\DataTables\DistrictDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use App\Helpers\ExceptionHelper;
 
 class DistrictController extends Controller
 {
+    protected $indexRoute = 'admin.districts.index';
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,11 @@ class DistrictController extends Controller
      */
     public function index(DistrictDataTable $dataTable)
     {
-        return $dataTable->render('admin.districts.index');
+        try{
+            return $dataTable->render('admin.districts.index');
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -37,15 +44,23 @@ class DistrictController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name' => 'unique:cities'
-        ]);
-        $city = City::create($request->only(['name','latitude','longitude','province']));
-        if($city->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.districts.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'name' => 'unique:cities'
+            ]);
+            $city = City::create($request->only(['name','latitude','longitude','province']));
+            if($city->wasRecentlyCreated)
+            {
+                return redirect()->route('admin.districts.index')->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route('admin.districts.index')->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.districts.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -56,10 +71,14 @@ class DistrictController extends Controller
      */
     public function show($id)
     {
-        $city = City::find($id);
-        return view('admin.districts.show', [
-            'city' => $city,
-        ]);
+        try{
+            $city = City::find($id);
+            return view('admin.districts.show', [
+                'city' => $city,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -70,10 +89,14 @@ class DistrictController extends Controller
      */
     public function edit($id)
     {
-        $district = City::find($id);
-        return view('admin.districts.edit', [
-            'district' => $district,
-        ]);
+        try{
+            $district = City::find($id);
+            return view('admin.districts.edit', [
+                'district' => $district,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -85,18 +108,31 @@ class DistrictController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $district = City::find($id);
+        try{
+            
+            $this->validate($request,[
+                'name' => 'unique:cities'
+            ]);
+            
+            $district = City::find($id);
 
-        if( ! $district){
-            return redirect()->route('admin.districts.index')->with('edit-failed', 'Could not find the record!');
-        }
+            if( ! $district){
+                return redirect()->route('admin.districts.index')->with('edit-failed', 'Could not find the record!');
+            }
 
-        $recordUpdated = $district->update($request->only(['name','latitude','longitude','province']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.districts.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.districts.index')->with('edit-failed', 'Could not update the record!');
+            $recordUpdated = $district->update($request->only(['name','latitude','longitude','province']));
+            
+            if ($recordUpdated) {
+                return redirect()->route('admin.districts.index')->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route('admin.districts.index')->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -108,11 +144,15 @@ class DistrictController extends Controller
      */
     public function destroy($id)
     {
-        $city = City::find($id);
-        $recordDeleted = $city->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $city = City::find($id);
+            $recordDeleted = $city->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

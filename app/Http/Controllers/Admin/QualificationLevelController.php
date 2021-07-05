@@ -7,9 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\InstituteType;
 use App\Models\QualificationLevel;
 use Illuminate\Http\Request;
+use App\Helpers\ExceptionHelper;
+use Illuminate\Validation\ValidationException;
 
 class QualificationLevelController extends Controller
 {
+    protected $indexRoute = 'admin.qualification-levels.index';
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +20,11 @@ class QualificationLevelController extends Controller
      */
     public function index(QualificationLevelDataTable $dataTable)
     {
-        return $dataTable->render('admin.qualification-levels.index');
+        try{
+            return $dataTable->render('admin.qualification-levels.index');
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -27,10 +34,14 @@ class QualificationLevelController extends Controller
      */
     public function create()
     {
-        $instituteTypes = InstituteType::pluck('type', 'id');
-        return view('admin.qualification-levels.create', [
-            'instituteTypes' => $instituteTypes,
-        ]);
+        try{
+            $instituteTypes = InstituteType::pluck('type', 'id');
+            return view('admin.qualification-levels.create', [
+                'instituteTypes' => $instituteTypes,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -41,15 +52,23 @@ class QualificationLevelController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name' => 'unique:qualification_levels'
-        ]);
-        $qualificationLevel = QualificationLevel::create($request->only(['name','institute_type_id']));
-        if($qualificationLevel->wasRecentlyCreated)
-        {
-            return redirect()->route('admin.qualification-levels.index')->with('create-success', 'The record has been created!');
+        try{
+            $this->validate($request,[
+                'name' => 'unique:qualification_levels'
+            ]);
+            $qualificationLevel = QualificationLevel::create($request->only(['name','institute_type_id']));
+            if($qualificationLevel->wasRecentlyCreated)
+            {
+                return redirect()->route('admin.qualification-levels.index')->with('create-success', 'The record has been created!');
+            }
+            return redirect()->route('admin.qualification-levels.index')->with('create-failed', 'Could not create the record!');
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->route('admin.qualification-levels.index')->with('create-failed', 'Could not create the record!');
     }
 
     /**
@@ -60,10 +79,14 @@ class QualificationLevelController extends Controller
      */
     public function show($id)
     {
-        $qualificationLevel = QualificationLevel::find($id);
-        return view('admin.qualification-levels.show', [
-            'qualificationLevel' => $qualificationLevel,
-        ]);
+        try{
+            $qualificationLevel = QualificationLevel::find($id);
+            return view('admin.qualification-levels.show', [
+                'qualificationLevel' => $qualificationLevel,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -74,12 +97,16 @@ class QualificationLevelController extends Controller
      */
     public function edit($id)
     {
-        $qualificationLevel = QualificationLevel::find($id);
-        $instituteTypes = InstituteType::pluck('type', 'id');
-        return view('admin.qualification-levels.edit', [
-            'qualificationLevel' => $qualificationLevel,
-            'instituteTypes' => $instituteTypes,
-        ]);
+        try{
+            $qualificationLevel = QualificationLevel::find($id);
+            $instituteTypes = InstituteType::pluck('type', 'id');
+            return view('admin.qualification-levels.edit', [
+                'qualificationLevel' => $qualificationLevel,
+                'instituteTypes' => $instituteTypes,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+        }
     }
 
     /**
@@ -91,18 +118,29 @@ class QualificationLevelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $qualificationLevel = QualificationLevel::find($id);
+        try{
+            $this->validate($request,[
+                'name' => 'unique:qualification_levels'
+            ]);
+            $qualificationLevel = QualificationLevel::find($id);
 
-        if( ! $qualificationLevel){
-            return redirect()->route('admin.qualification-levels.index')->with('edit-failed', 'Could not find the record!');
-        }
+            if( ! $qualificationLevel){
+                return redirect()->route('admin.qualification-levels.index')->with('edit-failed', 'Could not find the record!');
+            }
 
-        $recordUpdated = $qualificationLevel->update($request->only(['name','institute_type_id']));
-        
-        if ($recordUpdated) {
-            return redirect()->route('admin.qualification-levels.index')->with('edit-success', 'The record has been updated!');
-        } else {
-            return redirect()->route('admin.qualification-levels.index')->with('edit-failed', 'Could not update the record!');
+            $recordUpdated = $qualificationLevel->update($request->only(['name','institute_type_id']));
+            
+            if ($recordUpdated) {
+                return redirect()->route('admin.qualification-levels.index')->with('edit-success', 'The record has been updated!');
+            } else {
+                return redirect()->route('admin.qualification-levels.index')->with('edit-failed', 'Could not update the record!');
+            }
+        } catch (ValidationException $e) {
+
+            return redirect()->back()->withErrors($e->validator);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
     }
 
@@ -114,11 +152,15 @@ class QualificationLevelController extends Controller
      */
     public function destroy($id)
     {
-        $qualificationLevel = QualificationLevel::find($id);
-        $recordDeleted = $qualificationLevel->delete();
-        if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+        try{
+            $qualificationLevel = QualificationLevel::find($id);
+            $recordDeleted = $qualificationLevel->delete();
+            if ( ! $recordDeleted ) {
+                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            }
+            return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
     }
 }

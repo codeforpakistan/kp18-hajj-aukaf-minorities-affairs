@@ -1,4 +1,4 @@
-<!--=== Your Profile ===-->
+<!-- === Your Profile ===-->
 <div class="tab-pane" id="tab2">
     <h3 style="color:#117D2C;" class="block padding-bottom-10px">We want to know more about you</h3>
     @if (isset($error_msg))
@@ -14,7 +14,8 @@
     @endphp
     @if ($selectedFund->sub_category_id == 2)
         @php
-            $g_s = 'female'
+            $g_s = 'female';
+            $m_s = 1;
         @endphp
         <h3 style="border: 1px solid #eee;background-color: #eee9;padding: 10px 5px;">Bride Details</h3>
     @endif
@@ -76,7 +77,7 @@
             <label class="col-md-3 control-label">Domicile<span class="required"> *</span></label>
             <div class="col-md-5">
                 {!! Form::select('Applicant[domicile]', $cities, null, [
-                    'class' => 'select2-select-00 col-md-12 full-width-fix',
+                    'class' => 'form-control',
                     'label' => false,
                     'placeholder' => 'Select District',
                     'required',
@@ -143,7 +144,6 @@
                         "data-mask" => "0399 9999999",
                         'required'
                     ]) !!}
-                    <span class="help-block">Enter CNIC(xxxxx-xxxxxxx-x)</span>
                 </div>
             </div>
         @else
@@ -161,7 +161,7 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">Monthly Income<span class="required"> *</span></label>
                 <div class="col-md-5">
-                    {!! Form::text('ApplicantIncome[monthly_income]', null, [
+                    {!! Form::number('ApplicantIncome[monthly_income]', null, [
                         'label' => false,
                         'class' => 'form-control',
                         'required'
@@ -172,7 +172,7 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">Dependent Family Members<span class="required"> *</span></label>
                 <div class="col-md-5">
-                    {!! Form::text('ApplicantHouseholdDetail[dependent_family_members]', null, [
+                    {!! Form::number('ApplicantHouseholdDetail[dependent_family_members]', null, [
                         'label' => false,
                         'class' => 'form-control',
                         'min' => 0,
@@ -220,6 +220,8 @@
                     {!! Form::text('Applicant[dcontact]', null, [
                         'label' => false,
                         'class' => 'form-control',
+                        'pattern' => '[0-9]{4} [0-9]{7}',
+                        "data-mask" => "0399 9999999",
                         'required'
                     ]) !!}
                 </div>
@@ -227,4 +229,4 @@
         @endif
     @endif
 </div>
-<!-- /Your Profile -->
+<!-- /Your Profile 
