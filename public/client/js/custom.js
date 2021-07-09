@@ -271,8 +271,6 @@ function changeClasses(){
     if(qualification_level != '' && education_system != '')
     {
         if ((qualification_level == 1 || qualification_level == 2) && education_system === 'annual') {
-            
-            console.log('OK1');
             $('#current_class').empty();
             $('#recent_class').empty();
             for(let clas of classes[education_system][qualification_level]){
@@ -282,14 +280,11 @@ function changeClasses(){
 
         }
         else if(education_system == 'annual'){
-            console.log('OK2');
             $('#current_class').empty();
             $('#recent_class').empty();
             if(classes[education_system])
             {
-                console.log(Number(qualification_level));
                 qualification_level = Number(qualification_level) > 2 ? 3 : qualification_level;
-                console.log(qualification_level);
                 for(let clas of classes[education_system][qualification_level]){
                     $('#current_class').append($('<option>').text(clas).attr('value', clas));
                     $('#recent_class').append($('<option>').text(clas).attr('value', clas));
@@ -298,8 +293,6 @@ function changeClasses(){
 
         }
         else if(classes.hasOwnProperty(education_system) && education_system != 'annual'){
-            console.log('OK3');
-            console.log(classes[education_system]);
             $('#current_class').empty();
             $('#recent_class').empty();
             for(let clas of classes[education_system]){
@@ -528,8 +521,7 @@ $(function () {
     });
 
     $('#obtained_cgpa').on('blur',function () {
-        let trailingZeros = ['','.00','00','0',''];
-        addZeros('obtained_cgpa',trailingZeros);
+        addZeros('obtained_cgpa');
     });
 
 
@@ -567,8 +559,7 @@ $(function () {
     });
 
     $('#percentage').on('blur',function () {
-        let trailingZeros = ['','.00','00','0',''];
-        addZeros('percentage',trailingZeros,true);
+        addZeros('percentage');
     });
 
     $('#percentage').focus(function () {
@@ -595,7 +586,8 @@ $(function () {
     });
 });
 
-function addZeros(id,trailingZeros,percentage = false){
+function addZeros(id){
+    let trailingZeros = ['','.00','00','0'];
     let value = $(`#${id}`).val();
     if($.isNumeric(value))
     {
@@ -603,21 +595,13 @@ function addZeros(id,trailingZeros,percentage = false){
     }
     if(value.length < (trailingZeros.length) && value.length > 0)
     {
-        if(percentage){
-            if(parseFloat(value) >= 100)
-            {
-               value = '100.00'; 
-            }
-            else{
-                value += trailingZeros[value.length];
-            }
+        if(parseFloat(value) >= 100)
+        {
+           value = '100.00'; 
         }
         else{
-            console.log(trailingZeros[value.length]);
             value += trailingZeros[value.length];
-            // value = parseFloat(value).toFixed(2);
         }
-        console.log(value);
     }
     $(`#${id}`).val(value);
     $(`#${id}_error`).text('');
