@@ -106,6 +106,7 @@ class HomeController extends Controller
                     $query->where('cnic', 'LIKE', $request->cnic);
                 })
                 ->get();
+
             if ( $check->isEmpty() ) {
                 $f_cat = SubCategory::get();
             } else {

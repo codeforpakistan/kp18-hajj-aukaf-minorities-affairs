@@ -33,6 +33,7 @@
                     {!! Form::select('Qualification[education_system]', ['annual' => 'Annual', 'semester' => 'Semester', 'term' => 'Term'], null, [
                         'class' => 'form-control',
                         'label' => false,
+                        'id' => 'education_system',
                         'placeholder' => 'Select Education System',
                         'required',
                     ]) !!}
@@ -41,7 +42,7 @@
             <div class="form-group" id="div_passedclass" style="display:none">
                 <label id="label_passedclass" class="col-md-4 control-label">Recently passed class</label>
                 <div class="col-md-8">
-                    {!! Form::text('Qualification[recent_class]', null, [
+                    {!! Form::select('Qualification[recent_class]', [], null, [
                         'label' => false,
                         'class' => 'form-control',
                         'id' => 'recent_class',
@@ -64,7 +65,7 @@
             <div class="form-group" id="div_currentclass" style="display:none">
                 <label id="label_currentclass" class="col-md-4 control-label">Current class</label>
                 <div class="col-md-8">
-                    {!! Form::text('Qualification[current_class]', null, [
+                    {!! Form::select('Qualification[current_class]', [],null, [
                         'label' => false,
                         'class' => 'form-control',
                         'id' => 'current_class',

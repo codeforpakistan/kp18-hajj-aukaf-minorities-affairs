@@ -214,8 +214,6 @@ function change_fields(qualification_level) {
         $('#institute_id').select2('data', null).attr('required', false);
         $('#discipline').val('').attr('required', false);
 
-        // callForDisciplines(qualification_level);
-
     } else {
         $('.select2-chosen').text('');
         $('#school_fields').fadeOut();
@@ -230,8 +228,88 @@ function change_fields(qualification_level) {
         $('#discipline').empty();
         $('#discipline').append($('<option>').text("Select Discipline").attr('value', ''));
     }
+    changeClasses();
     callForDisciplines(qualification_level);
 }
+
+let classes = {
+    'term' : ['1st','2nd', '3rd', '4th','Other'],
+
+    'semester' : ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','Other'],
+
+    'annual' : [
+        [], // no zero qualification level
+        // For Matric
+        [
+            '9th',
+            '10th',
+            'Other'
+        ],
+        // For FA, FSc, DAE
+        [
+            '1st Year',
+            '2nd Year',
+            '3rd Year',
+            'Other'
+        ],
+        // For Bs, MS, PHD
+        [
+            '1st Year',
+            '2nd Year',
+            '3rd Year',
+            '4th Year',
+            '5th Year',
+            'Other'
+        ],
+
+    ]
+};
+
+function changeClasses(){
+    let qualification_level = $('#qualification_level').val();
+    let education_system = $('#education_system').val();
+    if(qualification_level != '' && education_system != '')
+    {
+        if ((qualification_level == 1 || qualification_level == 2) && education_system === 'annual') {
+            
+            console.log('OK1');
+            $('#current_class').empty();
+            $('#recent_class').empty();
+            for(let clas of classes[education_system][qualification_level]){
+                $('#current_class').append($('<option>').text(clas).attr('value', clas));
+                $('#recent_class').append($('<option>').text(clas).attr('value', clas));
+            }
+
+        }
+        else if(education_system == 'annual'){
+            console.log('OK2');
+            $('#current_class').empty();
+            $('#recent_class').empty();
+            if(classes[education_system])
+            {
+                console.log(Number(qualification_level));
+                qualification_level = Number(qualification_level) > 2 ? 3 : qualification_level;
+                console.log(qualification_level);
+                for(let clas of classes[education_system][qualification_level]){
+                    $('#current_class').append($('<option>').text(clas).attr('value', clas));
+                    $('#recent_class').append($('<option>').text(clas).attr('value', clas));
+                }
+            }
+
+        }
+        else if(classes.hasOwnProperty(education_system) && education_system != 'annual'){
+            console.log('OK3');
+            console.log(classes[education_system]);
+            $('#current_class').empty();
+            $('#recent_class').empty();
+            for(let clas of classes[education_system]){
+                $('#current_class').append($('<option>').text(clas).attr('value', clas));
+                $('#recent_class').append($('<option>').text(clas).attr('value', clas));
+            }
+        }
+    }
+}
+
 function remove_button(fund_expired) {
     // $.ajax({
     //     type: "GET",
@@ -381,6 +459,10 @@ $(function () {
         change_fields(qualification_level);
     }
 
+    $('#education_system').on('change',function(){
+        changeClasses();
+    });
+
 //    get disciplines
     $('.select2-search-choice-close').remove();
     $('#qualification_level').change(function () {
@@ -446,8 +528,14 @@ $(function () {
     });
 
     $('#obtained_cgpa').on('blur',function () {
-        let trailingZeros = ['','.00','00','0'];
+        let trailingZeros = ['','.00','00','0',''];
         addZeros('obtained_cgpa',trailingZeros);
+    });
+
+
+    $('#total_cgpa').on('input',function () {
+        $('#obtained_cgpa').val('');
+        $('#percentage').val('');
     });
 
     $('#obtained_cgpa').on('input',function () {
@@ -479,7 +567,7 @@ $(function () {
     });
 
     $('#percentage').on('blur',function () {
-        let trailingZeros = ['','.00','.00','00','0'];
+        let trailingZeros = ['','.00','00','0',''];
         addZeros('percentage',trailingZeros,true);
     });
 
@@ -509,7 +597,11 @@ $(function () {
 
 function addZeros(id,trailingZeros,percentage = false){
     let value = $(`#${id}`).val();
-    if(value.length < (trailingZeros.length - 1) && value.length > 0)
+    if($.isNumeric(value))
+    {
+        value = parseFloat(value).toFixed(2).toString();
+    }
+    if(value.length < (trailingZeros.length) && value.length > 0)
     {
         if(percentage){
             if(parseFloat(value) >= 100)
@@ -518,14 +610,15 @@ function addZeros(id,trailingZeros,percentage = false){
             }
             else{
                 value += trailingZeros[value.length];
-                value = parseFloat(value).toFixed(2);
             }
         }
         else{
+            console.log(trailingZeros[value.length]);
             value += trailingZeros[value.length];
-            value = parseFloat(value).toFixed(2);
+            // value = parseFloat(value).toFixed(2);
         }
-        $(`#${id}`).val(value);
-        $(`#${id}_error`).text('');
+        console.log(value);
     }
+    $(`#${id}`).val(value);
+    $(`#${id}_error`).text('');
 }
