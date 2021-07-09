@@ -152,11 +152,11 @@ class ApplicantDataTable extends DataTable
             Column::make('religion_name')->title('Religion'),
             Column::make('applied_on')->title('Applied on'),
             Column::make('amount')->title('Amount'),
-            Column::computed('action')->title('Actions')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            // Column::computed('action')->title('Actions')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(60)
+            //     ->addClass('text-center'),
         ];
     }
 

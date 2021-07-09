@@ -119,6 +119,7 @@
                                 </table>
                             </div>
                             <div style="width: 50%;float: left;padding-right: 20px;clear:both;border-right: 1px solid #ccc;">
+                                @dd($result->applicant->qualification)
                                 <h4 style="">Qualification Details</h4>
                                 <table class="table">
                                     <tr>
@@ -166,16 +167,16 @@
                                     @else
                                         <tr>
                                             <td>Total CGPA</td>
-                                            <td>{{ $result->applicant->qualification->total_cgpa }}</td>
+                                            <td>{{ number_format($result->applicant->qualification->total_cgpa,2,'.','') }}</td>
                                         </tr>
                                         <tr>
                                             <td>Obtained CGPA</td>
-                                            <td>{{ $result->applicant->qualification->obtained_cgpa }}</td>
+                                            <td>{{ number_format($result->applicant->qualification->obtained_cgpa,2,'.','') }}</td>
                                         </tr>
                                     @endif
                                     <tr>
                                         <td>Percentage</td>
-                                        <td>{{ $result->applicant->qualification->percentage }}%</td>
+                                        <td>{{ number_format($result->applicant->qualification->percentage,2,'.','') }}%</td>
                                     </tr>
 
                                 </table>

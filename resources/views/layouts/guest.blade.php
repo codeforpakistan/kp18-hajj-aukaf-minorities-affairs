@@ -70,6 +70,7 @@
         <script type="text/javascript" src="{{ asset('client/assets/js/app.js') }}"></script>
         <script type="text/javascript" src="{{ asset('client/assets/js/plugins.js') }}"></script>
         <script type="text/javascript" src="{{ asset('client/assets/js/plugins.form-components.js') }}"></script>
+        <script src="{{ asset('js/axios.min.js') }}"></script>
         <script>
             $(document).ready(function () {
                 "use strict";

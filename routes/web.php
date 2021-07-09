@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'Guest\HomeController@index')->name('guest.home.index');
+Route::get('qualification/disciplines', 'Guest\HomeController@getDisciplines');
 Route::post('/', 'Guest\HomeController@submit')->name('guest.home.submit');
 Route::post('/submit-application', 'Guest\HomeController@submitApplication')
     ->name('guest.home.submit-application');

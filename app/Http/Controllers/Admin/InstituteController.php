@@ -126,7 +126,7 @@ class InstituteController extends Controller
     {
         try{
             $this->validate($request,[
-                'name' => 'unique:institutes'
+                'name' => 'unique:institutes,name,'.$id
             ]);
             
             $institute = Institute::find($id);

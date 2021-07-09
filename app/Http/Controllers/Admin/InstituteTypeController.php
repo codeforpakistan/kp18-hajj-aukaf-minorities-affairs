@@ -110,7 +110,7 @@ class InstituteTypeController extends Controller
     {
         try{
             $this->validate($request,[
-                'type' => 'unique:institute_types'
+                'type' => 'unique:institute_types,type,'.$id
             ]);
             
             $instituteType = InstituteType::find($id);

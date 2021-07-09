@@ -108,7 +108,7 @@ class DegreeAwardingBoardController extends Controller
     {
         try{
             $this->validate($request,[
-                'name' => 'unique:degree_awardings'
+                'name' => 'unique:degree_awardings,name,'.$id
             ]);
             $degreeAwarding = DegreeAwarding::find($id);
 

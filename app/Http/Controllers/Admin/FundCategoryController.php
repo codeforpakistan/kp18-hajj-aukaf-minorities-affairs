@@ -110,7 +110,7 @@ class FundCategoryController extends Controller
     {
         try{
             $this->validate($request,[
-                'type_of_fund' => 'unique:fund_categories'
+                'type_of_fund' => 'unique:fund_categories,type_of_fund'.$id
             ]);
             $fundCategory = FundCategory::find($id);
 

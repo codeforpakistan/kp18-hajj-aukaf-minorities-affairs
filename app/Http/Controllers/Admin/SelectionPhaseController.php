@@ -73,6 +73,8 @@ class SelectionPhaseController extends Controller
                 'totalCount' => $totalCount,
                 'ids' => $ids,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return ExceptionHelper::customError($e);
         }
@@ -96,6 +98,8 @@ class SelectionPhaseController extends Controller
                 return response()->json(['error' => 'Amount per head should be greater that zero'],500);
 
             }
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
 
             return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
@@ -116,6 +120,8 @@ class SelectionPhaseController extends Controller
                 'citiesList'    => $citiesList,
                 'religionsList' => $religionsList,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
@@ -146,6 +152,8 @@ class SelectionPhaseController extends Controller
             
             return response()->json($data,200);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
@@ -209,6 +217,8 @@ class SelectionPhaseController extends Controller
                 'citiesList'    => $citiesList,
                 'religionsList' => $religionsList,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return ExceptionHelper::customError($e);
         }
@@ -297,6 +307,8 @@ class SelectionPhaseController extends Controller
             if($updated){
                 return response()->json(['message' => 'Applicant has been deselected'],200);
             }
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
@@ -314,6 +326,8 @@ class SelectionPhaseController extends Controller
             
             return response()->json($data,200);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }
@@ -344,6 +358,8 @@ class SelectionPhaseController extends Controller
             if($updated){
                 return response()->json(['message' => 'Distributed'],200);
             }
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return response()->json(['message' => ExceptionHelper::somethingWentWrong($e)],500);
         }

@@ -120,7 +120,7 @@ class QualificationLevelController extends Controller
     {
         try{
             $this->validate($request,[
-                'name' => 'unique:qualification_levels'
+                'name' => 'unique:qualification_levels,name,'.$id
             ]);
             $qualificationLevel = QualificationLevel::find($id);
 

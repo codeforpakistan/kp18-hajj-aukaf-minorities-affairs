@@ -21,6 +21,8 @@ class RoleController extends Controller
     {
         try{
             return $dataTable->render('admin.roles.index');
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return ExceptionHelper::customError($e);
         }
@@ -58,6 +60,8 @@ class RoleController extends Controller
 
             return redirect()->back()->withErrors($e->validator);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -76,6 +80,8 @@ class RoleController extends Controller
             return view('admin.roles.show', [
                 'role' => $role,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -94,6 +100,8 @@ class RoleController extends Controller
             return view('admin.roles.edit', [
                 'role' => $role,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -110,7 +118,7 @@ class RoleController extends Controller
     {
         try{
             $this->validate($request,[
-                'name' => 'unique:roles'
+                'name' => 'unique:roles,name,'.$id
             ]);
             $role = Role::find($id);
 
@@ -129,6 +137,8 @@ class RoleController extends Controller
 
             return redirect()->back()->withErrors($e->validator);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -149,6 +159,8 @@ class RoleController extends Controller
                 return redirect()->back()->with('delete-failed', 'Could not delete the record');
             }
             return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }

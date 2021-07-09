@@ -110,7 +110,7 @@ class ReligionController extends Controller
     {
         try{
             $this->validate($request,[
-                'religion_name' => 'unique:religions'
+                'religion_name' => 'unique:religions,religion_name,'.$id
             ]);
             
             $religion = Religion::find($id);

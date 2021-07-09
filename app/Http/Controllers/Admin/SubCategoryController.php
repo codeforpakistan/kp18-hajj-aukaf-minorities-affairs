@@ -22,6 +22,8 @@ class SubCategoryController extends Controller
     {
         try{
             return $dataTable->render('admin.sub-categories.index');
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return ExceptionHelper::customError($e);
         }
@@ -39,6 +41,8 @@ class SubCategoryController extends Controller
             return view('admin.sub-categories.create', [
                 'fundCategories' => $fundCategories,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -67,6 +71,8 @@ class SubCategoryController extends Controller
 
             return redirect()->back()->withErrors($e->validator);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -85,6 +91,8 @@ class SubCategoryController extends Controller
             return view('admin.sub-categories.show', [
                 'subCategory' => $subCategory,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -105,6 +113,8 @@ class SubCategoryController extends Controller
                 'subCategory' => $subCategory,
                 'fundCategories' => $fundCategories,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -122,7 +132,7 @@ class SubCategoryController extends Controller
 
         try{
             $this->validate($request,[
-                'type' => 'unique:sub_categories'
+                'type' => 'unique:sub_categories,type,'.$id
             ]);
             
             $subCategory = SubCategory::find($id);
@@ -137,6 +147,8 @@ class SubCategoryController extends Controller
 
             return redirect()->back()->withErrors($e->validator);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -157,6 +169,8 @@ class SubCategoryController extends Controller
                 return redirect()->back()->with('delete-failed', 'Could not delete the record');
             }
             return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }

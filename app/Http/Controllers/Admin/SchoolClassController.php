@@ -21,6 +21,8 @@ class SchoolClassController extends Controller
     {
         try{
             return $dataTable->render('admin.school-classes.index');
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return ExceptionHelper::customError($e);
         }
@@ -58,6 +60,8 @@ class SchoolClassController extends Controller
 
             return redirect()->back()->withErrors($e->validator);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -76,6 +80,8 @@ class SchoolClassController extends Controller
             return view('admin.school-classes.show', [
                 'schoolClass' => $schoolClass,
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -94,6 +100,8 @@ class SchoolClassController extends Controller
             return view('admin.school-classes.edit', [
                 'schoolClass' => $schoolClass
             ]);
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -110,7 +118,7 @@ class SchoolClassController extends Controller
     {
         try{
             $this->validate($request,[
-                'class_number' => 'unique:school_classes'
+                'class_number' => 'unique:school_classes,class_number,'.$id
             ]);
 
             $schoolClass = SchoolClass::find($id);
@@ -130,6 +138,8 @@ class SchoolClassController extends Controller
 
             return redirect()->back()->withErrors($e->validator);
 
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -150,6 +160,8 @@ class SchoolClassController extends Controller
                 return redirect()->back()->with('delete-failed', 'Could not delete the record');
             }
             return redirect()->back()->with('delete-success', 'The record has been deleted');
+        } catch (\Error $e) {
+            return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }

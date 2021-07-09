@@ -111,7 +111,7 @@ class DistrictController extends Controller
         try{
             
             $this->validate($request,[
-                'name' => 'unique:cities'
+                'name' => 'unique:cities,name,'.$id
             ]);
             
             $district = City::find($id);

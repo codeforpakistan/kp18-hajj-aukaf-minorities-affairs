@@ -1,4 +1,4 @@
-<!--=== qualification Setup ===-->
+<!-- === qualification Setup ===-->
 <div class="tab-pane" id="tab5">
     <h3 style="" class="block padding-bottom-10px">Please provide detail of recently passed class</h3>
     <div class="row">
@@ -52,14 +52,13 @@
             <div class="form-group" id="div_passing_date" style="display:none">
                 <label class="col-md-4 control-label">Date of completion</label>
                 <div class="col-md-8">
-                    {!! Form::text('Qualification[passing_date]', null, [
+                    {!! Form::date('Qualification[passing_date]', null, [
                         'label' => false,
                         'class' => 'form-control',
                         'id' => 'passing_date',
-                        'data-mask' => '2099-99-99',
                         'required'
                     ]) !!}
-                    <span class="help-block">yyyy-mm-dd</span>
+                    {{-- <span class="help-block">yyyy-mm-dd</span> --}}
                 </div>
             </div>
             <div class="form-group" id="div_currentclass" style="display:none">
@@ -105,11 +104,11 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Obtained CGPA</label>
                     <div class="col-md-8">
-                        {!! Form::text('Qualification[obtained_cgpa]', null, [
+                        {!! Form::number('Qualification[obtained_cgpa]', null, [
                             'label' => false,
                             'class' => 'form-control',
                             'id' => 'obtained_cgpa',
-                            'data-mask' => '9.99',
+                            'step' => '0.01',
                             'required'
                         ]) !!}
                         <span id="obtained_cgpa_error"></span>
@@ -145,11 +144,12 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Percentage</label>
                     <div class="col-md-8">
-                        {!! Form::text('Qualification[percentage]', null, [
+                        {!! Form::number('Qualification[percentage]', null, [
                             'label' => false,
                             'class' => 'form-control',
                             'id' => 'percentage',
-                            'data-mask' => '99.99',
+                            'step' => '0.01',
+                            'max' => '100.00',
                             'required'
                         ]) !!}
                         <span id="percentage_error"></span>
@@ -240,11 +240,12 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label">Discipline <span class="required"> *</span></label>
                     <div class="col-md-8">
-                        {!! Form::text('Discipline[discipline]', null, [
-                            'label' => false,
+                        {!! Form::select('Discipline[discipline]', [], null, [
                             'class' => 'form-control',
                             'id' => 'discipline_field',
-                            'required'
+                            'label' => false,
+                            'placeholder' => 'Select Discipline',
+                            'required',
                         ]) !!}
                     </div>
                 </div>
@@ -252,4 +253,4 @@
         </div>
     </div> <!-- /.row -->
 </div>
-<!-- /qualification Setup -->
+<!-- /qualification Setup 

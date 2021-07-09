@@ -12,9 +12,11 @@ use App\Models\DegreeAwarding;
 use App\Models\Institute;
 use App\Models\Religion;
 use App\Models\Applicant;
+use App\Models\Discipline;
 use App\Models\MaritalStatus;
 use App\Models\City;
 use App\Models\ApplicantFundDetail;
+use App\Helpers\ExceptionHelper;
 use App\Models\SubCategory;
 
 class HomeController extends Controller
@@ -55,6 +57,15 @@ class HomeController extends Controller
         }
     }
 
+    public function getDisciplines(Request $request)
+    {
+        if ( $request->has('qualification_level') ) {
+            $disciplines = Discipline::where('qualification_level_id',$request->qualification_level)->get();
+            return response()->json(['disciplines' => $disciplines]);
+        }
+        return response()->json(['disciplines' => []]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -82,47 +93,53 @@ class HomeController extends Controller
      */
     private function apply(Request $request)
     {
-        // check if fund is expired
-        $dateExpired = Fund::where('id', $request->fund_id)->where('last_date', '>=', date('Y-m-d'))->first();
-        if ( is_null( $dateExpired ) ) {
-            return redirect()->back()->with('error', "The Applications for this fund are closed.");
-        }
+        try{
+            // check if fund is expired
+            $dateExpired = Fund::where('id', $request->fund_id)->where('last_date', '>=', date('Y-m-d'))->first();
+            if ( is_null( $dateExpired ) ) {
+                return redirect()->back()->with('error', "The Applications for this fund are closed.");
+            }
 
-        $check = ApplicantFundDetail::with(['applicant', 'fund'])
-            ->where('fund_id', $request->fund_id)
-            ->whereHas('applicant', function ($query) use ($request) {
-                $query->where('cnic', 'LIKE', $request->cnic);
-            })
-            ->get();
-        if ( $check->isEmpty() ) {
-            $f_cat = SubCategory::get();
-        } else {
-            return redirect()->back()->with('error', "You Have already applied for the grant.");
-        }
+            $check = ApplicantFundDetail::with(['applicant', 'fund'])
+                ->where('fund_id', $request->fund_id)
+                ->whereHas('applicant', function ($query) use ($request) {
+                    $query->where('cnic', 'LIKE', $request->cnic);
+                })
+                ->get();
+            if ( $check->isEmpty() ) {
+                $f_cat = SubCategory::get();
+            } else {
+                return redirect()->back()->with('error', "You Have already applied for the grant.");
+            }
 
-        $funds = Fund::where('active', '1')->orderBy('last_date', 'DESC')->pluck('fund_name', 'id');
-        $last_date = Fund::where('active', '1')
-            ->where('last_date', '>=', date('Y-m-d'))
-            ->orderBy('last_date', 'DESC')
-            ->get();
-        $qualificationLevels = QualificationLevel::pluck('name', 'id');
-        $degreeAwardings = DegreeAwarding::pluck('name', 'id');
-        $institutes = Institute::where('type', 'university')->pluck('name', 'id');
-        $religions = Religion::pluck('religion_name', 'id');
-        $maritalstatus = MaritalStatus::pluck('status', 'id');
-        $cities = City::orderBy('name', 'ASC')->pluck('name', 'id');
-        $selectedFund = Fund::find($request->fund_id);
-        return view('applicants.apply', [
-            'selectedFund' => $selectedFund,
-            'funds' => $funds,
-            'last_date' => $last_date,
-            'qualificationLevels' => $qualificationLevels,
-            'degreeAwardings' => $degreeAwardings,
-            'institutes' => $institutes,
-            'religions' => $religions,
-            'maritalstatus' => $maritalstatus,
-            'cities' => $cities,
-        ]);
+            $funds = Fund::where('active', '1')->orderBy('last_date', 'DESC')->pluck('fund_name', 'id');
+            $last_date = Fund::where('active', '1')
+                ->where('last_date', '>=', date('Y-m-d'))
+                ->orderBy('last_date', 'DESC')
+                ->get();
+            $qualificationLevels = QualificationLevel::pluck('name', 'id');
+            $disciplines = Discipline::pluck('discipline', 'id');
+            $degreeAwardings = DegreeAwarding::pluck('name', 'id');
+            $institutes = Institute::where('type', 'university')->pluck('name', 'id');
+            $religions = Religion::pluck('religion_name', 'id');
+            $maritalstatus = MaritalStatus::pluck('status', 'id');
+            $cities = City::orderBy('name', 'ASC')->pluck('name', 'id');
+            $selectedFund = Fund::find($request->fund_id);
+            return view('applicants.apply', [
+                'selectedFund' => $selectedFund,
+                'funds' => $funds,
+                'last_date' => $last_date,
+                'qualificationLevels' => $qualificationLevels,
+                'degreeAwardings' => $degreeAwardings,
+                'institutes' => $institutes,
+                'religions' => $religions,
+                'maritalstatus' => $maritalstatus,
+                'disciplines' => $disciplines,
+                'cities' => $cities,
+            ]);
+        } catch (\Exception $e) {
+            return ExceptionHelper::customError($e);
+        }
     }
 
     /**
@@ -134,6 +151,7 @@ class HomeController extends Controller
     public function submitApplication(Request $request)
     {
         try {
+            // dd($request->all());
             $applicantId = NULL;
             \DB::beginTransaction();
             foreach ($request->except(['_token']) as $model => $input) {
@@ -163,11 +181,16 @@ class HomeController extends Controller
                             $input['institute_id'] = $institute->id;
                         }
                         if (!empty($request->Discipline['discipline'])) {
-                            $disciplineInput = $request->Discipline;
-                            $disciplineInput['qualification_level_id'] = $input['qualification_level_id'];
+                            // $disciplineInput = $request->Discipline;
+                            // $disciplineInput['qualification_level_id'] = $input['qualification_level_id'];
 
-                            $discipline = \App\Models\Discipline::create($disciplineInput);
-                            $input['discipline_id'] = $discipline->id;
+                            // $discipline = \App\Models\Discipline::create($disciplineInput);
+                            $input['discipline_id'] = $request->Discipline['discipline'];
+                            // < 3 means for Matric & FSC level
+                            if($request->Qualification['qualification_level_id'] < 3)
+                            {
+                                $input['discipline_id'] = $request->Qualification['discipline_id'];
+                            }
                         }
                         $input['applicant_id'] = $applicantId;
                         $$varName = $modelRef::create($input);
@@ -175,10 +198,17 @@ class HomeController extends Controller
                     if ($model == 'ApplicantContact') {
                         if (!empty($request->ApplicantContact['mob_number'][0])) {
                             foreach ($request->ApplicantContact['mob_number'] as $number){
-                                \App\Models\ApplicantContact::create([
-                                    'applicant_id' => $applicantId,
-                                    'mob_number' => $number,
-                                ]);
+                                $contactAlreadyExists = 
+                                    \App\Models\ApplicantContact::where('applicant_id',$applicantId)
+                                                                ->where('mob_number',$number)
+                                                                ->exists();
+                                if(!$contactAlreadyExists)
+                                {
+                                    \App\Models\ApplicantContact::create([
+                                        'applicant_id' => $applicantId,
+                                        'mob_number' => $number,
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -201,7 +231,7 @@ class HomeController extends Controller
                         ]);
                     }
                     if ($model == 'ApplicantAddress') {
-                        $address = \App\Models\ApplicantAddress::where('applicant_id','=',$applicantId);   
+                        $address = \App\Models\ApplicantAddress::where('applicant_id','=',$applicantId)->latest()->first();
                         $applicantAddressInput = [
                             'applicant_id' => $applicantId,
                             'current_address' => $input['current_address'],
@@ -215,7 +245,7 @@ class HomeController extends Controller
                         }
                         else
                         {
-                            $address = \App\Models\ApplicantAddress::create($applicantAddressInput);   
+                            \App\Models\ApplicantAddress::create($applicantAddressInput);   
                         }
                     }
                 }

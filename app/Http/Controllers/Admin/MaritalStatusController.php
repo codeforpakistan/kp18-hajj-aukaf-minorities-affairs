@@ -108,7 +108,7 @@ class MaritalStatusController extends Controller
     {
         try{
             $this->validate($request,[
-                'status' => 'unique:marital_statuses'
+                'status' => 'unique:marital_statuses,status,'.$id
             ]);
 
             $maritalStatus = MaritalStatus::find($id);

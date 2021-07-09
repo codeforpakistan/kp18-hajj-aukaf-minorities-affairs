@@ -160,7 +160,7 @@ class FundController extends Controller
 
         try{
             $this->validate($request,[
-                'fund_name' => 'unique:funds'
+                'fund_name' => 'unique:funds,fund_name,'.$id
             ]);
             $fund = Fund::find($id);
 

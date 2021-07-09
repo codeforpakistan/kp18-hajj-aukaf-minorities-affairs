@@ -120,11 +120,13 @@ class DisciplineController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $this->validate($request,[
-                'discipline' => 'unique:disciplines'
-            ]);
-            
             $discipline = Discipline::find($id);
+            if($discipline->discipline !== $request['discipline']){
+                $this->validate($request,[
+                    'discipline' => 'unique:disciplines,discipline,'.$id
+                ]);
+            }
+            
 
             if( ! $discipline){
                 return redirect()->route('admin.disciplines.index')->with('edit-failed', 'Could not find the record!');

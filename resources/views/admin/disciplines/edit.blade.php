@@ -14,7 +14,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            {!! Form::model($discipline, ['route' => ['admin.disciplines.update', [$discipline->qualification_level_id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
+                            {!! Form::model($discipline, ['route' => ['admin.disciplines.update', [$discipline->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
                                 @include('admin.disciplines.form')
                                 <button class="btn btn-primary waves-effect" type="submit">Update</button>
                             {!! Form::close() !!}

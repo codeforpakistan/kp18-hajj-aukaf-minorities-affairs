@@ -29,29 +29,29 @@ function open_modal(sub_categories, fund_id) {
 
 // load disciplines
 function callForDisciplines(qualification_level) {
-    var url = baseUrl + '/admin/services';
-    $.ajax({
-        type: "GET",
-        contentType: 'json',
+    var url = baseUrl + '/qualification/disciplines';
+    axios({
         url: url,
-        data: "qualification_level=" + qualification_level,
-        success: function (data) {
-            data = JSON.parse(data);
-            if (data == '') {
-                $('#discipline').empty();
-                $('#discipline').append($('<option>').text("Select Discipline").attr('value', ''));
-
-            } else {
-                $('#discipline').empty();
-                $('#discipline').append($('<option>').text("Select Discipline").attr('value', ''));
-                $.each(data, function (index, value) {
-                    // alert(index);
-                    $('#discipline').append($('<option>').text(value).attr('value', index));
-                });
-            }
-        }, error: function (error) {
-            alert(json.stringify(error));
+        params : {
+            qualification_level : qualification_level
         }
+    }).then((response) => {
+        $('#discipline').empty();
+        $('#discipline_field').empty();
+        if(response.data.disciplines.length)
+        {
+            let data = response.data.disciplines;
+            $.each(data, function (index, discipline) {
+                $('#discipline').append($('<option>').text(discipline.discipline).attr('value', discipline.id));
+                $('#discipline_field').append($('<option>').text(discipline.discipline).attr('value', discipline.id));
+            });
+        }
+        else{
+            $('#discipline').append($('<option>').text('Select Discipline').attr('value', ''));
+            $('#discipline_field').append($('<option>').text('Select Discipline').attr('value', ''));
+        }
+    }).catch((error) => {
+        console.log(error);
     });
 }
 // end disiplines
@@ -212,9 +212,9 @@ function change_fields(qualification_level) {
         $("#institute_id").attr('required', false).val('');
         // $("#university_fields :input").attr('required', false).val('');
         $('#institute_id').select2('data', null).attr('required', false);
-        $('#discipline_field').val('').attr('required', false);
+        $('#discipline').val('').attr('required', false);
 
-        callForDisciplines(qualification_level);
+        // callForDisciplines(qualification_level);
 
     } else {
         $('.select2-chosen').text('');
@@ -230,6 +230,7 @@ function change_fields(qualification_level) {
         $('#discipline').empty();
         $('#discipline').append($('<option>').text("Select Discipline").attr('value', ''));
     }
+    callForDisciplines(qualification_level);
 }
 function remove_button(fund_expired) {
     // $.ajax({
@@ -443,27 +444,49 @@ $(function () {
     $('#obtained_cgpa').focus(function () {
         $('#obtained_cgpa_error').text('');
     });
-    $('#obtained_cgpa').change(function () {
-        var total = $('#total_cgpa').val();
-        if (total == '') {
+
+    $('#obtained_cgpa').on('blur',function () {
+        let trailingZeros = ['','.00','00','0'];
+        addZeros('obtained_cgpa',trailingZeros);
+    });
+
+    $('#obtained_cgpa').on('input',function () {
+        var total = parseFloat($('#total_cgpa').val());
+
+        $(`#percentage_error`).text('');
+        if (total == '' || total === NaN) {
             $('#obtained_cgpa').val('0.00');
-            return false;
+            return;
         }
-        if ($('#obtained_cgpa').val() > total + '.00') {
-            $('#obtained_cgpa').val('0.00');
+        
+        if (parseFloat($('#obtained_cgpa').val()) > total){
+            $('#obtained_cgpa').val(total + '.00');
             $('#obtained_cgpa_error').text('Value can not be gratter then total CGPA').attr('style', 'color:red');
         }
+
+        if(parseFloat($('#obtained_cgpa').val()) < 0) {
+            $('#obtained_cgpa').val('0.00');
+        }
     });
-    $('#percentage').change(function () {
+
+    $('#percentage').on('input',function () {
+        $(`#percentage_error`).text('');
         if ($(this).val() > 100.00) {
-            $('#percentage').val('0.00');
-            $('#percentage_error').text('Invalid Percentage').attr('style', 'color:red');
+            $('#percentage').val('100.00');
+            // $('#percentage_error').text('Invalid Percentage').attr('style', 'color:red');
 
         }
     });
+
+    $('#percentage').on('blur',function () {
+        let trailingZeros = ['','.00','.00','00','0'];
+        addZeros('percentage',trailingZeros,true);
+    });
+
     $('#percentage').focus(function () {
         $('#percentage_error').text('');
     });
+
     $('#obtained_marks').change(function () {
         var total_mks = parseInt($('#total_marks').val());
         var obtained_mks = parseInt($('#obtained_marks').val());
@@ -483,3 +506,26 @@ $(function () {
         $('#obtained_marks_error').text('');
     });
 });
+
+function addZeros(id,trailingZeros,percentage = false){
+    let value = $(`#${id}`).val();
+    if(value.length < (trailingZeros.length - 1) && value.length > 0)
+    {
+        if(percentage){
+            if(parseFloat(value) >= 100)
+            {
+               value = '100.00'; 
+            }
+            else{
+                value += trailingZeros[value.length];
+                value = parseFloat(value).toFixed(2);
+            }
+        }
+        else{
+            value += trailingZeros[value.length];
+            value = parseFloat(value).toFixed(2);
+        }
+        $(`#${id}`).val(value);
+        $(`#${id}_error`).text('');
+    }
+}
