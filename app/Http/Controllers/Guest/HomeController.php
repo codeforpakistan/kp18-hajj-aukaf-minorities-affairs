@@ -152,7 +152,6 @@ class HomeController extends Controller
     public function submitApplication(Request $request)
     {
         try {
-            // dd($request->all());
             $applicantId = NULL;
             \DB::beginTransaction();
             foreach ($request->except(['_token']) as $model => $input) {
@@ -182,10 +181,6 @@ class HomeController extends Controller
                             $input['institute_id'] = $institute->id;
                         }
                         if (!empty($request->Discipline['discipline'])) {
-                            // $disciplineInput = $request->Discipline;
-                            // $disciplineInput['qualification_level_id'] = $input['qualification_level_id'];
-
-                            // $discipline = \App\Models\Discipline::create($disciplineInput);
                             $input['discipline_id'] = $request->Discipline['discipline'];
                             // < 3 means for Matric & FSC level
                             if($request->Qualification['qualification_level_id'] < 3)

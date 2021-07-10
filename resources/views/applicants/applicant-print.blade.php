@@ -119,7 +119,6 @@
                                 </table>
                             </div>
                             <div style="width: 50%;float: left;padding-right: 20px;clear:both;border-right: 1px solid #ccc;">
-                                @dd($result->applicant->qualification)
                                 <h4 style="">Qualification Details</h4>
                                 <table class="table">
                                     <tr>

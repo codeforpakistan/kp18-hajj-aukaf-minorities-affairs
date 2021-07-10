@@ -43,8 +43,42 @@ $(document).ready(function () {
     let displayConfirm = function () {
         $('#tab4 .form-control-static', form).each(function () {
             var input = $('[name="' + $(this).attr("data-display") + '"]', form);
-            console.log(input);
-            if($(this).attr("data-display") === 'ApplicantContact[mob_number][]')
+            
+            let qualification_level = $('#qualification_level').val();
+            let _grading_system = $('#grading_system').val();
+            let education_system = $('#education_system').val();
+
+            if(qualification_level > 2)
+            {
+                $("._institute_name").hide();
+            }
+
+            let hide_grading_systems = {
+                // for cgpa, hide following
+                'cgpa' : [
+                    '._total_marks',
+                    '._obtained_marks'
+                ],
+
+                // for marks, hide following
+                'marks' : [
+                    '._total_cgpa',
+                    '._obtained_cgpa',
+                    '._percentage'
+                ]
+            };
+
+            
+            if(_grading_system != '')
+            {
+                for(let hideElm of hide_grading_systems[_grading_system])
+                {
+                    $(hideElm).hide();
+                }
+            }
+
+            let element = $(this).attr("data-display");
+            if(element === 'ApplicantContact[mob_number][]')
             {
                 let mobileNumbers = $('[name="ApplicantContact[mob_number][]"]').map(function(){return $(this).val();}).get();
                 $(this).html(mobileNumbers.toString());

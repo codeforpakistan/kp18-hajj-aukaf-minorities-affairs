@@ -137,6 +137,6 @@ class Applicant extends Model
      */
     public function qualification()
     {
-        return $this->hasOne('App\Models\Qualification', 'applicant_id', 'id');
+        return $this->hasOne('App\Models\Qualification', 'applicant_id', 'id')->latest();
     }
 }
