@@ -58,7 +58,7 @@ class RoleController extends Controller
             return redirect()->route('admin.roles.index')->with('create-failed', 'Could not create the record!');
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
@@ -135,7 +135,7 @@ class RoleController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);

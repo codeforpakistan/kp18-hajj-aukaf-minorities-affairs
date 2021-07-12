@@ -1,4 +1,4 @@
-=== Confirmation ===-->
+<!-- === Confirmation ===-->
 <div class="tab-pane" id="tab4">
     <h3  style="color:#117D2C;" class="block padding-bottom-10px">Please Review your Information</h3>
     <h4  style="color:#117D2C;" class="form-section">Personal Info</h4>
@@ -27,6 +27,14 @@
             <p class="form-control-static" data-display="Applicant[religion_id]"></p>
         </div>
     </div>
+    @if ($selectedFund->sub_category_id == 2)
+        <div class="form-group">
+            <label class="control-label col-md-3">Marital Status:</label>
+            <div class="col-md-5">
+                <p class="form-control-static" data-display="Applicant[maritalstatus_id]"></p>
+            </div>
+        </div>
+    @endif
     @if ($selectedFund->sub_category_id == 3)
         <h4  style="color:#117D2C;" class="form-section">Qualification</h4>
         @php
@@ -68,33 +76,73 @@
             </div>
         @endforeach
     @else
-        <div class="form-group">
-            <label class="control-label col-md-3">Profession:</label>
-            <div class="col-md-5">
-                <p class="form-control-static" data-display="ApplicantProfession[profession]"></p>
+        @if ($selectedFund->sub_category_id != 2)
+            <div class="form-group _profession">
+                <label class="control-label col-md-3">Profession:</label>
+                <div class="col-md-5">
+                    <p class="form-control-static" data-display="ApplicantProfession[profession]"></p>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3">Monthly Income:</label>
-            <div class="col-md-5">
-                <p class="form-control-static" data-display="ApplicantIncome[monthly_income]"></p>
+            <div class="form-group _monthly_income">
+                <label class="control-label col-md-3">Monthly Income:</label>
+                <div class="col-md-5">
+                    <p class="form-control-static" data-display="ApplicantIncome[monthly_income]"></p>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-md-3">Family members:</label>
-            <div class="col-md-5">
-                <p class="form-control-static" data-display="ApplicantHouseholdDetail[dependent_family_members]"></p>
+            <div class="form-group _dependent_family_members">
+                <label class="control-label col-md-3">Family members:</label>
+                <div class="col-md-5">
+                    <p class="form-control-static" data-display="ApplicantHouseholdDetail[dependent_family_members]"></p>
+                </div>
             </div>
-        </div>
+        @endif
+    @endif
+    @if ($selectedFund->sub_category_id == 2)
+        <h4  style="color:#117D2C;" class="form-section">Groom Details</h4>
+        @php
+            $inputs = [
+                'Applicant[gname]' => ['class' => '_gname', 'text' => 'Groom Name'],
+                'Applicant[gfather_name]' => ['class' => '_gfather_name', 'text' => 'Father Name'],
+                'Applicant[gcnic]' => ['class' => '_gcnic', 'text' => 'CNIC'],
+                'Applicant[gcontact]' => ['class' => '_gcontact', 'text' => 'Contact Number'],
+            ]
+        @endphp
+        @foreach($inputs as $key => $elm)
+            <div class="form-group {{ $elm['class'] }}">
+                <label class="control-label col-md-3">{{ $elm['text'] }}:</label>
+                <div class="col-md-5">
+                    <p class="form-control-static" data-display="{{ $key }}"></p>
+                </div>
+            </div>
+        @endforeach
+    @endif
+    @if ($selectedFund->sub_category_id == 4)
+        <h4  style="color:#117D2C;" class="form-section">Disease & Hospitalization Details</h4>
+        @php
+            $inputs = [
+                'Applicant[disease]' => ['class' => '_disease', 'text' => 'Disease'],
+                'Applicant[dname]' => ['class' => '_dname', 'text' => 'Doctor Name'],
+                'Applicant[clinic_address]' => ['class' => '_clinic_address', 'text' => 'Address of Hospital/Clinic'],
+                'Applicant[dcontact]' => ['class' => '_dcontact', 'text' => 'Contact Number'],
+            ]
+        @endphp
+        @foreach($inputs as $key => $elm)
+            <div class="form-group {{ $elm['class'] }}">
+                <label class="control-label col-md-3">{{ $elm['text'] }}:</label>
+                <div class="col-md-5">
+                    <p class="form-control-static" data-display="{{ $key }}"></p>
+                </div>
+            </div>
+        @endforeach
     @endif
     <h4  style="color:#117D2C;" class="form-section">Contact Information</h4>
     <div class="form-group">
-        <label class="control-label col-md-3">current Address:</label>
+        <label class="control-label col-md-3">Current Address:</label>
         <div class="col-md-5">
             <p class="form-control-static" data-display="ApplicantAddress[current_address]"></p>
         </div>
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label class="control-label col-md-3">Permanent address:</label>
         <div class="col-md-5">
             <p class="form-control-static" data-display="ApplicantAddress[permenent_address]"></p>
@@ -105,7 +153,7 @@
         <div class="col-md-5">
             <p class="form-control-static" data-display="ApplicantAddress[postal_address]"></p>
         </div>
-    </div>
+    </div> --}}
     <div class="form-group">
         <label class="control-label col-md-3">City:</label>
         <div class="col-md-5">

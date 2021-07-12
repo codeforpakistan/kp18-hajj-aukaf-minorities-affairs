@@ -1,6 +1,6 @@
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('type', null, [
+        {!! Form::text('type', old('type'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Institute Type field is required.',
             'required',

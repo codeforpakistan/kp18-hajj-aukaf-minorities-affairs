@@ -28,7 +28,14 @@ class FundDataTable extends DataTable
                 return '<a href="' . route('admin.fund-categories.show', [$row->fund_category_id]) . '">' . $row->fundCategory->type_of_fund . '</a>';
             })
             ->addColumn('fund_sub_category_name', function($row){
-                return '<a href="' . route('admin.sub-categories.show', [$row->sub_category_id]) . '">' . $row->subCategory->type . '</a>';
+                if($row->subCategory)
+                {
+                    return '<a href="' . route('admin.sub-categories.show', [$row->sub_category_id]) . '">' . $row->subCategory->type . '</a>';
+                }
+                else
+                {
+                    return '';
+                }
             })
             ->addColumn('status_label', function($row){
                 if ($row->active == 1) {

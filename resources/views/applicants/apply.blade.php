@@ -94,10 +94,10 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="col-md-offset-3 col-md-9"  style="text-align:right">
-                                                            <a href="javascript:void(0);" class="btn button-previous">
+                                                            <a href="#" class="btn button-previous">
                                                                 <i class="icon-angle-left"></i> Back
                                                             </a>
-                                                            <a href="javascript:void(0);" id="continue" class="btn btn-primary button-next">
+                                                            <a href="#" id="continue" class="btn btn-primary button-next">
                                                                 Continue <i class="icon-angle-right"></i>
                                                             </a>
                                                         </div>
@@ -119,4 +119,12 @@
         </div>
         <!-- /.container -->
     </div>
+@endsection
+@section('scripts')
+    <script type="text/javascript">
+        let subCategoryId = {{ $selectedFund->sub_category_id ?? null}};
+        $(".button-previous, .button-next").on('click',function(){
+            // alert("OK");
+        });
+    </script>
 @endsection

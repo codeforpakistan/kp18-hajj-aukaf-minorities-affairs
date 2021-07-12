@@ -15,7 +15,7 @@
                         </div>
                         <div class="body">
                             {!! Form::open(['route' => 'admin.users.store', 'method' => 'POST', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.users.form')
+                                @include('admin.users.form',['user_create' => true])
                                 <button class="btn btn-primary waves-effect" type="submit">Save</button>
                             {!! Form::close() !!}
                         </div>

@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+$blockAccessPostAsGetRoutes = [
+     // put urls here
+     'password/email' => 'password/reset'
+];
+
+foreach ($blockAccessPostAsGetRoutes as $link => $to) {
+     Route::get($link, function() use($link,$to){
+          return redirect($to);
+     });
+}
+
+
 Route::get('/', 'Guest\HomeController@index')->name('guest.home.index');
 Route::get('qualification/disciplines', 'Guest\HomeController@getDisciplines');
 Route::post('/', 'Guest\HomeController@submit')->name('guest.home.submit');
@@ -24,7 +36,8 @@ Route::get('/print', 'Guest\HomeController@print')->name('guest.home.print');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware(['auth', 'role:Admin'])
+
+Route::middleware(['auth', 'role:Admin|Operator'])
 ->namespace('Admin')
 ->prefix('admin')
 ->name('admin.')
@@ -102,7 +115,16 @@ Route::middleware(['auth', 'role:Admin'])
     Route::resource('marital-statuses', 'MaritalStatusController');
     Route::resource('qualification-levels', 'QualificationLevelController');
     Route::resource('religions', 'ReligionController');
-    Route::resource('roles', 'RoleController');
     Route::resource('school-classes', 'SchoolClassController');
+    Route::get('change-password', 'UserController@changePassword')->name('users.change.password');
+    Route::put('change-password-submit', 'UserController@changePasswordSubmit')->name('users.change.password.submit');
+});
+
+Route::middleware(['auth', 'role:Admin'])
+->namespace('Admin')
+->prefix('admin')
+->name('admin.')
+->group( function () {
+    Route::resource('roles', 'RoleController');
     Route::resource('users', 'UserController');
 });

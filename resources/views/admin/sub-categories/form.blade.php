@@ -1,6 +1,6 @@
 <div class="form-group form-float">                             
     <div class="form-line">
-        {!! Form::select('fund_category_id', $fundCategories, null, [
+        {!! Form::select('fund_category_id', $fundCategories, old('fund_category_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Fund Category',
@@ -11,7 +11,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('type', null, [
+        {!! Form::text('type', old('type'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Fund Sub Category Name field is required.',
             'required',
@@ -24,7 +24,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('description', null, [
+        {!! Form::text('description', old('description'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Description field is required.',
             'required',
@@ -37,8 +37,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::hidden('status', '0') !!}
-        {!! Form::checkbox('status', '1', isset($subCategory) ? null : true , [
+        {!! Form::checkbox('status', '1', old('status'), [
             'class' => 'filled-in',
             'id' => 'status',
         ]) !!}

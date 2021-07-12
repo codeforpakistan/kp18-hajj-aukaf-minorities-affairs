@@ -68,7 +68,7 @@ class InstituteController extends Controller
             return redirect()->route('admin.institutes.index')->with('create-failed', 'Could not create the record!');
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
@@ -144,7 +144,7 @@ class InstituteController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));

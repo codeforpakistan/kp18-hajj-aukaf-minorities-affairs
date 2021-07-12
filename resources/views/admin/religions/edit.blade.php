@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Religion
+                                Edit Religion
                                 <a href='{{ route('admin.religions.index') }}' class="btn btn-default pull-right">List Religion</a>
                             </h2>
                         </div>

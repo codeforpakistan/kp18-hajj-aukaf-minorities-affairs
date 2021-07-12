@@ -41,7 +41,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['name','password','email','phone','address']);
+        $this->validate($request,[
+            'name' => 'required',
+            'password' => 'required',
+            'email' => 'required|unique:users',
+            'phone' => 'required',
+            'address' => 'required',
+            'role_id' => 'required'
+        ]);
+
+        $data = $request->only(['name','password','email','phone','address','role_id']);
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
         if($user->wasRecentlyCreated)
@@ -82,6 +91,60 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for changing the password.
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword()
+    {
+        $user = auth()->user();
+        return view('admin.users.change-password', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function changePasswordSubmit(Request $request)
+    {
+        $this->validate($request,[
+            'old_password' => 'required',
+            'password' => 'required',
+            'password_confirmation' => 'required',
+        ]);
+
+        $hashedPassword = auth()->user()->password;
+         
+        if (\Hash::check($request->old_password , $hashedPassword )) {
+
+            if (!\Hash::check($request->password , $hashedPassword)) {
+
+                $user = User::find(auth()->user()->id);
+                $user->password = bcrypt($request->password);
+                $user->update();
+                $message = 'Password updated successfully';
+                return redirect('/admin/dashboard')->with('success',$message);
+            }
+
+            else{
+                $message = 'New password can not be same as current/old password!';
+                return redirect()->back()->with('error',$message);
+            }
+
+        }
+
+        else{
+            $message = 'Old password does not matched';
+            return redirect()->back()->with('error',$message);
+        }
+
+        return view('admin.users.edit', [
+            'user' => $user,
+            'roles' => $roles
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -90,20 +153,40 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
 
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'phone' => 'required',
+            'address' => 'required',
+            'role_id' => 'required'
+        ]);
+
+        $user = User::find($id);
+        $role = Role::find($request->role_id);
+        if( ! $role){
+            return redirect()->route('admin.users.index')->with('edit-failed', 'Could not find the role!');
+        }
         if( ! $user){
             return redirect()->route('admin.users.index')->with('edit-failed', 'Could not find the record!');
         }
 
-        $data = $request->only(['name','password','email','phone','address']);
-        $data['password'] = bcrypt($data['password']);
+        \DB::beginTransaction();
+        $data = $request->only(['name','email','phone','address']);
+        
+        if(isset($request->password) && strlen($request->password) > 0)
+        {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->syncRoles([$role->name]);
 
         $recordUpdated = $user->update($data);
-        
+        \DB::commit();
         if ($recordUpdated) {
             return redirect()->route('admin.users.index')->with('edit-success', 'The record has been updated!');
         } else {
+            \DB::rollback();
             return redirect()->route('admin.users.index')->with('edit-failed', 'Could not update the record!');
         }
     }

@@ -165,4 +165,5 @@
             @yield('content')
         </div>
     </body>
+    @yield('scripts')
 </html>

@@ -193,7 +193,7 @@
                     ]) !!}
                 </div>
             </div>
-            <h3 style = "border: 1px solid #eee;background-color: #eee9;padding: 10px 5px;">Disease & hospitalization Details</h3>
+            <h3 style = "border: 1px solid #eee;background-color: #eee9;padding: 10px 5px;">Disease & Hospitalization Details</h3>
             <div class="form-group">
                 <label class="control-label col-md-3">Doctor Name <span class="required">*</span></label>
                 <div class="col-md-5">

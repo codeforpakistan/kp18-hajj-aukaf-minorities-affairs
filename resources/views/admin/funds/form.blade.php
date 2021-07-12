@@ -1,6 +1,6 @@
 <div class="form-group form-float">                             
     <div class="form-line">
-        {!! Form::select('fund_category_id', $fundCategories, null, [
+        {!! Form::select('fund_category_id', $fundCategories, old('fund_category_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Fund Category',
@@ -12,7 +12,7 @@
 </div>
 <div class="form-group form-float">                             
     <div class="form-line">
-        {!! Form::select('sub_category_id', $subCategories, null, [
+        {!! Form::select('sub_category_id', $subCategories, old('sub_category_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Fund Sub Category',
@@ -24,7 +24,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('fund_name', null, [
+        {!! Form::text('fund_name', old('fund_name'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Fund Name field is required.',
             'required',
@@ -37,7 +37,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('total_amount', null, [
+        {!! Form::text('total_amount', old('total_amount'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Total Amount field is required.',
             'required',
@@ -50,7 +50,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('fund_for_year', null, [
+        {!! Form::text('fund_for_year', old('fund_for_year'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Fund for Year field is required.',
             'required',
@@ -63,7 +63,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('institute_students', null, [
+        {!! Form::text('institute_students', old('institute_students'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Percent of students per institute field is required.',
             'required',
@@ -76,7 +76,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::date('last_date', null, [
+        {!! Form::date('last_date', old('last_date'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Last Date field is required.',
             'required',
@@ -84,13 +84,12 @@
         @error('last_date')
             {!! Form::label('last_date', $message, ['class' => 'error', 'id' => 'last_date-error']) !!}
         @enderror
-        {!! Form::label('last_date', 'Last Date', ['class' => 'form-label']) !!}
+        {{-- {!! Form::label('last_date', 'Last Date', ['class' => 'form-label']) !!} --}}
     </div>
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::hidden('active', '0') !!}
-        {!! Form::checkbox('active', '1', isset($subCategory) ? null : true , [
+        {!! Form::checkbox('active', '1', old('active',true) , [
             'class' => 'filled-in',
             'id' => 'active',
         ]) !!}

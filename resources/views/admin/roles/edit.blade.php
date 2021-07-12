@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Role
+                                Edit Role
                                 <a href='{{ route('admin.roles.index') }}' class="btn btn-default pull-right">List Roles</a>
                             </h2>
                         </div>

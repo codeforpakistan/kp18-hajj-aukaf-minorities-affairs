@@ -68,8 +68,22 @@ $(document).ready(function () {
                 ]
             };
 
+            // let hide_profession_inputs = [
+            //     '._profession',
+            //     '._monthly_income',
+            //     '._dependent_family_members'
+            // ];
+
+            // if(subCategoryId === 2)
+            // {
+            //     for(let hideElm of hide_profession_inputs)
+            //     {
+            //         $(hideElm).hide();
+            //     }
+
+            // }
             
-            if(_grading_system != '')
+            if(_grading_system)
             {
                 for(let hideElm of hide_grading_systems[_grading_system])
                 {

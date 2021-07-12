@@ -71,4 +71,5 @@
     <body class="login bg" id="fullDiv">
         @yield('content')
     </body>
+    @yield('scripts')
 </html>

@@ -55,7 +55,8 @@ class DisciplineController extends Controller
     {
         try{
             $this->validate($request,[
-                'discipline' => 'unique:disciplines'
+                'discipline' => 'unique:disciplines',
+                'qualification_level_id' => 'required'
             ]);
             $discipline = Discipline::create($request->only(['discipline','qualification_level_id']));
             if($discipline->wasRecentlyCreated)
@@ -65,7 +66,7 @@ class DisciplineController extends Controller
             return redirect()->route('admin.disciplines.index')->with('create-failed', 'Could not create the record!');
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
@@ -120,13 +121,12 @@ class DisciplineController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $discipline = Discipline::find($id);
-            if($discipline->discipline !== $request['discipline']){
-                $this->validate($request,[
-                    'discipline' => 'unique:disciplines,discipline,'.$id
-                ]);
-            }
+            $this->validate($request,[
+                'discipline' => 'unique:disciplines,discipline,'.$id,
+                'qualification_level_id' => 'required'
+            ]);
             
+            $discipline = Discipline::find($id);
 
             if( ! $discipline){
                 return redirect()->route('admin.disciplines.index')->with('edit-failed', 'Could not find the record!');
@@ -141,7 +141,7 @@ class DisciplineController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));

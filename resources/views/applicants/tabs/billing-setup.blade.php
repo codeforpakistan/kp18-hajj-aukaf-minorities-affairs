@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label class="col-md-3 control-label">Permanent Address<span class="required"> *</span></label>
         <div class="col-md-5">
             {!! Form::text('ApplicantAddress[permenent_address]', null, [
@@ -32,7 +32,7 @@
                 'required'
             ]) !!}
         </div>
-    </div>
+    </div> --}}
     <div class="form-group">
         <label class="col-md-3 control-label">District<span class="required"> *</span></label>
         <div class="col-md-5">
@@ -44,7 +44,7 @@
             ]) !!}
         </div>
     </div>
-    <div class="form-group" style="margin-bottom: 0;">
+    <div class="form-group">
         <label class="col-md-3 control-label">Mobile Number<span class="required"> *</span></label>
         <div class="col-md-5">
             {!! Form::text('ApplicantContact[mob_number][]', null, [
@@ -58,7 +58,7 @@
         </div>
     </div>
     <div class="col-md-8">
-        <a class="pull-right" href="#" id="add_contact_row">add more</a>  
+        <a class="pull-right" href="#" id="add_contact_row">Add More</a>  
     </div>
     <br/><br/>
 </div>

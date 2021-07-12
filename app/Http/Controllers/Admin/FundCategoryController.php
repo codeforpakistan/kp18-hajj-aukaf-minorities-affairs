@@ -32,7 +32,7 @@ class FundCategoryController extends Controller
      */
     public function create()
     {
-            return view('admin.fund-categories.create');
+        return view('admin.fund-categories.create');
     }
 
     /**
@@ -45,7 +45,8 @@ class FundCategoryController extends Controller
     {
         try{
             $this->validate($request,[
-                'type_of_fund' => 'unique:fund_categories'
+                'type_of_fund' => 'required|unique:fund_categories',
+                'description'  => 'required',
             ]);
 
             $fundCategory = FundCategory::create($request->only(['type_of_fund', 'description']));
@@ -56,7 +57,7 @@ class FundCategoryController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
@@ -110,7 +111,7 @@ class FundCategoryController extends Controller
     {
         try{
             $this->validate($request,[
-                'type_of_fund' => 'unique:fund_categories,type_of_fund'.$id
+                'type_of_fund' => 'unique:fund_categories,type_of_fund,'.$id
             ]);
             $fundCategory = FundCategory::find($id);
 
@@ -122,7 +123,7 @@ class FundCategoryController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));

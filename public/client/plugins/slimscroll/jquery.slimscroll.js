@@ -61,7 +61,7 @@
         barClass : 'slimScrollBar',
 
         // defautlt CSS class of the slimscroll wrapper
-        wrapperClass : 'slimScrollDiv',
+        wrapperClass : '',
 
         // check if mousewheel should scroll the window if we reach top/bottom
         allowPageScroll : false,

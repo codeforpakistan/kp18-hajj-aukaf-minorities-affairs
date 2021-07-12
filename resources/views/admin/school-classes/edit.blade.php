@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New School Class
+                                Edit School Class
                                 <a href='{{ route('admin.school-classes.index') }}' class="btn btn-default pull-right">List School Classes</a>
                             </h2>
                         </div>

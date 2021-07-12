@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Institute Type
+                                Edit Institute Type
                                 <a href='{{ route('admin.institute-types.index') }}' class="btn btn-default pull-right">List Institute Types</a>
                             </h2>
                         </div>

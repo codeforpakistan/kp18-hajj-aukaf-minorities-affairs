@@ -22,9 +22,9 @@ class UserDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('role', function($row){
-                $role = $row->role;
-                if($role)
+                if($row->roles->count())
                 {
+                    $role = $row->roles->first();
                     return '<a href="' . route('admin.roles.show', [$role->id]) . '">' . $role->name . '</a>';
                 }
                 return '';
@@ -41,7 +41,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery();
+        return $model->with('roles')->newQuery();
     }
 
     /**
@@ -83,7 +83,6 @@ class UserDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  // ->width(60)
                   ->addClass('text-center'),
         ];
     }

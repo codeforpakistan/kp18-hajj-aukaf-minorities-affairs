@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Discipline
+                                Edit Discipline
                                 <a href='{{ route('admin.disciplines.index') }}' class="btn btn-default pull-right">List Disciplines</a>
                             </h2>
                         </div>

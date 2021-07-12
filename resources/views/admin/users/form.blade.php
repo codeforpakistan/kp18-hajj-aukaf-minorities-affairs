@@ -1,4 +1,4 @@
-{{-- <div class="form-group form-float">
+<div class="form-group form-float">
     <div class="form-line">
         {!! Form::select('role_id', $roles, null, [
             'class' => 'form-control show-tick',
@@ -11,7 +11,7 @@
             {!! Form::label('role_id', $message, ['class' => 'error', 'id' => 'role_id-error']) !!}
         @enderror
     </div>
-</div> --}}
+</div>
 <div class="form-group form-float">
     <div class="form-line">
         {!! Form::text('name', null, [
@@ -66,11 +66,18 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::password('password', [
-            'class' => 'form-control',
-            'data-msg-required' => 'The Password is required.',
-            'required',
-        ]) !!}
+        <?php
+            $_rules = [
+                'class' => 'form-control',
+                'data-msg-required' => 'The Password is required.',
+            ];
+
+            if(@$user_create){
+                $_rules[] = 'required';
+            }
+
+        ?>
+        {!! Form::password('password', $_rules) !!}
         @error('password')
             {!! Form::label('password', $message, ['class' => 'error', 'id' => 'password-error']) !!}
         @enderror

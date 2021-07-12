@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SubCategoryRequest;
 use App\DataTables\SubCategoryDataTable;
+use Illuminate\Http\Request;
 use App\Models\SubCategory;
 use App\Models\FundCategory;
 use Illuminate\Validation\ValidationException;
@@ -54,11 +54,13 @@ class SubCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SubCategoryRequest $request)
+    public function store(Request $request)
     {
         try{
             $this->validate($request,[
-                'type' => 'unique:sub_categories'
+                'type' => 'required|unique:sub_categories',
+                'fund_category_id' => 'required',
+                'description'      => 'required',
             ]);
 
             $subCategory = SubCategory::create($request->only(['fund_category_id', 'type', 'description', 'status']));
@@ -69,10 +71,10 @@ class SubCategoryController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Error $e) {
-            return ExceptionHelper::customError($e);
+            return ExceptionHelper::customError($e)->withInput();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
         }
@@ -127,12 +129,14 @@ class SubCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SubCategoryRequest $request, $id)
+    public function update(Request $request, $id)
     {
 
         try{
             $this->validate($request,[
-                'type' => 'unique:sub_categories,type,'.$id
+                'type' => 'required|unique:sub_categories,type,'.$id,
+                'fund_category_id' => 'required',
+                'description'      => 'required'
             ]);
             
             $subCategory = SubCategory::find($id);
@@ -145,7 +149,7 @@ class SubCategoryController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);

@@ -1,6 +1,6 @@
 <div class="form-group form-float">
     <div class="form-line">
-       {!! Form::text('discipline', null, [
+       {!! Form::text('discipline', old('discipline'), [
            'class' => 'form-control',
            'data-msg-required' => 'The Discipline Name field is required.',
            'required',
@@ -13,7 +13,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::select('qualification_level_id', $qualificationLevels, null, [
+        {!! Form::select('qualification_level_id', $qualificationLevels, old('qualification_level_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Qualification Level',

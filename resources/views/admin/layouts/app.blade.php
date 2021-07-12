@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ env("APP_NAME") }}</title>
+        <title>Auqaf, Hajj, Religious & Minority Affairs</title>
         <link rel="icon" href="{{ asset('img/index.png') }}" type="image/x-icon">
 
         <!-- Google Fonts -->
@@ -93,6 +93,22 @@
         <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('js/vue.min.js') }}"></script>
         <script>
+            
+            $(window).on('load',function(){
+                $(".buttons-reset").hide();
+                $(".buttons-reset").on('click',function(){
+                    $(".buttons-reset").hide();
+                })
+                $(".dataTables_filter input").on('input',function(e){
+                    if(this.value.length){
+                        $(".buttons-reset").show();
+                    }
+                    else{
+                        $(".buttons-reset").hide();
+                    }
+                })
+            });
+
             $(function () {
                 $("#checkall").click(function () {
                     $('input:checkbox').not(this).prop('checked', this.checked);
@@ -292,7 +308,7 @@
         <!--<script src="{{ asset('plugins/bootstrap-select/js/bootstrap-select.min.js') }}"></script>-->
 
         <!-- Slimscroll Plugin Js -->
-        <script src="{{ asset('plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
+        {{-- <script src="{{ asset('plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script> --}}
 
         <!-- Jquery Validation Plugin Css -->
         <script src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
@@ -388,6 +404,26 @@
                     );
                 @endif
             });
+
+            function deleteAlert(id) {
+                Swal.fire({
+                  title: 'Are you sure?',
+                  text: "Once deleted, you will not be able to recover this record!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    document.getElementById('delete-row-'+id).submit();
+                  }
+                  else{
+                    Swal.fire('You canceled deleting the record!')
+                  }
+                });
+            }
+            
         </script>
         <script src="{{ asset('js/axios.min.js') }}"></script>
         @stack('scripts')

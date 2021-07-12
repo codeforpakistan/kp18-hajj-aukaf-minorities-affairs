@@ -9,8 +9,8 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Fund Category
-                                <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default pull-right">List Fund Categories</a>
+                                Edit District
+                                <a href='{{ route('admin.districts.index') }}' class="btn btn-default pull-right">List Districts</a>
                             </h2>
                         </div>
                         <div class="body">

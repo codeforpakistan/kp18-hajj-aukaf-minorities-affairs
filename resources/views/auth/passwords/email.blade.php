@@ -1,47 +1,45 @@
-@extends('layouts.app')
-
+@extends('layouts.auth')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="box">
+            <div class="content">
+                <div class="col-lg-12">
+                    <img src="{{ asset('img/logo.png') }}" class="img img-responsive" style="margin-top: 10px;">
+                    <br/>
                 </div>
-            </div>
+                <h3 class="form-title" style="color: #057822;">{{ env('APP_NAME') }}</h3>
+                <form action="{{route('password.email')}}" method="POST" class="form-horizontal login-form" id="login-form">
+                    @csrf
+                    <!-- Title -->
+                    <h3 class="form-title" style="color: #057822;margin: 10px 0px;font-size: 15px;">Reset Password</h3>
+                    @if(session()->has('status'))
+                        <!-- Success Message -->
+                        <div class="alert fade in alert-success">
+                            <i class="icon-remove close" data-dismiss="alert"></i>
+                            {{  session('status') }}
+                        </div>
+                        
+                    @endif
+                    <!-- Input Fields -->
+                    <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                        <div class="input-icon">
+                            <i class="icon-envelope"></i>
+                            <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}" placeholder="Email address">
+                            @error('email')
+                                <label for="email" class="has-error help-block">
+                                    {{ $message }}
+                                </label>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- Form Actions -->
+                    <div class="form-actions text-center">
+                        <input type="submit" name="login" class="btn btn-success" value="Send Password Reset Link">
+                    </div>
+                </form>
+            </div> 
         </div>
     </div>
-</div>
+    <div class="col-sm-3"></div>
 @endsection

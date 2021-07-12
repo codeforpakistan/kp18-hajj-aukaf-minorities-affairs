@@ -57,12 +57,19 @@ class FundController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FundRequest $request)
+    public function store(Request $request)
     {
         try{
             $this->validate($request,[
-                'fund_name' => 'unique:funds'
+                'fund_category_id' => 'required',
+                'sub_category_id' => 'required',
+                'fund_name' => 'required|unique:funds',
+                'total_amount' => 'required',
+                'last_date' => 'required',
+                'fund_for_year' => 'required',
+                'institute_students' => 'required',
             ]);
+
             $fund = Fund::create($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
             if ($fund->wasRecentlyCreated) {
                 return redirect()->route('admin.funds.index')->with('create-success', 'The record has been created!');
@@ -71,7 +78,7 @@ class FundController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
@@ -155,13 +162,20 @@ class FundController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FundRequest $request, $id)
+    public function update(Request $request, $id)
     {
 
         try{
             $this->validate($request,[
-                'fund_name' => 'unique:funds,fund_name,'.$id
+                'fund_category_id' => 'required',
+                'sub_category_id' => 'required',
+                'fund_name' => 'unique:funds,fund_name,'.$id,
+                'total_amount' => 'required',
+                'last_date' => 'required',
+                'fund_for_year' => 'required',
+                'institute_students' => 'required',
             ]);
+
             $fund = Fund::find($id);
 
             $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
@@ -172,7 +186,7 @@ class FundController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));

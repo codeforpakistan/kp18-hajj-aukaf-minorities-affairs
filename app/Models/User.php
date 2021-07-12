@@ -30,7 +30,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'address', 'password', 'photo',
+        'name', 'email', 'phone', 'address', 'password', 'role_id',
     ];
 
     /**
@@ -65,5 +65,10 @@ class User extends Authenticatable
     public function institutes()
     {
         return $this->hasMany('App\Models\Institute', 'user_id', 'id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
     }
 }

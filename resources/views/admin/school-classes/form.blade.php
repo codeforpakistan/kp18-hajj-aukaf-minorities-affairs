@@ -1,6 +1,6 @@
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('class_number', null, [
+        {!! Form::text('class_number', old('class_number'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Class Number field is required.',
             'required',

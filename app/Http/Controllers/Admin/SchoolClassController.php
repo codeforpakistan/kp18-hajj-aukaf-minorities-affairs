@@ -58,7 +58,7 @@ class SchoolClassController extends Controller
             return redirect()->route('admin.school-classes.index')->with('create-failed', 'Could not create the record!');
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
@@ -136,7 +136,7 @@ class SchoolClassController extends Controller
             }
         } catch (ValidationException $e) {
 
-            return redirect()->back()->withErrors($e->validator);
+            return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);

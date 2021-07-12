@@ -1,6 +1,6 @@
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::select('institute_type_id', $instituteTypes, null, [
+        {!! Form::select('institute_type_id', $instituteTypes, old('institute_type_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Institute Type',
@@ -14,7 +14,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('name', null, [
+        {!! Form::text('name', old('name'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Institute Name field is required.',
             'required',
@@ -27,7 +27,7 @@
 </div>
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::select('city_id', $cities, null, [
+        {!! Form::select('city_id', $cities, old('city_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select City',
@@ -42,7 +42,7 @@
 
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('institute_sector', null, [
+        {!! Form::text('institute_sector', old('institute_sector'), [
             'class' => 'form-control',
             'data-msg-required' => 'The Institute Sector field is required.',
             'required',
@@ -56,7 +56,7 @@
 
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::text('address', null, [
+        {!! Form::text('address', old('address'), [
             'class' => 'form-control',
         ]) !!}
         @error('address')

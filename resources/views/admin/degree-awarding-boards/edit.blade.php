@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Degree Awarding Board
+                                Edit Degree Awarding Board
                                 <a href='{{ route('admin.degree-awarding-boards.index') }}' class="btn btn-default pull-right">List Degree Awarding Boards</a>
                             </h2>
                         </div>

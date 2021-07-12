@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                New Qualification Level
+                                Edit Qualification Level
                                 <a href='{{ route('admin.qualification-levels.index') }}' class="btn btn-default pull-right">List Qualification Level</a>
                             </h2>
                         </div>

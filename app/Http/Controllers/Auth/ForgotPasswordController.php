@@ -17,6 +17,10 @@ class ForgotPasswordController extends Controller
     | your application to your users. Feel free to explore this trait.
     |
     */
+    public function __construct()
+    {
+       $this->middleware('guest:web')->except('logout');
+    }
 
     use SendsPasswordResetEmails;
 }
