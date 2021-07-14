@@ -13,7 +13,7 @@
                                 <a href='{{ route('admin.funds.create') }}' class="btn btn-primary pull-right">New Fund</a>
                             </h2>
                         </div>
-                        <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>
+                        <div class="body">{!! $dataTable->table() !!}</div>
                     </div>
                 </div>
             </div>

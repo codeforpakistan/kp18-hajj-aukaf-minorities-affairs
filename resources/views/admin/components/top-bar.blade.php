@@ -3,9 +3,9 @@
         <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
             <a href="javascript:void(0);" class="bars hidden-md" style="display: none;"></a>
-            <a class="navbar-brand d-flex" href="index.html">
+            <a class="navbar-brand d-flex" href="javascript:void(0);">
                 <img class="img img-responsive hidden-sm hidden-xs" src="{{ asset('img/logo2.png') }}" alt="LOGO" />
-                <div>{{env('APP_NAME')}}</div>
+                <div>Auqaf, Hajj, Religious & Minority Affairs</div>
             </a>
         </div>
         <div class="navbar-collapse collapse" id="navbar-collapse" aria-expanded="false" style="height: 1px;">

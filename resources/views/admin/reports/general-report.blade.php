@@ -62,11 +62,11 @@
         let options = @json($options);
         let keys = Object.keys(options);
         let checkedOpts = 0;
-        $(window).load(function(){
-            $( "#generalreportdatatable-table" ).wrap('<div style="width:100%;overflow-x:auto"></div>')
-            $('#generalreportdatatable-table th').css({'min-width' : '150px'});
-            $('#generalreportdatatable-table td').css({'min-width' : '150px'});
-        });
+        // $(window).load(function(){
+        //     $( "#generalreportdatatable-table" ).wrap('<div style="width:100%;overflow-x:auto"></div>')
+        //     $('#generalreportdatatable-table th').css({'min-width' : '150px'});
+        //     $('#generalreportdatatable-table td').css({'min-width' : '150px'});
+        // });
         $(document).on('click','.option',function(e){
             if($(e.target).prop('id') === 'check_all')
             {
