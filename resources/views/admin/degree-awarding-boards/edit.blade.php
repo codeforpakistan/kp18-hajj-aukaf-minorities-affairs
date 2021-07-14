@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Edit Degree Awarding Board
-                                <a href='{{ route('admin.degree-awarding-boards.index') }}' class="btn btn-default pull-right">List Degree Awarding Boards</a>
+                                <a href='{{ route('admin.degree-awarding-boards.index') }}' class="btn btn-primary pull-right">List Degree Awarding Boards</a>
                             </h2>
                         </div>
                         <div class="body">

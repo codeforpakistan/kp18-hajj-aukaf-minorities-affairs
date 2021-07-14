@@ -11,8 +11,8 @@
                             <h2>
                             	Qualification Level
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.qualification-levels.index') }}' class="btn btn-default">List Qualification Levels</a>
-                            		<a href='{{ route('admin.qualification-levels.create') }}' class="btn btn-default">New Qualification Level</a>
+                            		<a href='{{ route('admin.qualification-levels.index') }}' class="btn btn-primary">List Qualification Levels</a>
+                            		<a href='{{ route('admin.qualification-levels.create') }}' class="btn btn-primary">New Qualification Level</a>
                             	</div>
                             </h2>
                         </div>

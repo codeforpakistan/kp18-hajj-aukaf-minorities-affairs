@@ -111,7 +111,7 @@ class ApplicantDataTable extends DataTable
                     $query->where('id', request()->input('token'));
                 });
             }
-        });
+        })->orderBy('applicants.name');
     }
 
     /**
@@ -130,7 +130,7 @@ class ApplicantDataTable extends DataTable
             ->buttons(
                 Button::make('export'),
                 Button::make('print'),
-                Button::make('reset')
+                Button::make('reload')
             );
     }
 

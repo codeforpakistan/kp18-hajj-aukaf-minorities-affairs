@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 New Marital Status
-                                <a href='{{ route('admin.marital-statuses.index') }}' class="btn btn-default pull-right">List Marital Status</a>
+                                <a href='{{ route('admin.marital-statuses.index') }}' class="btn btn-primary pull-right">List Marital Status</a>
                             </h2>
                         </div>
                         <div class="body">

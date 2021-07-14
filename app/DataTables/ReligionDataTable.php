@@ -33,7 +33,7 @@ class ReligionDataTable extends DataTable
      */
     public function query(Religion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('religion_name');
     }
 
     /**
@@ -52,7 +52,6 @@ class ReligionDataTable extends DataTable
                     ->buttons(
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Qualification Level
-                                <a href='{{ route('admin.qualification-levels.create') }}' class="btn btn-default pull-right">New Qualification Level</a>
+                                <a href='{{ route('admin.qualification-levels.create') }}' class="btn btn-primary pull-right">New Qualification Level</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

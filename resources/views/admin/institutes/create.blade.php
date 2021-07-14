@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 New Institute
-                                <a href='{{ route('admin.institutes.index') }}' class="btn btn-default pull-right">List Institutes</a>
+                                <a href='{{ route('admin.institutes.index') }}' class="btn btn-primary pull-right">List Institutes</a>
                             </h2>
                         </div>
                         <div class="body">

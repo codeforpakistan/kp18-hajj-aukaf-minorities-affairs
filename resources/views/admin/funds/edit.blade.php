@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Edit Fund ({{ $fund->fund_name }})
-                                <a href='{{ route('admin.funds.index') }}' class="btn btn-default pull-right">List Fund</a>
+                                <a href='{{ route('admin.funds.index') }}' class="btn btn-primary pull-right">List Fund</a>
                             </h2>
                         </div>
                         <div class="body">

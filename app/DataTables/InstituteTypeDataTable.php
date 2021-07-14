@@ -32,7 +32,7 @@ class InstituteTypeDataTable extends DataTable
      */
     public function query(InstituteType $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('type');
     }
 
     /**
@@ -49,10 +49,8 @@ class InstituteTypeDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

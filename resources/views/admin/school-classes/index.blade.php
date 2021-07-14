@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 School Class
-                                <a href='{{ route('admin.school-classes.create') }}' class="btn btn-default pull-right">New School Class</a>
+                                <a href='{{ route('admin.school-classes.create') }}' class="btn btn-primary pull-right">New School Class</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

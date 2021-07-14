@@ -58,7 +58,7 @@ class FundDataTable extends DataTable
      */
     public function query(Fund $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('fund_name');
     }
 
     /**
@@ -77,7 +77,7 @@ class FundDataTable extends DataTable
             ->buttons(
                 Button::make('export'),
                 Button::make('print'),
-                Button::make('reset')
+                Button::make('reload')
             );
     }
 

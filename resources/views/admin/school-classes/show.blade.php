@@ -11,8 +11,8 @@
                             <h2>
                             	School Class
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.school-classes.index') }}' class="btn btn-default">List School Classs</a>
-                            		<a href='{{ route('admin.school-classes.create') }}' class="btn btn-default">New School Class</a>
+                            		<a href='{{ route('admin.school-classes.index') }}' class="btn btn-primary">List School Classs</a>
+                            		<a href='{{ route('admin.school-classes.create') }}' class="btn btn-primary">New School Class</a>
                             	</div>
                             </h2>
                         </div>

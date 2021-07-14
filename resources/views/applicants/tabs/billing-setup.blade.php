@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    {{-- <div class="form-group">
+    <div class="form-group">
         <label class="col-md-3 control-label">Permanent Address<span class="required"> *</span></label>
         <div class="col-md-5">
             {!! Form::text('ApplicantAddress[permenent_address]', null, [
@@ -23,7 +23,7 @@
             ]) !!}
         </div>
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label class="col-md-3 control-label">Postal Address<span class="required"> *</span></label>
         <div class="col-md-5">
             {!! Form::text('ApplicantAddress[postal_address]', null, [

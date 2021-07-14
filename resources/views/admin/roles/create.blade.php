@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 New Role
-                                <a href='{{ route('admin.roles.index') }}' class="btn btn-default pull-right">List Roles</a>
+                                <a href='{{ route('admin.roles.index') }}' class="btn btn-primary pull-right">List Roles</a>
                             </h2>
                         </div>
                         <div class="body">

@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Degree Awarding Board
-                                <a href='{{ route('admin.degree-awarding-boards.create') }}' class="btn btn-default pull-right">New Degree Awarding Board</a>
+                                <a href='{{ route('admin.degree-awarding-boards.create') }}' class="btn btn-primary pull-right">New Degree Awarding Board</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

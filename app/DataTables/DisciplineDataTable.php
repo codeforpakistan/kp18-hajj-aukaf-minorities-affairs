@@ -41,7 +41,7 @@ class DisciplineDataTable extends DataTable
      */
     public function query(Discipline $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('discipline');
     }
 
     /**
@@ -58,10 +58,8 @@ class DisciplineDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

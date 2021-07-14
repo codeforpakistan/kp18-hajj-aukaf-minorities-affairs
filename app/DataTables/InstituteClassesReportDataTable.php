@@ -80,7 +80,6 @@ class InstituteClassesReportDataTable extends DataTable
                     ->buttons(
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

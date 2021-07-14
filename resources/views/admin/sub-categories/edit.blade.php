@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Edit Fund Sub Category ({{ $subCategory->type }})
-                                <a href='{{ route('admin.sub-categories.index') }}' class="btn btn-default pull-right">List Fund Sub Categories</a>
+                                <a href='{{ route('admin.sub-categories.index') }}' class="btn btn-primary pull-right">List Fund Sub Categories</a>
                             </h2>
                         </div>
                         <div class="body">

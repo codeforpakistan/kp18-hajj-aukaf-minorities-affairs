@@ -44,7 +44,7 @@ class SubCategoryDataTable extends DataTable
      */
     public function query(SubCategory $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('type');
     }
 
     /**
@@ -63,7 +63,7 @@ class SubCategoryDataTable extends DataTable
             ->buttons(
                 Button::make('export'),
                 Button::make('print'),
-                Button::make('reset')
+                Button::make('reload')
             );
     }
 

@@ -142,13 +142,13 @@
             <p class="form-control-static" data-display="ApplicantAddress[current_address]"></p>
         </div>
     </div>
-    {{-- <div class="form-group">
+    <div class="form-group">
         <label class="control-label col-md-3">Permanent address:</label>
         <div class="col-md-5">
             <p class="form-control-static" data-display="ApplicantAddress[permenent_address]"></p>
         </div>
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <label class="control-label col-md-3">Postal Address:</label>
         <div class="col-md-5">
             <p class="form-control-static" data-display="ApplicantAddress[postal_address]"></p>

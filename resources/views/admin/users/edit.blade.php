@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Edit User
-                                <a href='{{ route('admin.users.index') }}' class="btn btn-default pull-right">List Users</a>
+                                <a href='{{ route('admin.users.index') }}' class="btn btn-primary pull-right">List Users</a>
                             </h2>
                         </div>
                         <div class="body">

@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Edit District
-                                <a href='{{ route('admin.districts.index') }}' class="btn btn-default pull-right">List Districts</a>
+                                <a href='{{ route('admin.districts.index') }}' class="btn btn-primary pull-right">List Districts</a>
                             </h2>
                         </div>
                         <div class="body">

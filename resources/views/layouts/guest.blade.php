@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <title>{{ env('APP_NAME') }}</title>
+        <title>Auqaf, Hajj, Religious & Minority Affairs</title>
         <link rel="icon" href="{{ asset('img/index.png')  }}" type="image/x-icon">
         <!--=== CSS ===-->
         <!-- Bootstrap -->
         <link href="{{ asset('client/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- jQuery UI -->
-        <!--<link href="{{ asset('client/plugins/jquery-ui/jquery-ui-1.10.2.custom.css') }}" rel="stylesheet" type="text/css" />-->
+        {{-- <link href="{{ asset('client/plugins/jquery-ui/jquery-ui-1.10.2.custom.css') }}" rel="stylesheet" type="text/css" /> --}}
         <!--[if lt IE 9]>
                 <link rel="stylesheet" type="text/css" href="{{ asset('client/plugins/jquery-ui/jquery.ui.1.10.2.ie.css') }}"/>
         <![endif]-->

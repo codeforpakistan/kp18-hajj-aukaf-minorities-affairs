@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Fund Sub Categories
-                                <a href='{{ route('admin.sub-categories.create') }}' class="btn btn-default pull-right">New Fund Sub Category</a>
+                                <a href='{{ route('admin.sub-categories.create') }}' class="btn btn-primary pull-right">New Fund Sub Category</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

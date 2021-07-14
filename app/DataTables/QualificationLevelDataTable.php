@@ -41,7 +41,7 @@ class QualificationLevelDataTable extends DataTable
      */
     public function query(QualificationLevel $model)
     {
-        return $model->newQuery()->with('instituteType');
+        return $model->newQuery()->with('instituteType')->orderBy('name');
     }
 
     /**
@@ -58,10 +58,8 @@ class QualificationLevelDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

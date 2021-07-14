@@ -32,7 +32,7 @@ class DegreeAwardingBoardDataTable extends DataTable
      */
     public function query(DegreeAwarding $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('name');
     }
 
     /**
@@ -49,10 +49,8 @@ class DegreeAwardingBoardDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

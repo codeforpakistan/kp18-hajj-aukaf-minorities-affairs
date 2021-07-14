@@ -11,8 +11,8 @@
                             <h2>
                             	User
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.users.index') }}' class="btn btn-default">List Users</a>
-                            		<a href='{{ route('admin.users.create') }}' class="btn btn-default">New User</a>
+                            		<a href='{{ route('admin.users.index') }}' class="btn btn-primary">List Users</a>
+                            		<a href='{{ route('admin.users.create') }}' class="btn btn-primary">New User</a>
                             	</div>
                             </h2>
                         </div>

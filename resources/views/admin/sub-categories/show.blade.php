@@ -11,8 +11,8 @@
                             <h2>
                             	Fund Sub Category ({{ $subCategory->type }})
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.sub-categories.index') }}' class="btn btn-default">List Fund Sub Categories</a>
-                            		<a href='{{ route('admin.sub-categories.create') }}' class="btn btn-default">New Fund Sub Category</a>
+                            		<a href='{{ route('admin.sub-categories.index') }}' class="btn btn-primary">List Fund Sub Categories</a>
+                            		<a href='{{ route('admin.sub-categories.create') }}' class="btn btn-primary">New Fund Sub Category</a>
                             	</div>
                             </h2>
                         </div>

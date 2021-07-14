@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Role
-                                <a href='{{ route('admin.roles.create') }}' class="btn btn-default pull-right">New Role</a>
+                                <a href='{{ route('admin.roles.create') }}' class="btn btn-primary pull-right">New Role</a>
                             </h2>
                         </div>
                         <div class="body"><div class="table-responsive">{!! $dataTable->table() !!}</div></div>

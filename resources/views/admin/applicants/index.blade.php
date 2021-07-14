@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 Applicants
-                                <a href='{{ route('admin.applicants.create') }}' class="btn btn-default pull-right">New Applicant</a>
+                                <a href='{{ route('admin.applicants.create') }}' class="btn btn-primary pull-right">New Applicant</a>
                             </h2>
                         </div>
                         <div class="body">

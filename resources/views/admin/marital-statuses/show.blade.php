@@ -11,8 +11,8 @@
                             <h2>
                             	Marital Status
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.marital-statuses.index') }}' class="btn btn-default">List Marital Statuses</a>
-                            		<a href='{{ route('admin.marital-statuses.create') }}' class="btn btn-default">New Marital Status</a>
+                            		<a href='{{ route('admin.marital-statuses.index') }}' class="btn btn-primary">List Marital Statuses</a>
+                            		<a href='{{ route('admin.marital-statuses.create') }}' class="btn btn-primary">New Marital Status</a>
                             	</div>
                             </h2>
                         </div>

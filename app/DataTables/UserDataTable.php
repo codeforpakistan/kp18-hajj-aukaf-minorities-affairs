@@ -41,7 +41,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->with('roles')->newQuery();
+        return $model->with('roles')->newQuery()->orderBy('name');
     }
 
     /**
@@ -58,10 +58,8 @@ class UserDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

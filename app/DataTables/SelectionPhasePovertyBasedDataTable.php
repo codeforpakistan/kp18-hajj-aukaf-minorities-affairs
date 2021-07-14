@@ -108,6 +108,8 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
             $sql->where('applicant_addresses.city_id',request()->city_id);
         }
 
+        $sql->orderBy('applicants.name');
+
         $sql->select(array_merge(['applicant_fund_details.id as id','applicants.name as name','applicants.father_name','applicants.cnic'],$select));
 
         return $sql;
@@ -129,7 +131,6 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
                     ->buttons(
                         Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
                         Button::make('reload')
                     );
     }

@@ -11,8 +11,8 @@
                             <h2>
                             	Fund Category ({{ $fundCategory->type_of_fund }})
                             	<div class="btn-group pull-right" role="group">
-                            		<a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default">List Fund Categories</a>
-                            		<a href='{{ route('admin.fund-categories.create') }}' class="btn btn-default">New Fund Category</a>
+                            		<a href='{{ route('admin.fund-categories.index') }}' class="btn btn-primary">List Fund Categories</a>
+                            		<a href='{{ route('admin.fund-categories.create') }}' class="btn btn-primary">New Fund Category</a>
                             	</div>
                             </h2>
                         </div>

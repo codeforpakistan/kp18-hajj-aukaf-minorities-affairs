@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>
                                 New Fund Category
-                                <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-default pull-right">List Fund Categories</a>
+                                <a href='{{ route('admin.fund-categories.index') }}' class="btn btn-primary pull-right">List Fund Categories</a>
                             </h2>
                         </div>
                         <div class="body">
