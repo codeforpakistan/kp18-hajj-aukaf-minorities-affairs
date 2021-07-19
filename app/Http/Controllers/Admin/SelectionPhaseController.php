@@ -37,14 +37,16 @@ class SelectionPhaseController extends Controller
             $fundsList = Fund::with(['subCategory'])->where('active',1)->get();//pluck('fund_name', 'id');
 
             $selectableList = [];
-
             foreach ($fundsList as $fund) {
-                $selectableList[] = [
-                    'id' => $fund->id,
-                    'fund_name' => $fund->fund_name,
-                    'sub_category' => $fund->subCategory->type,
-                    'grant_or_scholarshipt' => $fund->subCategory->type === 'Educational grants' ? 1 : 0, // 1 : grant, 0 : sholarship
-                ];
+                if($fund->subCategory)
+                {
+                    $selectableList[] = [
+                        'id' => $fund->id,
+                        'fund_name' => $fund->fund_name,
+                        'sub_category' => $fund->subCategory->type,
+                        'grant_or_scholarship' => $fund->subCategory->type === 'Educational grants' ? 1 : 0, // 1 : grant, 0 : sholarship
+                    ];
+                }
             }
 
             $distributedAmount = ApplicantFundDetail::where('fund_id',request()->fund)->sum('amount_recived');

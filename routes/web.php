@@ -37,7 +37,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::middleware(['auth', 'role:Admin|Operator'])
+Route::middleware(['auth', 'role:Admin'])
 ->namespace('Admin')
 ->prefix('admin')
 ->name('admin.')
@@ -81,9 +81,7 @@ Route::middleware(['auth', 'role:Admin|Operator'])
     Route::resource('districts', 'DistrictController');
     Route::resource('institute-types', 'InstituteTypeController');
     Route::resource('institutes', 'InstituteController');
-    
-    Route::get('applied-institutes/funds/{fund_id}', 'AppliedInstitutesController@funds')->name('applied-institutes.funds');
-    
+        
     Route::group(['prefix' => 'selection-phase'],function(){
         Route::get('/poverty-based', 'SelectionPhaseController@povertyBased')
              ->name('selection-phase.poverty-based');
@@ -118,13 +116,14 @@ Route::middleware(['auth', 'role:Admin|Operator'])
     Route::resource('school-classes', 'SchoolClassController');
     Route::get('change-password', 'UserController@changePassword')->name('users.change.password');
     Route::put('change-password-submit', 'UserController@changePasswordSubmit')->name('users.change.password.submit');
+    Route::resource('roles', 'RoleController');
+    Route::resource('users', 'UserController');
 });
 
-Route::middleware(['auth', 'role:Admin'])
+Route::middleware(['auth', 'role:Admin|School'])
 ->namespace('Admin')
 ->prefix('admin')
 ->name('admin.')
 ->group( function () {
-    Route::resource('roles', 'RoleController');
-    Route::resource('users', 'UserController');
+    Route::get('applied-institutes/funds/{fund_id}', 'AppliedInstitutesController@funds')->name('applied-institutes.funds');
 });

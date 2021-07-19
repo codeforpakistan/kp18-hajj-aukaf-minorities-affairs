@@ -5,7 +5,7 @@
             <select class="form-control show-tick" required v-model="fund" id="selectFund" @input="fundChange">
                 <option value="" selected disabled data-gs="0">Select Fund</option>
                 @foreach($fundsList as $item)
-                    <option value="{{ $item['id'] }}" data-gs="{{$item['grant_or_scholarshipt']}}">{{$item['fund_name']}}</option>
+                    <option value="{{ $item['id'] }}" data-gs="{{$item['grant_or_scholarship']}}">{{$item['fund_name']}}</option>
                 @endforeach
             </select>
         </div>

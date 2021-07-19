@@ -10,7 +10,7 @@
                         <div class="header">
                             <h2>Date Wise Summary</h2>
                         </div>
-                        @include('admin.reports.date-and-region-religion-report',['route' => 'admin.reports.date-wise-summary','include_dates' => true])
+                        @include('admin.reports.date-and-region-religion-report',['route' => 'admin.reports.date-wise-summary','include_dates' => true,'pdfRoute' => 'admin.reports.date-wise-summary'])
                     </div>
                 </div>
             </div>

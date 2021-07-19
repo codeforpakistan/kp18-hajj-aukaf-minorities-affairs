@@ -149,5 +149,6 @@
                 </tbody>
             </table>
         </div>
+        <a href="{{route($pdfRoute ?? 'admin.reports.region-religion-report',array_merge(request()->query(),['pdf' => 1]))}}" class="btn btn-primary">Generate PDF</a>
     </div>
 @endif

@@ -110,11 +110,21 @@ class ReportController extends Controller
                 $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
                 $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
                 
-            	return view('admin.reports.region-religion-report',[
-                    'years' => $years,
-                    'fundsList' => $fundsList,
-                    'data' => $data,
-                ]);
+            	if(request()->has('pdf'))
+                {
+                    $pdf = \PDF::loadView('admin.reports.pdf.date-and-region-religion-pdf-report',[
+                        'data' => $data,
+                    ]);
+                    return $pdf->download('Region_Religion_Report'.date('YmdHis').'.pdf');
+                }
+                else
+                {
+                    return view('admin.reports.region-religion-report',[
+                        'years' => $years,
+                        'fundsList' => $fundsList,
+                        'data' => $data,
+                    ]);
+                }
             } catch (\Exception $e) {
                 return ExceptionHelper::customError($e);
             }
@@ -192,12 +202,21 @@ class ReportController extends Controller
                 $years = Fund::where('active',1)->pluck('fund_for_year', 'fund_for_year');
                 $fundsList = Fund::where('active',1)->pluck('fund_name', 'id');
                 
-                return view('admin.reports.date-wise-summary-report',[
-                    'years' => $years,
-                    'fundsList' => $fundsList,
-                    'data' => $data,
-                ]);
-            	return view('admin.reports.date-wise-summary-report');
+                if(request()->has('pdf'))
+                {
+                    $pdf = \PDF::loadView('admin.reports.pdf.date-and-region-religion-pdf-report',[
+                        'data' => $data,
+                    ]);
+                    return $pdf->download('Date_Wise_Summary'.date('YmdHis').'.pdf');
+                }
+                else
+                {
+                    return view('admin.reports.date-wise-summary-report',[
+                        'years' => $years,
+                        'fundsList' => $fundsList,
+                        'data' => $data,
+                    ]);
+                }
             } catch (\Exception $e) {
                 return ExceptionHelper::customError($e);
             }
