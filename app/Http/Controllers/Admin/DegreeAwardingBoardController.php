@@ -51,15 +51,18 @@ class DegreeAwardingBoardController extends Controller
             $degreeAwarding = DegreeAwarding::create($request->only(['name']));
             if($degreeAwarding->wasRecentlyCreated)
             {
-                return redirect()->route($this->indexRoute)->with('create-success', 'The record has been created!');
+                \Session::flash('create-success', 'The record has been created!');
+                return redirect()->route($this->indexRoute);
             }
-            return redirect()->route($this->indexRoute)->with('create-failed', 'Could not create the record!');
+            \Session::flash('create-failed', 'Could not create the record!');
+            return redirect()->route($this->indexRoute);
         } catch (ValidationException $e) {
 
             return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -77,7 +80,8 @@ class DegreeAwardingBoardController extends Controller
                 'degreeAwarding' => $degreeAwarding,
             ]);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -93,7 +97,8 @@ class DegreeAwardingBoardController extends Controller
             $degreeAwarding = DegreeAwarding::find($id);
             return view('admin.degree-awarding-boards.edit',['degreeAwarding' => $degreeAwarding]);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -113,22 +118,26 @@ class DegreeAwardingBoardController extends Controller
             $degreeAwarding = DegreeAwarding::find($id);
 
             if( ! $degreeAwarding){
-                return redirect()->route($this->indexRoute)->with('edit-failed', 'Could not find the record!');
+                \Session::flash('edit-failed', 'Could not find the record!');
+                return redirect()->route($this->indexRoute);
             }
 
             $recordUpdated = $degreeAwarding->update($request->only(['name']));
             
             if ($recordUpdated) {
-                return redirect()->route($this->indexRoute)->with('edit-success', 'The record has been updated!');
+                \Session::flash('edit-success', 'The record has been updated!');
+                return redirect()->route($this->indexRoute);
             } else {
-                return redirect()->route($this->indexRoute)->with('edit-failed', 'Could not update the record!');
+                \Session::flash('edit-failed', 'Could not update the record!');
+                return redirect()->route($this->indexRoute);
             }
         } catch (ValidationException $e) {
 
             return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -144,11 +153,14 @@ class DegreeAwardingBoardController extends Controller
             $degreeAwarding = DegreeAwarding::find($id);
             $recordDeleted = $degreeAwarding->delete();
             if ( ! $recordDeleted ) {
-                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+                \Session::flash('delete-failed', 'Could not delete the record');
+                return redirect()->back();
             }
-            return redirect()->back()->with('delete-success', 'The record has been deleted');
+            \Session::flash('delete-success', 'The record has been deleted');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 }

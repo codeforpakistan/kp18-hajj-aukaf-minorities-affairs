@@ -61,7 +61,7 @@
         {!! Form::label('fund_for_year', 'Fund for Year', ['class' => 'form-label']) !!}
     </div>
 </div>
-<div class="form-group form-float">
+<div class="form-group form-float hidden" id="students-per-institute">
     <div class="form-line">
         {!! Form::text('institute_students', old('institute_students'), [
             'class' => 'form-control',
@@ -87,18 +87,31 @@
         {{-- {!! Form::label('last_date', 'Last Date', ['class' => 'form-label']) !!} --}}
     </div>
 </div>
-<div class="form-group form-float">
-    <div class="form-line">
-        {!! Form::checkbox('active', '1', old('active',true) , [
-            'class' => 'filled-in',
-            'id' => 'active',
-        ]) !!}
-        {!! Form::label('active', 'Status') !!}
+@if(@$editForm)
+    <div class="form-group form-float">
+        <div class="form-line">
+            {!! Form::checkbox('active', '1', null , [
+                'class' => 'filled-in',
+                'id' => 'active',
+            ]) !!}
+            {!! Form::label('active', 'Status') !!}
+        </div>
     </div>
-</div>
+@endif
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#select_sub_category_id').change(function(e) {
+                if($(e.target).val() == 3)
+                {
+                    $("#students-per-institute").removeClass('hidden');
+                }
+                else
+                {
+                    $("#students-per-institute").addClass('hidden');
+                }
+            });
+
             $('#select_fund_category_id').change(function() {
                 var value = $(this).val();
                 if (value != "") {

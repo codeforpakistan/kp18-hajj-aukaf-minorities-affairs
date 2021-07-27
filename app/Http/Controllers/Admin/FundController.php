@@ -47,7 +47,8 @@ class FundController extends Controller
                 'subCategories'  => $subCategories,
             ]);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -64,24 +65,32 @@ class FundController extends Controller
                 'fund_category_id' => 'required',
                 'sub_category_id' => 'required',
                 'fund_name' => 'required|unique:funds',
-                'total_amount' => 'required',
+                'total_amount' => 'required|numeric',
                 'last_date' => 'required',
                 'fund_for_year' => 'required',
-                'institute_students' => 'required',
             ]);
+            if($request->sub_category_id == '3')
+            {
+                $this->validate($request,[
+                    'institute_students' => 'required',
+                ]);
+            }
 
-            $fund = Fund::create($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
+            $fund = Fund::create($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students']));
             if ($fund->wasRecentlyCreated) {
-                return redirect()->route('admin.funds.index')->with('create-success', 'The record has been created!');
+                \Session::flash('create-success', 'The record has been created!');
+                return redirect()->route('admin.funds.index');
             } else {
-                return redirect()->route('admin.funds.index')->with('create-failed', 'Could not create the record!');
+                \Session::flash('create-failed', 'Could not create the record!');
+                return redirect()->route('admin.funds.index');
             }
         } catch (ValidationException $e) {
 
             return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -99,7 +108,8 @@ class FundController extends Controller
                 'fund' => $fund,
             ]);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -151,7 +161,8 @@ class FundController extends Controller
                 'subCategories'  => $subCategories,
             ]);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -170,26 +181,34 @@ class FundController extends Controller
                 'fund_category_id' => 'required',
                 'sub_category_id' => 'required',
                 'fund_name' => 'unique:funds,fund_name,'.$id,
-                'total_amount' => 'required',
+                'total_amount' => 'required|numeric',
                 'last_date' => 'required',
                 'fund_for_year' => 'required',
-                'institute_students' => 'required',
             ]);
+            if($request->sub_category_id == '3')
+            {
+                $this->validate($request,[
+                    'institute_students' => 'required',
+                ]);
+            }
 
             $fund = Fund::find($id);
 
-            $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students', 'active']));
+            $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students']));
             if ($recordUpdated) {
-                return redirect()->route('admin.funds.index')->with('edit-success', 'The record has been updated!');
+                \Session::flash("edit-success",'The record has been updated!');
+                return redirect()->route('admin.funds.index');
             } else {
-                return redirect()->route('admin.funds.index')->with('edit-failed', 'Could not update the record!');
+                \Session::flash("edit-failed",'Could not update the record!');
+                return redirect()->route('admin.funds.index');
             }
         } catch (ValidationException $e) {
 
             return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -205,11 +224,14 @@ class FundController extends Controller
             $fund = Fund::find($id);
             $recordDeleted = $fund->delete();
             if ( ! $recordDeleted ) {
-                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+                \Session::flash('delete-failed', 'Could not delete the record');
+                return redirect()->back();
             }
-            return redirect()->back()->with('delete-success', 'The record has been deleted');
+            \Session::flash('delete-success', 'The record has been deleted');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 }

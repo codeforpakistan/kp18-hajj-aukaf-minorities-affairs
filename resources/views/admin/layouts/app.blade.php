@@ -108,8 +108,7 @@
                     }
                 })
                 $( "table.dataTable" ).wrap('<div class="scroller" style="width:100%;overflow-x:auto"></div>')
-                $('table.dataTable th').css({'min-width' : '150px'});
-                $('table.dataTable td').css({'min-width' : '150px'});
+                // $('table.dataTable th').css({'min-width' : '150px'});
             });
 
 

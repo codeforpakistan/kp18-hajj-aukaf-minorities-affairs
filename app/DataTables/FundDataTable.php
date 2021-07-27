@@ -37,6 +37,9 @@ class FundDataTable extends DataTable
                     return '';
                 }
             })
+            ->addColumn('total_amount', function($row){
+                return number_format($row->total_amount,2,'.',',');
+            })
             ->addColumn('status_label', function($row){
                 if ($row->active == 1) {
                     return '<span class="label label-success">Active</span>';

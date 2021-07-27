@@ -44,7 +44,8 @@ class SubCategoryController extends Controller
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -65,9 +66,11 @@ class SubCategoryController extends Controller
 
             $subCategory = SubCategory::create($request->only(['fund_category_id', 'type', 'description', 'status']));
             if ($subCategory->wasRecentlyCreated) {
-                return redirect()->route('admin.sub-categories.index')->with('create-success', 'The record has been created!');
+                \Session::flash('create-success', 'The record has been created!');
+                return redirect()->route('admin.sub-categories.index');
             } else {
-                return redirect()->route('admin.sub-categories.index')->with('create-failed', 'Could not create the record!');
+                \Session::flash('create-failed', 'Could not create the record!');
+                return redirect()->route('admin.sub-categories.index');
             }
         } catch (ValidationException $e) {
 
@@ -76,7 +79,8 @@ class SubCategoryController extends Controller
         } catch (\Error $e) {
             return ExceptionHelper::customError($e)->withInput();
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -96,7 +100,8 @@ class SubCategoryController extends Controller
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -118,7 +123,8 @@ class SubCategoryController extends Controller
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -143,9 +149,11 @@ class SubCategoryController extends Controller
 
             $recordUpdated = $subCategory->update($request->only(['fund_category_id', 'type', 'description', 'status']));
             if ($recordUpdated) {
-                return redirect()->route('admin.sub-categories.index')->with('edit-success', 'The record has been updated!');
+                \Session::flash('edit-success', 'The record has been updated!');
+                return redirect()->route('admin.sub-categories.index');
             } else {
-                return redirect()->route('admin.sub-categories.index')->with('edit-failed', 'Could not update the record!');
+                \Session::flash('edit-failed', 'Could not update the record!');
+                return redirect()->route('admin.sub-categories.index');
             }
         } catch (ValidationException $e) {
 
@@ -154,7 +162,8 @@ class SubCategoryController extends Controller
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -170,13 +179,16 @@ class SubCategoryController extends Controller
             $subCategory = SubCategory::find($id);
             $recordDeleted = $subCategory->delete();
             if ( ! $recordDeleted ) {
-                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+                \Session::flash('delete-failed', 'Could not delete the record');
+                return redirect()->back();
             }
-            return redirect()->back()->with('delete-success', 'The record has been deleted');
+            \Session::flash('delete-success', 'The record has been deleted');
+            return redirect()->back();
         } catch (\Error $e) {
             return ExceptionHelper::customError($e);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 }

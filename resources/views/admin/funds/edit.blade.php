@@ -15,7 +15,7 @@
                         </div>
                         <div class="body">
                             {!! Form::model($fund, ['route' => ['admin.funds.update', [$fund->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.funds.form')
+                                @include('admin.funds.form',['editForm' => true])
                                 <button class="btn btn-primary waves-effect" type="submit">Update</button>
                             {!! Form::close() !!}
                         </div>

@@ -51,15 +51,18 @@ class MaritalStatusController extends Controller
             $maritalStatus = MaritalStatus::create($request->only(['status']));
             if($maritalStatus->wasRecentlyCreated)
             {
-                return redirect()->route('admin.marital-statuses.index')->with('create-success', 'The record has been created!');
+                \Session::flash('create-success', 'The record has been created!');
+                return redirect()->route('admin.marital-statuses.index');
             }
-            return redirect()->route('admin.marital-statuses.index')->with('create-failed', 'Could not create the record!');
+            \Session::flash('create-failed', 'Could not create the record!');
+            return redirect()->route('admin.marital-statuses.index');
         } catch (ValidationException $e) {
 
             return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -77,7 +80,8 @@ class MaritalStatusController extends Controller
                 'maritalStatus' => $maritalStatus,
             ]);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -93,7 +97,8 @@ class MaritalStatusController extends Controller
             $maritalStatus = MaritalStatus::find($id);
             return view('admin.marital-statuses.edit',['maritalStatus' => $maritalStatus]);
         } catch (\Exception $e) {
-            return redirect()->route($this->indexRoute)->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->route($this->indexRoute);
         }
     }
 
@@ -114,22 +119,26 @@ class MaritalStatusController extends Controller
             $maritalStatus = MaritalStatus::find($id);
 
             if( ! $maritalStatus){
-                return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not find the record!');
+                \Session::flash('edit-failed', 'Could not find the record!');
+                return redirect()->route('admin.marital-statuses.index');
             }
 
             $recordUpdated = $maritalStatus->update($request->only(['status']));
             
             if ($recordUpdated) {
-                return redirect()->route('admin.marital-statuses.index')->with('edit-success', 'The record has been updated!');
+                \Session::flash('edit-success', 'The record has been updated!');
+                return redirect()->route('admin.marital-statuses.index');
             } else {
-                return redirect()->route('admin.marital-statuses.index')->with('edit-failed', 'Could not update the record!');
+                \Session::flash('edit-failed', 'Could not update the record!');
+                return redirect()->route('admin.marital-statuses.index');
             }
         } catch (ValidationException $e) {
 
             return redirect()->back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 
@@ -145,11 +154,14 @@ class MaritalStatusController extends Controller
             $maritalStatus = MaritalStatus::find($id);
             $recordDeleted = $maritalStatus->delete();
             if ( ! $recordDeleted ) {
-                return redirect()->back()->with('delete-failed', 'Could not delete the record');
+                \Session::flash('delete-failed', 'Could not delete the record');
+                return redirect()->back();
             }
-            return redirect()->back()->with('delete-success', 'The record has been deleted');
+            \Session::flash('delete-success', 'The record has been deleted');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', ExceptionHelper::somethingWentWrong($e));
+            \Session::flash('error', ExceptionHelper::somethingWentWrong($e));
+            return redirect()->back();
         }
     }
 }
