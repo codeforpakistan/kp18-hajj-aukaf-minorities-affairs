@@ -191,10 +191,9 @@ class FundController extends Controller
                     'institute_students' => 'required',
                 ]);
             }
-
+            $request->merge(['active' => $request->active == '1' ? 1 : 0]);
             $fund = Fund::find($id);
-
-            $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students']));
+            $recordUpdated = $fund->update($request->only(['fund_category_id', 'sub_category_id', 'fund_name', 'total_amount', 'last_date', 'fund_for_year', 'institute_students','active']));
             if ($recordUpdated) {
                 \Session::flash("edit-success",'The record has been updated!');
                 return redirect()->route('admin.funds.index');

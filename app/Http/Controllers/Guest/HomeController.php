@@ -232,7 +232,7 @@ class HomeController extends Controller
                             'applicant_id' => $applicantId,
                             'current_address' => $input['current_address'],
                             'permenent_address' => $input['permenent_address'],
-                            'postal_address' => $input['postal_address'],
+                            'postal_address' => $input['current_address'],
                             'city_id' => $input['city_id'],
                         ];
                         if($address)

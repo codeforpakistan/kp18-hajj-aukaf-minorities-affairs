@@ -15,7 +15,7 @@
                         </div>
                         <div class="body">
                             {!! Form::model($subCategory, ['route' => ['admin.sub-categories.update', [$subCategory->id]], 'method' => 'PUT', 'files' => 'true', 'id' => 'form-validate']) !!}
-                                @include('admin.sub-categories.form')
+                                @include('admin.sub-categories.form',['editForm' => true])
                                 <button class="btn btn-primary waves-effect" type="submit">Update</button>
                             {!! Form::close() !!}
                         </div>

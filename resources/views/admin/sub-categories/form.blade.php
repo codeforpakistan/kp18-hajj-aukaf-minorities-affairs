@@ -35,12 +35,14 @@
         {!! Form::label('description', 'Description', ['class' => 'form-label']) !!}
     </div>
 </div>
-<div class="form-group form-float">
-    <div class="form-line">
-        {!! Form::checkbox('status', '1', old('status'), [
-            'class' => 'filled-in',
-            'id' => 'status',
-        ]) !!}
-        {!! Form::label('status', 'Status') !!}
+@if(@$editForm)
+    <div class="form-group form-float">
+        <div class="form-line">
+            {!! Form::checkbox('status', '1', null, [
+                'class' => 'filled-in',
+                'id' => 'status',
+            ]) !!}
+            {!! Form::label('status', 'Status') !!}
+        </div>
     </div>
-</div>
+@endif

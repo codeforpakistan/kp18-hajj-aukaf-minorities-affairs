@@ -64,7 +64,7 @@ class SubCategoryController extends Controller
                 'description'      => 'required',
             ]);
 
-            $subCategory = SubCategory::create($request->only(['fund_category_id', 'type', 'description', 'status']));
+            $subCategory = SubCategory::create($request->only(['fund_category_id', 'type', 'description']));
             if ($subCategory->wasRecentlyCreated) {
                 \Session::flash('create-success', 'The record has been created!');
                 return redirect()->route('admin.sub-categories.index');
@@ -147,6 +147,7 @@ class SubCategoryController extends Controller
             
             $subCategory = SubCategory::find($id);
 
+            $request->merge(['status' => $request->status == '1' ? 1 : 0]);
             $recordUpdated = $subCategory->update($request->only(['fund_category_id', 'type', 'description', 'status']));
             if ($recordUpdated) {
                 \Session::flash('edit-success', 'The record has been updated!');
