@@ -52,12 +52,22 @@ class UserController extends Controller
 
         $data = $request->only(['name','password','email','phone','address','role_id']);
         $data['password'] = bcrypt($data['password']);
+        
+        $role = Role::find($data['role_id']);
+        if( ! $role){
+            \Session::flash('edit-failed', 'Could not find the role!');
+            return redirect()->route('admin.users.index');
+        }
+
         $user = User::create($data);
         if($user->wasRecentlyCreated)
         {
-            return redirect()->route('admin.users.index')->with('create-success', 'The record has been created!');
+            $user->syncRoles([$role->name]);
+            \Session::flash('create-success', 'The record has been created!');
+            return redirect()->route('admin.users.index');
         }
-        return redirect()->route('admin.users.index')->with('create-failed', 'Could not create the record!');
+        \Session::flash('create-failed', 'Could not create the record!');
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -83,7 +93,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $roles = Role::pluck('name', 'id');
-        $user = User::find($id);
+        $user = User::with('roles')->find($id);
         return view('admin.users.edit', [
             'user' => $user,
             'roles' => $roles
@@ -123,19 +133,22 @@ class UserController extends Controller
                 $user->password = bcrypt($request->password);
                 $user->update();
                 $message = 'Password updated successfully';
-                return redirect('/admin/dashboard')->with('success',$message);
+                \Session::flash('success',$message);
+                return redirect('/admin/dashboard');
             }
 
             else{
                 $message = 'New password can not be same as current/old password!';
-                return redirect()->back()->with('error',$message);
+                \Session::flash('error',$message);
+                return redirect()->back();
             }
 
         }
 
         else{
             $message = 'Old password does not matched';
-            return redirect()->back()->with('error',$message);
+            \Session::flash('error',$message);
+            return redirect()->back();
         }
 
         return view('admin.users.edit', [
@@ -165,10 +178,12 @@ class UserController extends Controller
         $user = User::find($id);
         $role = Role::find($request->role_id);
         if( ! $role){
-            return redirect()->route('admin.users.index')->with('edit-failed', 'Could not find the role!');
+            \Session::flash('edit-failed', 'Could not find the role!');
+            return redirect()->route('admin.users.index');
         }
         if( ! $user){
-            return redirect()->route('admin.users.index')->with('edit-failed', 'Could not find the record!');
+            \Session::flash('edit-failed', 'Could not find the record!');
+            return redirect()->route('admin.users.index');
         }
 
         \DB::beginTransaction();
@@ -184,10 +199,12 @@ class UserController extends Controller
         $recordUpdated = $user->update($data);
         \DB::commit();
         if ($recordUpdated) {
-            return redirect()->route('admin.users.index')->with('edit-success', 'The record has been updated!');
+            \Session::flash('edit-success', 'The record has been updated!');
+            return redirect()->route('admin.users.index');
         } else {
             \DB::rollback();
-            return redirect()->route('admin.users.index')->with('edit-failed', 'Could not update the record!');
+            \Session::flash('edit-failed', 'Could not update the record!');
+            return redirect()->route('admin.users.index');
         }
     }
 
@@ -202,8 +219,10 @@ class UserController extends Controller
         $user = User::find($id);
         $recordDeleted = $user->delete();
         if ( ! $recordDeleted ) {
-            return redirect()->back()->with('delete-failed', 'Could not delete the record');
+            \Session::flash('delete-failed', 'Could not delete the record');
+            return redirect()->back();
         }
-        return redirect()->back()->with('delete-success', 'The record has been deleted');
+        \Session::flash('delete-success', 'The record has been deleted');
+        return redirect()->back();
     }
 }

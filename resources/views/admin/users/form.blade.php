@@ -1,6 +1,6 @@
 <div class="form-group form-float">
     <div class="form-line">
-        {!! Form::select('role_id', $roles, null, [
+        {!! Form::select('role_id', $roles, (!@$user_create ? $user->roles->first()->id : null), [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Role',

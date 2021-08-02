@@ -33,5 +33,6 @@
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap.min.js"></script>
      
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    <!-- Here -->
     {!! $dataTable->scripts() !!}
 @endpush

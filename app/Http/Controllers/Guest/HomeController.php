@@ -28,7 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $funds = Fund::where('active', '1')->orderBy('last_date', 'DESC')->pluck('fund_name', 'id');
+        $funds = Fund::where('active', '1')
+            ->where('last_date', '>=', date('Y-m-d'))
+            ->orderBy('last_date', 'DESC')->pluck('fund_name', 'id');
         $last_date = Fund::where('active', '1')
             ->where('last_date', '>=', date('Y-m-d'))
             ->orderBy('last_date', 'DESC')
@@ -251,11 +253,13 @@ class HomeController extends Controller
             $applicantFundDetailInput['appling_date'] = date('Y-m-d');
             $applicantFundDetail = ApplicantFundDetail::create($applicantFundDetailInput);
             \DB::commit();
-            return redirect()->route('guest.home.index')->with('success', 'Application successful.');
+            \Session::flash('success', 'Application successful. Your token number is ' . $applicantFundDetail->id);
+            return redirect()->route('guest.home.index');
         } catch (\Exception $e) {
             \DB::rollback();
             report($e);
-            return redirect()->route('guest.home.index')->with('error', 'Something went wrong on server. Contact the department if the issue persists');
+            \Session::flash('error', 'Something went wrong on server. Contact the department if the issue persists');
+            return redirect()->route('guest.home.index');
         }
     }
 

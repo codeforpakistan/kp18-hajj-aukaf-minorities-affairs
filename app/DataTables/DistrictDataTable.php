@@ -19,8 +19,17 @@ class DistrictDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $datatable = request()->only([
+            'start',
+            'length',
+        ]);
+        $totalCount = $query->count();
+        $limitedData = $query->limit($datatable['length'])->offset($datatable['start'])->get();
         return datatables()
-            ->eloquent($query)
+            ->of($limitedData)
+            ->skipPaging(function(){})
+            ->setFilteredRecords($totalCount)
+            ->setTotalRecords($totalCount)
             ->addColumn('action', 'admin.districts.actions')
             ->rawColumns(['action']);
     }
@@ -50,9 +59,8 @@ class DistrictDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
+                        Button::make('pageLength'),
                         Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
                     );
     }
 

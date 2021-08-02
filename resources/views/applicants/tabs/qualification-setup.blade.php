@@ -216,7 +216,7 @@
                     <label class="col-md-4 control-label">Discipline <span class="required"> *</span></label>
                     <div class="col-md-8">
                         {!! Form::select('Qualification[discipline_id]', [], null, [
-                            'class' => 'form-control',
+                            'class' => 'form-control _discipline_',
                             'id' => 'discipline',
                             'label' => false,
                             'placeholder' => 'Select Discipline',
@@ -242,7 +242,7 @@
                     <label class="col-md-4 control-label">Discipline <span class="required"> *</span></label>
                     <div class="col-md-8">
                         {!! Form::select('Discipline[discipline]', [], null, [
-                            'class' => 'form-control',
+                            'class' => 'form-control _discipline_',
                             'id' => 'discipline_field',
                             'label' => false,
                             'placeholder' => 'Select Discipline',

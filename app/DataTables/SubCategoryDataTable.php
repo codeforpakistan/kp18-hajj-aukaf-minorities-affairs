@@ -20,8 +20,17 @@ class SubCategoryDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $datatable = request()->only([
+            'start',
+            'length',
+        ]);
+        $totalCount = $query->count();
+        $limitedData = $query->limit($datatable['length'])->offset($datatable['start'])->get();
         return datatables()
-            ->eloquent($query)
+            ->of($limitedData)
+            ->skipPaging(function(){})
+            ->setFilteredRecords($totalCount)
+            ->setTotalRecords($totalCount)
             ->addColumn('action', 'admin.sub-categories.actions')
             ->addColumn('fund_category_name', function($row){
                 return '<a href="' . route('admin.fund-categories.show', [$row->fund_category_id]) . '">' . $row->fundCategory->type_of_fund . '</a>';
@@ -61,9 +70,9 @@ class SubCategoryDataTable extends DataTable
             ->dom('Bfrtip')
             ->orderBy(1)
             ->buttons(
+                Button::make('pageLength'),
                 Button::make('export'),
-                Button::make('print'),
-                Button::make('reload')
+                // Button::make('reload')
             );
     }
 

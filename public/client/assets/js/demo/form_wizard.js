@@ -43,15 +43,9 @@ $(document).ready(function () {
     let displayConfirm = function () {
         $('#tab4 .form-control-static', form).each(function () {
             var input = $('[name="' + $(this).attr("data-display") + '"]', form);
-            
-            let qualification_level = $('#qualification_level').val();
+            let qualification_level = Number($('#qualification_level').val());
             let _grading_system = $('#grading_system').val();
             let education_system = $('#education_system').val();
-
-            if(qualification_level > 2)
-            {
-                $("._institute_name").hide();
-            }
 
             let hide_grading_systems = {
                 // for cgpa, hide following
@@ -106,6 +100,12 @@ $(document).ready(function () {
             }
             else if (input.is("select")) {
                 $(this).html(input.find('option:selected').text());
+            }
+            if(qualification_level > 2)
+            {
+                $("._institute_name").hide();
+                $('[name="Qualification[discipline_id]"]').val($('[name="Discipline[discipline]"]').val());
+                $("._discipline_id p").html($('[name="Discipline[discipline]"]').find('option:selected').text());
             }
         });
     }

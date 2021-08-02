@@ -19,8 +19,17 @@ class QualificationLevelDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $datatable = request()->only([
+            'start',
+            'length',
+        ]);
+        $totalCount = $query->count();
+        $limitedData = $query->limit($datatable['length'])->offset($datatable['start'])->get();
         return datatables()
-            ->eloquent($query)
+            ->of($limitedData)
+            ->skipPaging(function(){})
+            ->setFilteredRecords($totalCount)
+            ->setTotalRecords($totalCount)
             ->addColumn('institute_type', function($row){
                 $instituteType = $row->instituteType;
                 if($instituteType)
@@ -58,9 +67,9 @@ class QualificationLevelDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
+                        Button::make('pageLength'),
                         Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
+                        // Button::make('reload')
                     );
     }
 

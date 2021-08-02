@@ -14,7 +14,7 @@
                         </div>
                         <div class="body" id="balloting-app" v-cloak>
                             <div class="search-form">
-                                @include('admin.selection-phase.search',['limitField' => true])
+                                @include('admin.selection-phase.search',['limitField' => true,'tokenField' => true,'cnicOrName' => true])
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover no-footer" v-if="list.length">
@@ -235,8 +235,9 @@
 
                     this.list = [];
                     let submitForm = true;
+                    let ignoreValidationFor = ['limit','cnicOrName','token'];
                     for(let i in this.form){
-                        if(( ! this.form[i].length || ! this.form[i]) && i !== 'limit'){
+                        if(( ! this.form[i].length || ! this.form[i]) && !ignoreValidationFor.includes(i)){
                             submitForm = false;
                         }
                     }

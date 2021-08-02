@@ -40,7 +40,6 @@ class ApplicantDataTable extends DataTable
             $limitedData = $query->limit($datatable['length'])->offset($datatable['start'])->get();
 
         }
-
         return datatables()
             ->of($limitedData)
             ->skipPaging(function(){})
@@ -48,18 +47,21 @@ class ApplicantDataTable extends DataTable
             ->setTotalRecords($totalCount)
             ->addColumn('action', 'admin.applicants.actions')
             ->addColumn('family_members', function($row){
-                $data = $row->applicantHouseholdDetails;
-                $familyMembers = $data ? $data->sum('dependent_family_members') : 0;
+                $data = $row->applicantHouseholdDetail;
+                $familyMembers = $data ? $data->dependent_family_members : 0;
                 return $familyMembers;
             })
             ->addColumn('income', function($row){
-                $data = $row->applicantIncomes;
-                $income = $data ? $data->sum('monthly_income') : 0;
+                $data = $row->applicantIncome;
+                $income = $data ? number_format($data->monthly_income,2,'.',',') : 0;
                 return $income;
             })
             ->addColumn('city_name', function($row){
                 return $row->applicantAddress ? $row->applicantAddress->city->name: '';
             })
+            // ->addColumn('income', function($row){
+            //     return $row->applicantIncome ? $row->applicantIncome->monthly_income : '';
+            // })
             ->addColumn('religion_name', function($row){
                 return $row->religion ? $row->religion->religion_name : '';
             })
@@ -67,7 +69,7 @@ class ApplicantDataTable extends DataTable
                 return $row->applicantFundDetail ? $row->applicantFundDetail->appling_date : '';
             })
             ->addColumn('amount', function($row){
-                return $row->applicantFundDetail ? $row->applicantFundDetail->amount_recived : '';
+                return $row->applicantFundDetail ? number_format($row->applicantFundDetail->amount_recived,2,'.',',') : '';
             })
             ->rawColumns(['action']);
     }
@@ -80,7 +82,7 @@ class ApplicantDataTable extends DataTable
      */
     public function query(Applicant $model)
     {
-        return Table::searchQuery($model,request()->search,['applicants.name','applicants.father_name','applicants.cnic'])->with([
+        return $model->with([
             'applicantHouseholdDetail',
             'applicantIncome',
             'applicantAddress.city',
@@ -88,16 +90,14 @@ class ApplicantDataTable extends DataTable
             'applicantFundDetail'
         ])->where(function($query){
             if (request()->has('fund') && request()->input('fund') != "") {
-                if ( ! (request()->has('token') && request()->token) ) {
-                    $query->whereHas('applicantFundDetail', function ($query) {
-                        $query->where('fund_id', request()->input('fund'));
-                    });
-                }
+                $query->whereHas('applicantFundDetail', function ($q) {
+                    $q->where('fund_id', request()->input('fund'));
+                });
             }
             if (request()->has('city') && request()->input('city') != "") {
                 if ( ! (request()->has('token') && request()->token) ) {
-                    $query->whereHas('applicantAddress', function ($query) {
-                        $query->where('city_id', request()->input('city'));
+                    $query->whereHas('applicantAddress', function ($q) {
+                        $q->where('city_id', request()->input('city'));
                     });
                 }
             }
@@ -107,9 +107,13 @@ class ApplicantDataTable extends DataTable
                 }
             }
             if (request()->has('token')  && request()->token) {
-                $query->whereHas('applicantFundDetail', function ($query) {
-                    $query->where('id', request()->input('token'));
+                $query->whereHas('applicantFundDetail', function ($q) {
+                    $q->where('id', request()->input('token'));
                 });
+            }
+
+            if (request()->has('cnic')  && request()->cnic) {
+                $query->where('applicants.cnic', request()->input('cnic'));
             }
         })->orderBy('applicants.name');
     }
@@ -128,9 +132,9 @@ class ApplicantDataTable extends DataTable
             ->dom('Bfrtip')
             ->orderBy(1)
             ->buttons(
+                Button::make('pageLength'),
                 Button::make('export'),
-                Button::make('print'),
-                Button::make('reload')
+                // Button::make('reload'),
             );
     }
 

@@ -129,9 +129,9 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
+                        Button::make('pageLength'),
                         Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
+                        // Button::make('reload')
                     );
     }
 

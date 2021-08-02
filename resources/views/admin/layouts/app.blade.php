@@ -426,7 +426,14 @@
                   }
                 });
             }
-            
+            $(document).ready(function(){
+                let ui = document.getElementsByClassName("scroller")[0];
+                var a = $(".menu .list li.active")[0];
+                if (a) {
+                    var i = a.offsetTop;
+                    i > 150 && ui.scrollTo(0,i);
+                }
+            })
         </script>
         <script src="{{ asset('js/axios.min.js') }}"></script>
         @stack('scripts')

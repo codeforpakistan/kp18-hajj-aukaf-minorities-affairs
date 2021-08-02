@@ -1,6 +1,6 @@
 <div class="form-group form-float">                             
     <div class="form-line">
-        {!! Form::select('fund_category_id', $fundCategories, old('fund_category_id'), [
+        {!! Form::select('fund_category_id', $fundCategories,null, [
             'class' => 'form-control show-tick',
             'label' => false,
             'placeholder' => 'Select Fund Category',

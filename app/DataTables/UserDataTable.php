@@ -19,8 +19,17 @@ class UserDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $datatable = request()->only([
+            'start',
+            'length',
+        ]);
+        $totalCount = $query->count();
+        $limitedData = $query->limit($datatable['length'])->offset($datatable['start'])->get();
         return datatables()
-            ->eloquent($query)
+            ->of($limitedData)
+            ->skipPaging(function(){})
+            ->setFilteredRecords($totalCount)
+            ->setTotalRecords($totalCount)
             ->addColumn('role', function($row){
                 if($row->roles->count())
                 {
@@ -58,9 +67,9 @@ class UserDataTable extends DataTable
                     ->dom('Bfrtip')
                     ->orderBy(1)
                     ->buttons(
+                        Button::make('pageLength'),
                         Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reload')
+                        // Button::make('reload')
                     );
     }
 

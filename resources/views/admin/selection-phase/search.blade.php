@@ -39,7 +39,7 @@
     @endif
     @if($tokenField ?? false)
         <div class="form-line col-lg-3">
-            {!! Form::text('limit', null, [
+            {!! Form::text('token', null, [
                 'class' => 'form-control show-tick show sub_categ',
                 'placeholder' => 'Token',
                 'label' => false,

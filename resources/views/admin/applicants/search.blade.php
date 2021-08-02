@@ -25,10 +25,17 @@
                 'placeholder' => 'All Religions',
             ]) !!}
         </div>
-        <div class="form-line col-lg-6">
+        <div class="form-line col-lg-3">
             {!! Form::text('token', request()->has('token') ? request()->input('token') : null, [
                 'class' => 'form-control show-tick show sub_categ',
                 'placeholder' => 'Search by Token number',
+                'label' => false,
+            ]) !!}
+        </div>
+        <div class="form-line col-lg-3">
+            {!! Form::text('cnic', request()->has('cnic') ? request()->input('cnic') : null, [
+                'class' => 'form-control show-tick show sub_categ',
+                'placeholder' => 'Search by Cnic',
                 'label' => false,
             ]) !!}
         </div>

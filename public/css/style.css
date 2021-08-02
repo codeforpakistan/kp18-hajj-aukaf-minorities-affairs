@@ -3,7 +3,7 @@
 /*.btn-group .btn,.btn-group-vertical .btn{box-shadow:none!important;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;border-radius:0}*/
 /*.btn-group,.btn-group-vertical,.btn:not(.btn-link):not(.btn-circle){box-shadow:0 2px 5px rgba(0,0,0,.16),0 2px 10px rgba(0,0,0,.12)}*/
 
-.dataTables_wrapper .buttons-create,.dataTables_wrapper .buttons-reload,.dataTables_wrapper .buttons-print, .dataTables_wrapper .buttons-export, .dataTables_wrapper .buttons-reset{
+.dataTables_wrapper .buttons-page-length,.dataTables_wrapper .buttons-reload,.dataTables_wrapper .buttons-print, .dataTables_wrapper .buttons-export, .dataTables_wrapper .buttons-reset{
 
 	background-color: #607D8B !important;
 	color: #fff !important;
@@ -20,7 +20,9 @@
 	outline: 0 !important;
 
 }
-
+.dataTables_wrapper .buttons-page-length{
+	padding: 5px 12px !important;
+}
 .dataTables_filter, .dataTables_paginate, .dataTables_info{
 	text-align: end !important;
 	padding-right: 10px;
