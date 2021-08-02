@@ -391,7 +391,7 @@
                     }
                 }
             } else if (type === 'bar') {
-                @php $count = $total_funds[0]->count; @endphp
+                @php $count = @$total_funds[0]->count ?? 0; @endphp
                 config = {
                     type: 'bar',
                     data: {
