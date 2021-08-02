@@ -142,7 +142,6 @@
                 },
 
                 selectedApplicants(newVal, oldVal){
-                    console.log(newVal.length,this.list.length);
                     if(newVal.length !== this.list.length){
                         this.allSelected = false;
                     }
@@ -235,9 +234,8 @@
 
                     this.list = [];
                     let submitForm = true;
-                    let ignoreValidationFor = ['limit','cnicOrName','token'];
                     for(let i in this.form){
-                        if(( ! this.form[i].length || ! this.form[i]) && !ignoreValidationFor.includes(i)){
+                        if( ! this.form['fund'].length || ! this.form['fund']){
                             submitForm = false;
                         }
                     }
