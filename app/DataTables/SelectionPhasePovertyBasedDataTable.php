@@ -77,35 +77,35 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
                     ['funds.total_amount', '>', $distributed_amount],
                     ['applicant_fund_details.amount_recived', '=', null],
                     ['applicant_fund_details.selected', '=', 0],
-                    ['applicant_fund_details.fund_id', '=', request()->fund],
+                    ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
                 ]);
 
         if(request()->percentage){
             $sql->join('qualifications','qualifications.applicant_id','=','applicants.id');
             $sql->join('disciplines','disciplines.id','=','qualifications.discipline_id');
-            $sql->where('qualifications.percentage','>',request()->percentage);
+            $sql->where('qualifications.percentage','>',intval(request()->percentage));
             $select[] = 'qualifications.percentage';
         }
 
         if(request()->salary){
             $sql->join('applicant_incomes','applicant_incomes.applicant_id','=','applicants.id');
             $sql->orderBy('applicant_incomes.monthly_income');
-            $sql->where('applicant_incomes.monthly_income',request()->salary_operator,request()->salary);
+            $sql->where('applicant_incomes.monthly_income',request()->salary_operator,intval(request()->salary));
         }
 
         if(request()->family_members){
             $sql->join('applicant_household_details','applicant_household_details.applicant_id','=','applicants.id');
-            $sql->where('applicant_household_details.dependent_family_members',request()->member_operator,request()->family_members);
+            $sql->where('applicant_household_details.dependent_family_members',request()->member_operator,intval(request()->family_members));
             $sql->orderByDesc('applicant_household_details.dependent_family_members');
             $select[] = 'applicant_household_details.dependent_family_members';
         }
 
         if(request()->religion){
-            $sql->where('applicants.religion_id',request()->religion);
+            $sql->where('applicants.religion_id',intval(request()->religion));
         }
 
         if(request()->city_id){
-            $sql->where('applicant_addresses.city_id',request()->city_id);
+            $sql->where('applicant_addresses.city_id',intval(request()->city_id));
         }
 
         $sql->orderBy('applicants.name');

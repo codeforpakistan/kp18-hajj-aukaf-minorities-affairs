@@ -179,11 +179,11 @@ class SelectionPhaseController extends Controller
                                     ])
                                     ;
         if(!empty(request()->religion)){
-            $sql->where('applicants.religion_id',request()->religion);
+            $sql->where('applicants.religion_id',intval(request()->religion));
         }
 
         if(!empty(request()->city)){
-            $sql->where('applicant_addresses.city_id',request()->city);
+            $sql->where('applicant_addresses.city_id',intval(request()->city));
         }
 
         if(!empty(request()->limit)){
@@ -191,7 +191,7 @@ class SelectionPhaseController extends Controller
         }
 
         if(!empty(request()->token)){
-            $sql->where('applicant_fund_details.id',request()->token);
+            $sql->where('applicant_fund_details.id',intval(request()->token));
         }
         
         if(!empty(request()->cnicOrName)){
