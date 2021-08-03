@@ -29,7 +29,7 @@ class SelectionPhaseController extends Controller
             $totalCount = $sql->count();
 
             if(request()->limit && $totalCount){
-                $totalCount = intval(request()->limit) <= $totalCount ? intval(request()->limit) : $totalCount;
+                $totalCount = request()->limit <= $totalCount ? request()->limit : $totalCount;
             }
            
             $ids = $sql->select(['applicant_fund_details.id as id'])->limit($totalCount)->pluck('id')->toArray();
@@ -175,15 +175,15 @@ class SelectionPhaseController extends Controller
                                         ['funds.total_amount', '>', floatval($distributedAmount)],
                                         ['applicant_fund_details.amount_recived', '=', null],
                                         ['applicant_fund_details.selected', '=', 0],
-                                        ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
+                                        ['applicant_fund_details.fund_id', '=', request()->fund],
                                     ])
                                     ;
         if(!empty(request()->religion)){
-            $sql->where('applicants.religion_id',intval(request()->religion));
+            $sql->where('applicants.religion_id',request()->religion);
         }
 
         if(!empty(request()->city)){
-            $sql->where('applicant_addresses.city_id',intval(request()->city));
+            $sql->where('applicant_addresses.city_id',request()->city);
         }
 
         if(!empty(request()->limit)){
@@ -191,7 +191,7 @@ class SelectionPhaseController extends Controller
         }
 
         if(!empty(request()->token)){
-            $sql->where('applicant_fund_details.id',intval(request()->token));
+            $sql->where('applicant_fund_details.id',request()->token);
         }
         
         if(!empty(request()->cnicOrName)){
@@ -253,10 +253,10 @@ class SelectionPhaseController extends Controller
                                         ['applicant_fund_details.amount_recived', '!=', null],
                                         ['applicant_fund_details.selected', '=', 1],
                                         ['applicant_fund_details.distributed', '=', 0],
-                                        ['applicant_fund_details.fund_id', '=', intval(request()->fund)],
+                                        ['applicant_fund_details.fund_id', '=', request()->fund],
                                     ]);
         if(!empty(request()->fund)){
-            $fund = Fund::with(['subCategory'])->where('id', intval(request()->fund))->first();//pluck('fund_name', 'id');
+            $fund = Fund::with(['subCategory'])->where('id', request()->fund)->first();//pluck('fund_name', 'id');
             if($fund->subCategory->id === 3){
                 $sql->join('qualifications',function($q){
                     $q->on('qualifications.applicant_id','applicants.id');
@@ -268,15 +268,15 @@ class SelectionPhaseController extends Controller
         }
 
         if(!empty(request()->religion)){
-            $sql->where('applicants.religion_id',intval(request()->religion));
+            $sql->where('applicants.religion_id',request()->religion);
         }
 
         if(!empty(request()->city)){
-            $sql->where('applicant_addresses.city_id',intval(request()->city));
+            $sql->where('applicant_addresses.city_id',request()->city);
         }
 
         if(!empty(request()->token)){
-            $sql->where('applicant_fund_details.id',intval(request()->token));
+            $sql->where('applicant_fund_details.id',request()->token);
         }
 
         if(!empty(request()->cnicOrName)){
@@ -310,7 +310,7 @@ class SelectionPhaseController extends Controller
     public function deselectApplicant(){
         
         try {
-            $updated = ApplicantFundDetail::where('id',intval(request()->id))
+            $updated = ApplicantFundDetail::where('id',request()->id)
                                 ->update([
                                     'selected' => 0,
                                     'amount_recived' => null
@@ -361,7 +361,7 @@ class SelectionPhaseController extends Controller
     {
         try{
 
-            $updated = ApplicantFundDetail::where('id',intval(request()->id))
+            $updated = ApplicantFundDetail::where('id',request()->id)
                                 ->update([
                                     'distributed' => request()->distributed,
                                     'payment_date' => now()
