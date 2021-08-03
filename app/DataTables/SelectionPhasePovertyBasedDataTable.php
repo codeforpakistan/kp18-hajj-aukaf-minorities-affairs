@@ -109,9 +109,9 @@ class SelectionPhasePovertyBasedDataTable extends DataTable
         }
 
         $sql->orderBy('applicants.name');
-
         $sql->select(array_merge(['applicant_fund_details.id as id','applicants.name as name','applicants.father_name','applicants.cnic'],$select));
 
+        dd($sql->dump());
         return $sql;
     }
 
