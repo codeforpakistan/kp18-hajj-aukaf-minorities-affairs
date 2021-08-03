@@ -28,7 +28,7 @@
         <div class="form-line col-lg-3">
             {!! Form::text('token', request()->has('token') ? request()->input('token') : null, [
                 'class' => 'form-control show-tick show sub_categ',
-                'placeholder' => 'Search by Token number',
+                'placeholder' => 'Search by Token number (Application ID)',
                 'label' => false,
             ]) !!}
         </div>
