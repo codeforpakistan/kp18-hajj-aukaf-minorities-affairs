@@ -172,7 +172,7 @@
 
         }).mount("#filter-app");
 
-        @if($fund)
+        @if($fund && $totalCount)
             let app = Vue.createApp({
                 data(){
 
