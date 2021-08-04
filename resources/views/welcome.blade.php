@@ -90,9 +90,11 @@
                                             <span id="grant_error" class="help-block">Please select Grant.</span>
                                             <br/>
                                             {{-- @if( ! $last_date->isEmpty() && ( \Auth::check() && \Auth::user()->hasRole(['Admin', 'Operator', 'School']) ) ) --}}
+                                            <div style="margin-top:10px">
                                                 {!! Form::submit('Click to Apply', ['class' => 'btn btn-success pull-right', 'style' => 'margin-left:5px;']); !!}
                                             {{-- @endif --}}
                                             {!! Form::submit('Check Your Status', ['name' => 'check_status', 'class' => 'btn btn-info pull-right', 'style' => 'margin-left:5px;']); !!}
+                                            </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <br/><br/>
