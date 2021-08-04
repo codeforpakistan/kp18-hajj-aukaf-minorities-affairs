@@ -1,26 +1,22 @@
 <div class="form-group form-float">                             
-    <div class="form-line">
-        {!! Form::select('fund_category_id', $fundCategories,null, [
-            'class' => 'form-control show-tick',
-            'label' => false,
-            'placeholder' => 'Select Fund Category',
-            'data-msg-required' => 'The Fund Category Name field is required.',
-            'id' => 'select_fund_category_id',
-            'required',
-        ]) !!}
-    </div>
+    {!! Form::select('fund_category_id', $fundCategories,null, [
+        'class' => 'form-control show-tick',
+        'label' => false,
+        'placeholder' => 'Select Fund Category',
+        'data-msg-required' => 'The Fund Category Name field is required.',
+        'id' => 'select_fund_category_id',
+        'required',
+    ]) !!}
 </div>
 <div class="form-group form-float">                             
-    <div class="form-line">
-        {!! Form::select('sub_category_id', $subCategories, old('sub_category_id'), [
-            'class' => 'form-control show-tick',
-            'label' => false,
-            'placeholder' => 'Select Fund Sub Category',
-            'data-msg-required' => 'The Fund Category Name field is required.',
-            'id' => 'select_sub_category_id',
-            'required',
-        ]) !!}
-    </div>
+    {!! Form::select('sub_category_id', $subCategories, old('sub_category_id'), [
+        'class' => 'form-control show-tick',
+        'label' => false,
+        'placeholder' => 'Select Fund Sub Category',
+        'data-msg-required' => 'The Fund Category Name field is required.',
+        'id' => 'select_sub_category_id',
+        'required',
+    ]) !!}
 </div>
 <div class="form-group form-float">
     <div class="form-line">

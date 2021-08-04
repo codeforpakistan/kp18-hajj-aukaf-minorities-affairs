@@ -43,6 +43,7 @@ class SelectionPhaseController extends Controller
                     $selectableList[] = [
                         'id' => $fund->id,
                         'fund_name' => $fund->fund_name,
+                        'text' => $fund->fund_name,
                         'sub_category' => $fund->subCategory->type,
                         'grant_or_scholarship' => $fund->subCategory->type === 'Educational grants' ? 1 : 0, // 1 : grant, 0 : sholarship
                     ];

@@ -1,5 +1,5 @@
 <div class="form-group form-float">
-    <div class="form-line">
+    {{-- <div class="form-line"> --}}
         {!! Form::select('institute_type_id', $instituteTypes, old('institute_type_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
@@ -10,7 +10,7 @@
         @error('institute_type_id')
             {!! Form::label('institute_type_id', $message, ['class' => 'error', 'id' => 'institute_type_id-error']) !!}
         @enderror
-    </div>
+    {{-- </div> --}}
 </div>
 <div class="form-group form-float">
     <div class="form-line">
@@ -26,7 +26,7 @@
     </div>
 </div>
 <div class="form-group form-float">
-    <div class="form-line">
+    {{-- <div class="form-line"> --}}
         {!! Form::select('city_id', $cities, old('city_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
@@ -37,7 +37,7 @@
         @error('city_id')
             {!! Form::label('city_id', $message, ['class' => 'error', 'id' => 'city_id-error']) !!}
         @enderror
-    </div>
+    {{-- </div> --}}
 </div>
 
 <div class="form-group form-float">

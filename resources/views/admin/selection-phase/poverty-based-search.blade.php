@@ -1,31 +1,29 @@
 {{-- {!! Form::open(['route' => 'admin.selection-phase.distribution', 'method' => "GET",'id' =>'filter-app']) !!} --}}
 <div id="filter-app" v-cloak>
     <div class="row">
-        <div class="form-line col-lg-4">
-            <select class="form-control show-tick" required v-model="fund" id="selectFund" @input="fundChange">
-                <option value="" selected disabled data-gs="0">Select Fund</option>
+        <div class="col-lg-4">
+            <select2 required v-model="fund" id="selectFund" :value="{{ request()->query('fund','0') }}" @input="fundCityReligionChange">
+                <option value="0" selected disabled data-gs="0">Select Fund</option>
                 @foreach($fundsList as $item)
                     <option value="{{ $item['id'] }}" data-gs="{{$item['grant_or_scholarship']}}">{{$item['fund_name']}}</option>
                 @endforeach
-            </select>
+            </select2>
         </div>
-        <div class="form-line col-lg-4">
-            {!! Form::select('city', $citiesList, null, [
-                'class' => 'form-control show-tick',
-                'id' => 'city',
-                'label' => false,
-                'placeholder' => 'Select District',
-                'v-model'=>'form.city_id'
-            ]) !!}
+        <div class="col-lg-4">
+            <select2 id="selectCity" :value="{{ request()->query('city_id','0') }}" @input="fundCityReligionChange">
+                <option value="0" selected disabled>Select Districts</option>
+                @foreach($citiesList as $cityy_id => $cityy_name)
+                    <option value="{{ $cityy_id }}">{{$cityy_name}}</option>
+                @endforeach
+            </select2>
         </div>
-        <div class="form-line col-lg-4">
-            {!! Form::select('religion', $religionsList, null, [
-                'class' => 'form-control show-tick sub_categ',
-                'id' => 'religion',
-                'label' => false,
-                'placeholder' => 'Select Religion',
-                'v-model'=>'form.religion'
-            ]) !!}
+        <div class="col-lg-4">
+            <select2 v-model="form.religion" id="selectReligion" :value="{{ request()->query('religion','0') }}" @input="fundCityReligionChange">
+                <option value="0" selected disabled>Select Religion</option>
+                @foreach($religionsList as $religionn_id => $religionn_name)
+                    <option value="{{ $religionn_id }}">{{$religionn_name}}</option>
+                @endforeach
+            </select2>
         </div>
         <div v-if="!grantOrSholarship" class="form-line col-lg-4">
             {!! Form::text('family_members', null, [

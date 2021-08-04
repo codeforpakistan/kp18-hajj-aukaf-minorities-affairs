@@ -1,31 +1,28 @@
 {{-- {!! Form::open(['route' => 'admin.selection-phase.distribution', 'method' => "GET",'id' =>'filter-app']) !!} --}}
 <div class="row">
-    <div class="form-line col-lg-3">
-        {!! Form::select('fund', $fundsList, null, [
-            'class' => 'form-control show-tick sub_categ',
-            'id' => 'fund',
-            'label' => false,
-            'placeholder' => 'Select Fund',
-            'v-model'=>'form.fund'
-        ]) !!}
+    <div class="col-lg-3">
+        <select2 required id="fund" :value="{{ request()->query('fund','0') }}" @input="fundCityReligionChange">
+            <option value="0" selected disabled>Select Fund</option>
+            @foreach($fundsList as $idd => $namee)
+                <option value="{{ $idd }}">{{$namee}}</option>
+            @endforeach
+        </select2>
     </div>
-    <div class="form-line col-lg-3">
-        {!! Form::select('religion', $religionsList, null, [
-            'class' => 'form-control show-tick sub_categ',
-            'id' => 'religion',
-            'label' => false,
-            'placeholder' => 'Select Religion',
-            'v-model'=>'form.religion'
-        ]) !!}
+    <div class="col-lg-3">
+        <select2 id="religion" :value="{{ request()->query('religion','0') }}" @input="fundCityReligionChange">
+            <option value="0" selected disabled>Select Religion</option>
+            @foreach($religionsList as $religionn_id => $religionn_name)
+                <option value="{{ $religionn_id }}">{{$religionn_name}}</option>
+            @endforeach
+        </select2>
     </div>
-    <div class="form-line col-lg-3">
-        {!! Form::select('city', $citiesList, null, [
-            'class' => 'form-control show-tick',
-            'id' => 'city',
-            'label' => false,
-            'placeholder' => 'Select District',
-            'v-model'=>'form.city'
-        ]) !!}
+    <div class="col-lg-3">
+        <select2 id="city" :value="{{ request()->query('city_id','0') }}" @input="fundCityReligionChange">
+            <option value="0" selected disabled>Select Districts</option>
+            @foreach($citiesList as $cityy_id => $cityy_name)
+                <option value="{{ $cityy_id }}">{{$cityy_name}}</option>
+            @endforeach
+        </select2>
     </div>
     @if($limitField ?? false)
         <div class="form-line col-lg-3">

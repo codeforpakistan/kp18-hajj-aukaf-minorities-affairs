@@ -202,8 +202,8 @@ function change_fields(qualification_level) {
         // $("#school_fields :input").attr('required', true).val('');
         // $("#city_dropdown").attr('required', true).val('');
         // $("#degree_awarding_id").attr('required', true).val('');
-        $("#city_dropdown").select2("data", null); //set the value
-        $("#degree_awarding_id").select2("data", null); //set the value
+        $("#city_dropdown"); //set the value
+        $("#degree_awarding_id"); //set the value
 
         $("#institue_name").attr('required', true).val('');
 
@@ -211,7 +211,7 @@ function change_fields(qualification_level) {
         $('#university_fields').fadeOut();
         $("#institute_id").attr('required', false).val('');
         // $("#university_fields :input").attr('required', false).val('');
-        $('#institute_id').select2('data', null).attr('required', false);
+        $('#institute_id').attr('required', false);
         $('#discipline').val('').attr('required', false);
 
     } else {

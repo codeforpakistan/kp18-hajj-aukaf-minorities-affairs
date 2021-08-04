@@ -26,6 +26,7 @@
        
         <!-- Bootstrap Select Css -->
        <!-- <link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />-->
+        <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet">
 
        @stack('css')
 
@@ -92,6 +93,7 @@
         <!-- Jquery Core Js -->
         <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('js/vue.min.js') }}"></script>
+        <script src="{{ asset('js/select2.min.js') }}"></script>
         <script>
             
             $(window).on('load',function(){
@@ -433,7 +435,33 @@
                     var i = a.offsetTop;
                     i > 150 && ui.scrollTo(0,i);
                 }
+
+                $("select").select2();
             })
+
+            const select2Component = {
+                props: ['value'],
+                template: '#select2-template',
+                mounted: function () {
+                    var vm = this;
+                    $(this.$el)
+                    .val(this.value)
+                    // init select2
+                    .select2()
+                    // emit event on change.
+                    .on('change', function () {
+                        vm.$emit('input', this.value);
+                    })
+                },
+                unmounted: function () {
+                    (this.$el).off().select2('destroy')
+                }
+            };
+        </script>
+        <script type="text/x-template" id="select2-template">
+          <select>
+            <slot></slot>
+          </select>
         </script>
         <script src="{{ asset('js/axios.min.js') }}"></script>
         @stack('scripts')

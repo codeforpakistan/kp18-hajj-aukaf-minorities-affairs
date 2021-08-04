@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="form-group form-float">
-    <div class="form-line">
+    {{-- <div class="form-line"> --}}
         {!! Form::select('qualification_level_id', $qualificationLevels, old('qualification_level_id'), [
             'class' => 'form-control show-tick',
             'label' => false,
@@ -23,5 +23,5 @@
         @error('qualification_level_id')
             {!! Form::label('qualification_level_id', $message, ['class' => 'error', 'id' => 'qualification_level_id-error']) !!}
         @enderror
-    </div>
+    {{-- </div> --}}
 </div>

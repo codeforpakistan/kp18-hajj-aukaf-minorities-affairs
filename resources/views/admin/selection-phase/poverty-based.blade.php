@@ -76,7 +76,6 @@
         {!! $dataTable->scripts() !!}
     @endif
     <script>
-
         const totalAmount = {{$fund->total_amount ?? 0}};
         const distributedAmount = {{$distributedAmount}};
 
@@ -89,8 +88,12 @@
         const ids = @json($ids);
 
         let form = @json(request()->query());
+        let fundsList = @json($fundsList);
 
         let filterApp = Vue.createApp({
+            components : {
+                'select2' : select2Component
+            },
             data(){
                 return {
                     url : filterUrl,
@@ -98,6 +101,7 @@
                     grantOrSholarship : 0,
 
                     fund : '',
+                    fundsList : fundsList,
 
                     form : {
                         fund : this.fund,
@@ -109,22 +113,48 @@
                         salary : '',
                         limit : '',
                         percentage : '',
-                    }
+                    },
+
+                    options: [
+                        { id: 1, text: 'Hello' },
+                        { id: 2, text: 'World' }
+                    ]
 
                 }
             },
 
             methods: {
 
-                fundChange(){
+                fundCityReligionChange(){
                     let selectFund = document.getElementById('selectFund');
-                    if(selectFund.selectedIndex >= 0){
+                    let selectCity = document.getElementById('selectCity');
+                    let selectReligion = document.getElementById('selectReligion');
+                    
+                    if(selectFund.selectedIndex > 0){
                         this.grantOrSholarship = Number(selectFund.options[selectFund.selectedIndex].dataset.gs);
                         this.fund = Number(selectFund.options[selectFund.selectedIndex].value);
                         this.form.fund = this.fund;
                         // console.log(this.form);
                     }
-                    console.log(this.fund,this.form);
+                    else
+                    {
+                        this.form.fund = '';
+                    }
+
+                    if(selectCity.selectedIndex > 0){
+                        this.form.city_id = selectCity.options[selectCity.selectedIndex].value;
+                    }
+                    else{
+                        this.form.city_id = '';
+                    }
+
+                    if(selectReligion.selectedIndex > 0){
+                        this.form.religion = selectReligion.options[selectReligion.selectedIndex].value;
+                    }
+                    else{
+                        this.form.religion = '';
+                    }
+                    
                     if(this.grantOrSholarship){
                         this.form.member_operator = '';
                         this.form.family_members = '';
@@ -249,6 +279,7 @@
                     }
                 }
             }).mount('#selection-app');
+
         @endif
     </script>
 @endpush

@@ -68,6 +68,9 @@
         const deselectUrl = '{{ route('admin.selection-phase.de-select.applicant') }}';
 
         let deSelectApp = Vue.createApp({
+            components : {
+                'select2' : select2Component
+            },
             data(){
                 return {
 
@@ -89,6 +92,37 @@
             },
 
             methods: {
+
+                fundCityReligionChange(){
+                    let selectFund = document.getElementById('fund');
+                    let selectCity = document.getElementById('city');
+                    let selectReligion = document.getElementById('religion');
+                    
+
+                    if(selectFund.selectedIndex > 0){
+                        this.fund = selectFund.options[selectFund.selectedIndex].value;
+                        this.form.fund = this.fund;
+                    }
+                    else
+                    {
+                        this.form.fund = '';
+                    }
+
+                    if(selectCity.selectedIndex > 0){
+                        this.form.city_id = selectCity.options[selectCity.selectedIndex].value;
+                    }
+                    else{
+                        this.form.city_id = '';
+                    }
+
+                    if(selectReligion.selectedIndex > 0){
+                        this.form.religion = selectReligion.options[selectReligion.selectedIndex].value;
+                    }
+                    else{
+                        this.form.religion = '';
+                    }
+                    
+                },
 
                 filter(){
 

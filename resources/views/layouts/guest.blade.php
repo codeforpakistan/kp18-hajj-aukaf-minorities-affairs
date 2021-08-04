@@ -20,6 +20,8 @@
         <link href="{{ asset('client/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('client/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('client/assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('css/guest-style.css') }}" rel="stylesheet" type="text/css" />
 
         <link rel="stylesheet" href="{{ asset('client/assets/css/fontawesome/font-awesome.min.css') }}">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
@@ -56,10 +58,9 @@
         <script type="text/javascript" src="{{ asset('client/plugins/daterangepicker/daterangepicker.js') }}"></script>
         <script type="text/javascript" src="{{ asset('client/plugins/blockui/jquery.blockUI.min.js') }}"></script>
         <!-- Forms -->
-        <script type="text/javascript" src="{{ asset('client/plugins/select2/select2.min.js') }}"></script> <!-- Styled select boxes -->
+        <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script> <!-- Styled select boxes -->
         <script type="text/javascript" src="{{ asset('client/plugins/typeahead/typeahead.min.js') }}"></script> <!-- AutoComplete -->
         <script type="text/javascript" src="{{ asset('client/plugins/tagsinput/jquery.tagsinput.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('client/plugins/select2/select2.min.js') }}"></script> <!-- Styled select boxes -->
         <script type="text/javascript" src="{{ asset('client/plugins/bootstrap-inputmask/jquery.inputmask.min.js') }}"></script>
         <!-- Form Validation -->
         <script type="text/javascript" src="{{ asset('client/plugins/validation/jquery.validate.min.js') }}"></script>
@@ -164,6 +165,11 @@
         <div id="container" class="bg-image">
             @yield('content')
         </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("select").select2();
+            });
+        </script>
+        @yield('scripts')
     </body>
-    @yield('scripts')
 </html>
